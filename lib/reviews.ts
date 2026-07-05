@@ -53,6 +53,30 @@ export async function submitExpertReview(
   return { row: data as unknown as ExpertReviewRow };
 }
 
+export interface ConsensusRow {
+  dimension: 'relevance' | 'validity' | 'feasibility';
+  n: number;
+  median: number;
+  q1: number;
+  q3: number;
+  pct_agree: number;
+}
+
+/**
+ * Panel-wide Delphi consensus for a case. Calls the SECURITY DEFINER RPC
+ * `expert_review_consensus` (see supabase/schema.sql), which returns only
+ * aggregates — never individual experts' rows — so it is safe under RLS.
+ */
+export async function getConsensus(caseSlug: string): Promise<ConsensusRow[]> {
+  const supabase = getSupabase();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc('expert_review_consensus', {
+    p_case_slug: caseSlug,
+  });
+  if (error || !data) return [];
+  return data as ConsensusRow[];
+}
+
 /** Fetch the signed-in expert's own past reviews (RLS restricts to their rows). */
 export async function getMyReviews(): Promise<ExpertReviewRow[]> {
   const supabase = getSupabase();

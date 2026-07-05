@@ -3,7 +3,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getReadyCases } from '@/data/cases';
 import { useAuth } from '@/lib/auth';
-import { submitExpertReview, getMyReviews, type ExpertReviewRow } from '@/lib/reviews';
+import {
+  submitExpertReview,
+  getMyReviews,
+  getConsensus,
+  type ExpertReviewRow,
+  type ConsensusRow,
+} from '@/lib/reviews';
 import { Badge, PlaceholderNote } from './ui';
 import { IconLock, IconStar, IconCheck, IconRefresh } from './icons';
 
@@ -14,6 +20,14 @@ const ratingDims = [
 ] as const;
 
 type DimKey = (typeof ratingDims)[number]['key'];
+
+/** Delphi consensus threshold: % of ratings that must be 4–5 to "agree". */
+const CONSENSUS_THRESHOLD = 75;
+
+/** Compact number format (drops trailing .0). */
+function fmt(n: number): string {
+  return Number.isInteger(n) ? String(n) : n.toFixed(1);
+}
 
 const checklist = [
   'Learning objectives are clear and competency-linked.',
@@ -40,18 +54,36 @@ export function ExpertReview() {
   const [state, setState] = useState<SubmitState>('idle');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [myReviews, setMyReviews] = useState<ExpertReviewRow[]>([]);
+  const [consensus, setConsensus] = useState<ConsensusRow[]>([]);
 
   const active = cases.find((c) => c.slug === selected)!;
   const allRated = ratings.relevance > 0 && ratings.validity > 0 && ratings.feasibility > 0;
+
+  // Consensus display helpers.
+  const liveConsensus = enabled && !!user;
+  const consensusByDim = consensus.reduce<Partial<Record<DimKey, ConsensusRow>>>((acc, row) => {
+    acc[row.dimension] = row;
+    return acc;
+  }, {});
+  const consensusCount = consensus.reduce((max, r) => Math.max(max, r.n), 0);
 
   const refreshMyReviews = useCallback(async () => {
     if (enabled && user) setMyReviews(await getMyReviews());
     else setMyReviews([]);
   }, [enabled, user]);
 
+  const refreshConsensus = useCallback(async () => {
+    if (enabled && user) setConsensus(await getConsensus(selected));
+    else setConsensus([]);
+  }, [enabled, user, selected]);
+
   useEffect(() => {
     refreshMyReviews();
   }, [refreshMyReviews]);
+
+  useEffect(() => {
+    refreshConsensus();
+  }, [refreshConsensus]);
 
   function resetForm() {
     setState('idle');
@@ -97,6 +129,7 @@ export function ExpertReview() {
     }
     setState('saved-cloud');
     refreshMyReviews();
+    refreshConsensus();
   }
 
   return (
@@ -291,27 +324,82 @@ export function ExpertReview() {
           )}
         </div>
 
-        {/* Consensus summary placeholder */}
+        {/* Consensus summary — live from the database when available */}
         <div className="mt-6 card p-6">
-          <div className="mb-3 flex items-center justify-between">
+          <div className="mb-1 flex items-center justify-between">
             <h3 className="text-lg font-bold">Consensus summary</h3>
-            <Badge tone="muted">Delphi Round 1</Badge>
+            <div className="flex items-center gap-2">
+              {liveConsensus && (
+                <button
+                  onClick={refreshConsensus}
+                  className="btn-ghost px-2 py-1 text-xs"
+                  aria-label="Refresh consensus"
+                >
+                  <IconRefresh width={14} height={14} /> Refresh
+                </button>
+              )}
+              <Badge tone="muted">Delphi Round 1</Badge>
+            </div>
           </div>
+          <p className="mb-3 text-sm text-ink-500">
+            {active.title} · consensus threshold ≥ {CONSENSUS_THRESHOLD}% rating 4–5
+          </p>
+
           <div className="grid gap-4 sm:grid-cols-3">
-            {ratingDims.map((d) => (
-              <div key={d.key} className="rounded-xl border border-ink-200 p-4 text-center">
-                <p className="text-xs uppercase tracking-wide text-ink-500">{d.label}</p>
-                <p className="mt-1 text-2xl font-bold text-ink-900">4.3</p>
-                <p className="text-xs text-ink-400">median · IQR 4–5</p>
-              </div>
-            ))}
+            {ratingDims.map((d) => {
+              const row = consensusByDim[d.key];
+              const hasData = liveConsensus && row && row.n > 0;
+              const met = hasData && row.pct_agree >= CONSENSUS_THRESHOLD;
+              return (
+                <div
+                  key={d.key}
+                  className={`rounded-xl border p-4 text-center ${
+                    hasData
+                      ? met
+                        ? 'border-brand-300 bg-brand-50'
+                        : 'border-accent-400/50 bg-accent-400/10'
+                      : 'border-ink-200'
+                  }`}
+                >
+                  <p className="text-xs uppercase tracking-wide text-ink-500">{d.label}</p>
+                  <p className="mt-1 text-2xl font-bold text-ink-900">
+                    {hasData ? fmt(row.median) : '—'}
+                  </p>
+                  <p className="text-xs text-ink-400">
+                    {hasData ? `median · IQR ${fmt(row.q1)}–${fmt(row.q3)}` : 'median · IQR'}
+                  </p>
+                  {hasData && (
+                    <p
+                      className={`mt-2 text-xs font-semibold ${
+                        met ? 'text-brand-700' : 'text-accent-600'
+                      }`}
+                    >
+                      {Math.round(row.pct_agree)}% agree · {met ? 'consensus' : 'Round 2'}
+                    </p>
+                  )}
+                </div>
+              );
+            })}
           </div>
-          <PlaceholderNote>
-            {/* FUTURE: compute from stored expert responses. */}
-            Consensus placeholder — median, IQR and % agreement across the expert panel will be
-            computed automatically once responses are stored, with items below threshold flagged for
-            Round 2.
-          </PlaceholderNote>
+
+          {liveConsensus ? (
+            consensusCount > 0 ? (
+              <p className="mt-4 text-xs text-ink-500">
+                Based on {consensusCount} expert review{consensusCount === 1 ? '' : 's'} of this case.
+                Dimensions below the threshold are flagged for a Round-2 re-rating.
+              </p>
+            ) : (
+              <PlaceholderNote>
+                No reviews stored for this case yet. Submit a review above (or have the panel submit)
+                and the median, IQR and % agreement will populate here automatically.
+              </PlaceholderNote>
+            )
+          ) : (
+            <PlaceholderNote>
+              Consensus is computed live from the database when Supabase is configured and you are
+              signed in. {enabled ? 'Sign in to view panel consensus.' : 'Connect Supabase (see README) to enable it.'}
+            </PlaceholderNote>
+          )}
         </div>
       </div>
     </div>

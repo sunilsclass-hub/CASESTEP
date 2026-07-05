@@ -20,7 +20,7 @@ An educational platform delivering interactive, branching clinical cases, Script
 | **OSCE / OSPE** | `/osce` | Stations with weighted checklists, global rating scales, examiner notes, and printable rubrics. |
 | **Student Dashboard** | `/dashboard/student` | Progress, SCT/OSCE scores, reflections, strengths & improvement areas. |
 | **Faculty Dashboard** | `/dashboard/faculty` | Cohort analytics, common reasoning errors, CSV export, feedback management. |
-| **Expert Review / Delphi** | `/expert-review` | Relevance / validity / feasibility ratings, checklist, consensus placeholder. |
+| **Expert Review / Delphi** | `/expert-review` | Relevance / validity / feasibility ratings + checklist, saved to Supabase (`expert_reviews`); **live consensus** (median, IQR, % agreement, Round-2 flags) computed across the panel via an RLS-safe aggregate function. |
 | **Research & Evaluation** | `/research` | Study design, phases, evaluation tools, publications. |
 | **Contact & Team** | `/contact` | Principal investigator and team placeholders. |
 
@@ -118,7 +118,8 @@ To enable **real accounts** and **sync across devices**, connect a free Supabase
    NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
    ```
 4. In the Supabase **SQL editor**, run the contents of **`supabase/schema.sql`** (creates the
-   `user_progress` table + row-level-security policies, and an optional `expert_reviews` table).
+   `user_progress` table + RLS policies, the `expert_reviews` table, and the
+   `expert_review_consensus()` aggregation function that powers the live Delphi consensus).
 5. Rebuild/redeploy. A **Sign in** control appears in the navbar; signing in reconciles local and
    cloud progress (newest-wins merge) and keeps them in sync.
 
