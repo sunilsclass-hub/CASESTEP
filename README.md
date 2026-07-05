@@ -6,6 +6,7 @@
 
 *An International FAIMER Fellowship project · JSS Academy of Higher Education & Research, Mysuru*
 
+[![CI](https://github.com/sunilsclass-hub/casestep/actions/workflows/ci.yml/badge.svg)](https://github.com/sunilsclass-hub/casestep/actions/workflows/ci.yml)
 [![Next.js](https://img.shields.io/badge/Next.js-14-000000?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
@@ -228,6 +229,33 @@ casestep/
 
 Data (`data/*`) is typed by `lib/types.ts` and carries `FUTURE DB INTEGRATION` markers, so a
 database that returns the same shapes is a drop-in replacement.
+
+## Continuous integration
+
+Every pull request and every push to `main` is checked automatically by
+**GitHub Actions** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)). The
+**CI badge** at the top of this README reflects the status of the latest run on
+`main` — green means lint, type-check, and the production build all pass.
+
+The pipeline (Node.js 20, npm cache) runs:
+
+| Step | Command | Gate |
+| --- | --- | --- |
+| Lint | `npm run lint` | ESLint (`next/core-web-vitals`) |
+| Type-check | `npm run typecheck` | `tsc --noEmit` |
+| Test | `npm test --if-present` | runs if a test script is added |
+| Build | `npm run build` | Next.js static export |
+
+**Verify locally before opening a PR** — run the same checks the CI does:
+
+```bash
+npm ci          # clean, lockfile-exact install
+npm run lint       # ESLint
+npm run typecheck  # TypeScript, no emit
+npm run build      # production static export → ./out
+```
+
+If all four succeed locally, CI will pass.
 
 ## Roadmap
 

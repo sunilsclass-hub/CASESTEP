@@ -6,7 +6,7 @@ import { SCTPlayer } from './SCTPlayer';
 
 export function SCTSection() {
   const [active, setActive] = useState(sctModules[0].id);
-  const module = sctModules.find((m) => m.id === active)!;
+  const activeModule = sctModules.find((m) => m.id === active)!;
 
   return (
     <div>
@@ -27,10 +27,10 @@ export function SCTSection() {
       </div>
 
       <div className="mb-6 rounded-xl border border-ink-200 bg-ink-50 p-4">
-        <p className="text-sm leading-relaxed text-ink-600">{module.intro}</p>
+        <p className="text-sm leading-relaxed text-ink-600">{activeModule.intro}</p>
       </div>
 
-      <SCTPlayer key={module.id} module={module} />
+      <SCTPlayer key={activeModule.id} module={activeModule} />
     </div>
   );
 }
