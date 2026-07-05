@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use CaseStep in research, teaching, or presentations, please cite it as below."
+title: "CaseStep: Digital Case-Based Learning to Enhance Clinical Reasoning in Community Medicine"
+abstract: >-
+  CaseStep is a digital case-based learning platform for MBBS students in
+  Community Medicine. It delivers structured, branching clinical cases,
+  Script Concordance Testing, OSCE/OSPE assessment, reflective practice, and
+  learning analytics, aligned with the NMC Competency-Based Medical Education
+  curriculum and developed as an International FAIMER Fellowship project.
+type: software
+version: 1.0.0
+date-released: "2026-07-05"
+license: MIT
+repository-code: "https://github.com/sunilsclass-hub/casestep"
+keywords:
+  - medical education
+  - community medicine
+  - clinical reasoning
+  - case-based learning
+  - script concordance test
+  - OSCE
+  - NMC CBME
+  - FAIMER
+authors:
+  - family-names: "Kumar"
+    given-names: "D. Sunil"
+    name-suffix: "MBBS, MD, PhD, MBA"
+    affiliation: "JSS Academy of Higher Education & Research, Mysuru, India"
