@@ -1,0 +1,15 @@
+# Netlify deployment configuration for CaseStep (Next.js static export).
+# The site builds to the `out/` directory via `next build` (output: 'export').
+
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA-style fallback so client navigation and refreshes resolve correctly.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

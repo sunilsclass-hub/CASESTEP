@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-inter: 'Inter', system-ui, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ink-50 text-ink-800 antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold tracking-tight text-ink-900;
+  }
+
+  /* Accessible focus ring for keyboard users. */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white rounded;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-600 text-white shadow-sm hover:bg-brand-700 focus-visible:ring-brand-500;
+  }
+
+  .btn-secondary {
+    @apply btn border border-ink-200 bg-white text-ink-700 hover:bg-ink-50 focus-visible:ring-ink-400;
+  }
+
+  .btn-ghost {
+    @apply btn text-ink-600 hover:bg-ink-100 focus-visible:ring-ink-300;
+  }
+
+  .card {
+    @apply rounded-2xl border border-ink-200 bg-white shadow-card;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  .prose-tight p {
+    @apply leading-relaxed text-ink-700;
+  }
+
+  .link {
+    @apply font-medium text-brand-700 underline-offset-2 hover:underline;
+  }
+}
+
+/* Print styles for OSCE/OSPE rubrics. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-clean {
+    box-shadow: none !important;
+    border: 1px solid #cbd5e1 !important;
+  }
+  body {
+    background: #fff !important;
+  }
+}
