@@ -52,6 +52,29 @@ export interface Store {
 
 const empty: Store = { cases: {}, sct: {}, osce: {} };
 
+/**
+ * Optional cloud-sync hook. The auth layer (lib/auth.tsx) registers a handler
+ * here when a user signs in; every local write is then mirrored to Supabase.
+ * When no handler is registered, the app is purely local — this keeps storage
+ * decoupled from Supabase (no import cycle) and offline-first.
+ */
+let syncHandler: ((store: Store) => void) | null = null;
+
+export function setSyncHandler(fn: ((store: Store) => void) | null) {
+  syncHandler = fn;
+}
+
+/** Overwrite the local store (e.g. after pulling/merging from the cloud). */
+export function hydrateStore(store: Store) {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(KEY, JSON.stringify(store));
+    window.dispatchEvent(new Event('casestep:update'));
+  } catch {
+    /* ignore */
+  }
+}
+
 export function readStore(): Store {
   if (typeof window === 'undefined') return empty;
   try {
@@ -69,6 +92,8 @@ export function writeStore(store: Store) {
     window.localStorage.setItem(KEY, JSON.stringify(store));
     // Notify same-tab listeners (storage event only fires cross-tab).
     window.dispatchEvent(new Event('casestep:update'));
+    // Mirror to the cloud if a signed-in user has registered a sync handler.
+    syncHandler?.(store);
   } catch {
     /* storage may be full or blocked; fail silently for a demo build */
   }

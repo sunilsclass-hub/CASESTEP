@@ -9,7 +9,7 @@
 export const cohortSummary = {
   students: 48,
   activeThisWeek: 39,
-  casesAvailable: 3,
+  casesAvailable: 11,
   meanCompletion: 72, // %
 };
 

@@ -1,4 +1,5 @@
 import type { Case } from '@/lib/types';
+import { extraCases } from './cases-extra';
 
 /**
  * CaseStep seed content — local mock data.
@@ -12,9 +13,9 @@ import type { Case } from '@/lib/types';
  *   The `Case` shape (see lib/types.ts) is the contract the UI depends on, so a
  *   Supabase/Firebase table mirroring these fields is a drop-in replacement.
  *
- * Three cases are fully authored (Type 2 Diabetes, Hypertension, Antenatal
- * Care); the remaining conditions are structured placeholders ready to be
- * expanded following the same step model.
+ * All 11 case topics are fully authored: three flagship cases live in this file
+ * (Type 2 Diabetes, Hypertension, Antenatal Care) and the remaining eight are
+ * authored in data/cases-extra.ts, following the identical step model.
  */
 
 const t2dm: Case = {
@@ -586,107 +587,12 @@ const anc: Case = {
   ],
 };
 
-/** Structured placeholders — same model, ready to be authored. */
-const placeholders: Case[] = [
-  {
-    slug: 'postnatal-care',
-    title: 'Postnatal Care',
-    condition: 'Postnatal Care',
-    summary: 'Early postpartum assessment of mother and newborn, danger signs, breastfeeding, and family planning.',
-    competency: { code: 'CM 9.x / OG', text: 'Provide postnatal care and identify maternal & neonatal danger signs.' },
-    difficulty: 'Foundation',
-    minutes: 20,
-    reasoningFocus: 'Postpartum danger-sign recognition and newborn care integration.',
-    tags: ['MCH', 'Newborn', 'Counseling'],
-    status: 'coming-soon',
-  },
-  {
-    slug: 'acute-diarrhoea',
-    title: 'Acute Diarrhoea',
-    condition: 'Acute Diarrhoea',
-    summary: 'A child with acute watery diarrhoea — dehydration assessment, ORS/zinc, and community prevention.',
-    competency: { code: 'CM 10.x / PE', text: 'Assess and manage dehydration; apply IMNCI and prevention.' },
-    difficulty: 'Foundation',
-    minutes: 18,
-    reasoningFocus: 'Dehydration staging and rehydration decision-making.',
-    tags: ['Communicable', 'Paediatric', 'IMNCI'],
-    status: 'coming-soon',
-  },
-  {
-    slug: 'upper-respiratory-tract-infection',
-    title: 'Upper Respiratory Tract Infection (URTI)',
-    condition: 'URTI',
-    summary: 'A patient with sore throat and cough — rational antibiotic use and red-flag triage.',
-    competency: { code: 'CM / IM', text: 'Differentiate viral vs bacterial URTI and practise antibiotic stewardship.' },
-    difficulty: 'Foundation',
-    minutes: 15,
-    reasoningFocus: 'Antibiotic stewardship and self-limiting-illness reasoning.',
-    tags: ['Communicable', 'Stewardship'],
-    status: 'coming-soon',
-  },
-  {
-    slug: 'urinary-tract-infection',
-    title: 'Urinary Tract Infection (UTI)',
-    condition: 'UTI',
-    summary: 'Dysuria in a young woman — diagnosis, when to investigate, and treatment.',
-    competency: { code: 'CM / IM', text: 'Diagnose and manage uncomplicated UTI and identify complicated features.' },
-    difficulty: 'Intermediate',
-    minutes: 16,
-    reasoningFocus: 'Uncomplicated vs complicated UTI triage.',
-    tags: ['Communicable', 'Diagnosis'],
-    status: 'coming-soon',
-  },
-  {
-    slug: 'chest-pain',
-    title: 'Chest Pain',
-    condition: 'Chest Pain',
-    summary: 'Acute chest pain triage — cannot-miss diagnoses, risk stratification, and referral.',
-    competency: { code: 'CM / IM', text: 'Triage chest pain and recognise cardiac emergencies for referral.' },
-    difficulty: 'Advanced',
-    minutes: 22,
-    reasoningFocus: 'Cannot-miss differential reasoning and emergency referral.',
-    tags: ['Emergency', 'Triage', 'CVD'],
-    status: 'coming-soon',
-  },
-  {
-    slug: 'paediatric-growth-nutrition',
-    title: 'Paediatric Growth & Nutrition',
-    condition: 'Paediatric Growth/Nutrition',
-    summary: 'A child failing to thrive — growth monitoring, malnutrition classification, and management.',
-    competency: { code: 'CM 10.x / PE', text: 'Interpret growth charts and manage undernutrition at community level.' },
-    difficulty: 'Intermediate',
-    minutes: 20,
-    reasoningFocus: 'Growth-chart interpretation and nutritional reasoning.',
-    tags: ['Paediatric', 'Nutrition', 'Screening'],
-    status: 'coming-soon',
-  },
-  {
-    slug: 'vector-borne-outbreak',
-    title: 'Vector-borne Disease / Outbreak',
-    condition: 'Vector-borne disease/outbreak',
-    summary: 'A cluster of fever cases — outbreak investigation steps, dengue/malaria reasoning, and control.',
-    competency: { code: 'CM 8.x', text: 'Investigate an outbreak and apply vector-borne disease control.' },
-    difficulty: 'Advanced',
-    minutes: 28,
-    reasoningFocus: 'Outbreak investigation and epidemiological reasoning.',
-    tags: ['Epidemiology', 'Outbreak', 'Communicable'],
-    status: 'coming-soon',
-  },
-  {
-    slug: 'environmental-occupational-health',
-    title: 'Environmental / Occupational Health',
-    condition: 'Environmental/occupational health',
-    summary: 'A worker with symptoms linked to exposure — hazard identification and preventive action.',
-    competency: { code: 'CM 6.x / 7.x', text: 'Link environmental/occupational exposure to disease and prevention.' },
-    difficulty: 'Advanced',
-    minutes: 24,
-    reasoningFocus: 'Exposure-disease causal reasoning and prevention.',
-    tags: ['Environmental', 'Occupational', 'Prevention'],
-    status: 'coming-soon',
-  },
-];
-
-export const cases: Case[] = [t2dm, htn, anc, ...placeholders];
+/**
+ * The eight remaining topics (Postnatal Care, Acute Diarrhoea, URTI, UTI, Chest
+ * Pain, Paediatric Growth/Nutrition, Vector-borne Outbreak, and
+ * Environmental/Occupational Health) are fully authored in data/cases-extra.ts.
+ */
+export const cases: Case[] = [t2dm, htn, anc, ...extraCases];
 
 export function getCase(slug: string): Case | undefined {
   return cases.find((c) => c.slug === slug);

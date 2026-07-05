@@ -21,7 +21,7 @@ export default function CasesPage() {
         description="Each case is a branching clinical journey mapped to NMC CBME competencies — with decisions, feedback, red flags, a community-health lens, and reflection."
       />
 
-      <Section title="Ready to play">
+      <Section title={`Ready to play (${ready.length})`}>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {ready.map((c) => (
             <CaseCard key={c.slug} case={c} />
@@ -29,13 +29,19 @@ export default function CasesPage() {
         </div>
       </Section>
 
-      <Section title="Case pipeline" description="Structured placeholders following the same model, ready to be authored." className="border-t border-ink-200">
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {soon.map((c) => (
-            <CaseCard key={c.slug} case={c} />
-          ))}
-        </div>
-      </Section>
+      {soon.length > 0 && (
+        <Section
+          title="Case pipeline"
+          description="Structured placeholders following the same model, ready to be authored."
+          className="border-t border-ink-200"
+        >
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {soon.map((c) => (
+              <CaseCard key={c.slug} case={c} />
+            ))}
+          </div>
+        </Section>
+      )}
     </>
   );
 }

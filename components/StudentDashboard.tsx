@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useStore } from '@/lib/useStore';
+import { useAuth } from '@/lib/auth';
 import { resetAll } from '@/lib/storage';
 import { cases, getReadyCases } from '@/data/cases';
 import { sctModules } from '@/data/sct';
@@ -11,6 +12,7 @@ import { IconStethoscope, IconBrain, IconClipboard, IconBook, IconRefresh, IconC
 
 export function StudentDashboard() {
   const store = useStore();
+  const { enabled, user } = useAuth();
 
   if (!store) {
     return (
@@ -222,7 +224,11 @@ export function StudentDashboard() {
 
       <div className="mt-8 flex items-center justify-between">
         <p className="text-xs text-ink-500">
-          Data is stored locally on this device (no login in the demo build).
+          {enabled
+            ? user
+              ? `Signed in as ${user.email} — your progress syncs to the cloud across devices.`
+              : 'Data is stored locally on this device. Sign in (top-right) to sync across devices.'
+            : 'Data is stored locally on this device (no login in the demo build).'}
         </p>
         <button
           onClick={() => {

@@ -24,7 +24,7 @@ An educational platform delivering interactive, branching clinical cases, Script
 | **Research & Evaluation** | `/research` | Study design, phases, evaluation tools, publications. |
 | **Contact & Team** | `/contact` | Principal investigator and team placeholders. |
 
-Fully authored cases: **Type 2 Diabetes Mellitus**, **Hypertension**, **Antenatal Care**. The remaining eight topics are structured placeholders that follow the same data model.
+**All 11 case topics are fully authored** with the complete interactive journey (scenario → history → examination → investigations → branching decisions → clinical reasoning → community diagnosis → management → reflection → summary): Type 2 Diabetes Mellitus, Hypertension, Antenatal Care, Postnatal Care, Acute Diarrhoea, URTI, UTI, Chest Pain, Paediatric Growth & Nutrition, Vector-borne Outbreak Investigation, and Environmental/Occupational Health. The three flagship cases live in `data/cases.ts`; the other eight in `data/cases-extra.ts`.
 
 ---
 
@@ -34,7 +34,8 @@ Fully authored cases: **Type 2 Diabetes Mellitus**, **Hypertension**, **Antenata
 - **TypeScript**
 - **Tailwind CSS**
 - **No backend required** — learner progress is stored client-side in `localStorage`
-- Zero external runtime dependencies (custom inline SVG icons)
+- **Optional [Supabase](https://supabase.com) backend** — add cloud accounts + multi-device sync with two environment variables (see below); the app runs identically without it
+- Custom inline SVG icons (no icon-library dependency)
 - Responsive, mobile-friendly, accessible (skip link, focus rings, semantic landmarks)
 
 Because the app compiles to plain static files, it hosts anywhere (Netlify, Vercel, GitHub Pages, S3, institutional web server) with no server runtime.
@@ -104,6 +105,33 @@ Run `npm run build` and upload the contents of the `out/` folder to any static h
 
 ---
 
+## ☁️ Cloud accounts & multi-device sync (optional Supabase)
+
+By default CaseStep stores each learner's progress in the browser (`localStorage`).
+To enable **real accounts** and **sync across devices**, connect a free Supabase project:
+
+1. Create a project at **[supabase.com](https://supabase.com)**.
+2. Open **Project Settings → API** and copy the **Project URL** and the **anon/public** key.
+3. Copy `.env.example` to `.env.local` and paste both values:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+   ```
+4. In the Supabase **SQL editor**, run the contents of **`supabase/schema.sql`** (creates the
+   `user_progress` table + row-level-security policies, and an optional `expert_reviews` table).
+5. Rebuild/redeploy. A **Sign in** control appears in the navbar; signing in reconciles local and
+   cloud progress (newest-wins merge) and keeps them in sync.
+
+On Netlify/Vercel, add the same two `NEXT_PUBLIC_*` variables in the site's **Environment
+variables** settings. They are browser-safe public values — never add the `service_role` key.
+
+**How it works (no UI rewrite):** `lib/storage.ts` remains the single source of truth for the UI.
+`lib/auth.tsx` registers a sync handler that mirrors every local write to Supabase, and
+`lib/sync.ts` merges cloud + local on sign-in. If the env vars are absent, `getSupabase()` returns
+`null` and the whole auth/sync layer no-ops — the app stays purely local.
+
+---
+
 ## 🗂️ Project structure
 
 ```
@@ -121,15 +149,20 @@ casestep/
 │   └── contact/              # Contact & team
 ├── components/               # Reusable UI + interactive players
 │   ├── Navbar.tsx  Footer.tsx  ui.tsx  icons.tsx
+│   ├── Providers.tsx  AuthWidget.tsx
 │   ├── CaseCard.tsx  CasePlayer.tsx
 │   ├── SCTPlayer.tsx  SCTSection.tsx
 │   ├── OSCEStationCard.tsx
 │   ├── StudentDashboard.tsx  FacultyDashboard.tsx
 │   ├── ExpertReview.tsx  ContactForm.tsx
 ├── data/                     # Local mock data (JSON-like TS modules)
-│   ├── cases.ts  sct.ts  osce.ts  cohort.ts  site.ts
-├── lib/                      # Types + client storage helpers
+│   ├── cases.ts  cases-extra.ts   # 3 flagship + 8 additional full cases
+│   ├── sct.ts  osce.ts  cohort.ts  site.ts
+├── lib/                      # Types, storage, and optional Supabase layer
 │   ├── types.ts  storage.ts  useStore.ts
+│   ├── supabase.ts  auth.tsx  sync.ts
+├── supabase/schema.sql       # Tables + RLS for cloud sync
+├── .env.example              # Optional Supabase env vars
 ├── next.config.js  tailwind.config.ts  tsconfig.json
 ├── netlify.toml  vercel.json
 └── README.md
@@ -146,10 +179,12 @@ The app is intentionally structured so a backend can be added **without changing
   the same `Case[]` shape). Look for the `FUTURE DB INTEGRATION` comments in `data/cases.ts`,
   `data/sct.ts`, `data/osce.ts`, and `data/cohort.ts`.
 - **Progress & results** — `lib/storage.ts` wraps all persistence behind functions
-  (`saveCaseProgress`, `saveSCTResult`, `saveOSCEResult`). Swap the `localStorage` body for
-  authenticated DB writes and the components keep working unchanged.
-- **Auth** — the Expert Review page and dashboards have login/identity placeholders ready to be
-  connected to Supabase Auth / Firebase Auth.
+  (`saveCaseProgress`, `saveSCTResult`, `saveOSCEResult`). Cloud sync is **already wired**: when
+  Supabase is configured, every write mirrors to `user_progress` (see the section above). To move to
+  fully normalised per-result tables, implement the reference schema in `supabase/schema.sql`.
+- **Auth** — **implemented** (optional) via Supabase email/password in `lib/auth.tsx` +
+  `components/AuthWidget.tsx`. The Expert Review page also has an expert-login placeholder ready to
+  reuse the same auth.
 - **Forms** — the contact form (`components/ContactForm.tsx`) has a `FUTURE` marker for wiring a
   form/email service (Formspree, Supabase Edge Function, etc.).
 

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { nav, site } from '@/data/site';
+import { AuthWidget } from './AuthWidget';
 import { IconMenu, IconX, IconStethoscope } from './icons';
 
 export function Navbar() {
@@ -44,7 +45,8 @@ export function Navbar() {
           ))}
         </div>
 
-        <div className="hidden lg:block">
+        <div className="hidden items-center gap-2 lg:flex">
+          <AuthWidget />
           <Link href="/cases" className="btn-primary">
             Start Learning
           </Link>
@@ -83,6 +85,9 @@ export function Navbar() {
             >
               Start Learning
             </Link>
+            <div className="col-span-2 mt-2 flex justify-center">
+              <AuthWidget />
+            </div>
           </div>
         </div>
       )}

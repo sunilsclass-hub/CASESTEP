@@ -44,6 +44,7 @@ const frameworks = [
 
 export default function HomePage() {
   const ready = getReadyCases();
+  const featured = ready.slice(0, 3);
 
   return (
     <>
@@ -197,7 +198,7 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {ready.map((c) => (
+          {featured.map((c) => (
             <CaseCard key={c.slug} case={c} />
           ))}
         </div>
