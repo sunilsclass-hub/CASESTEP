@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getReadyCases } from '@/data/cases';
+import { useAuth } from '@/lib/auth';
+import { submitExpertReview, getMyReviews, type ExpertReviewRow } from '@/lib/reviews';
 import { Badge, PlaceholderNote } from './ui';
-import { IconLock, IconStar, IconCheck } from './icons';
+import { IconLock, IconStar, IconCheck, IconRefresh } from './icons';
 
 const ratingDims = [
   { key: 'relevance', label: 'Relevance', help: 'Is the case relevant to NMC CBME competencies and community practice?' },
@@ -22,8 +24,11 @@ const checklist = [
   'Language and level are appropriate for MBBS students.',
 ];
 
+type SubmitState = 'idle' | 'saving' | 'saved-cloud' | 'saved-local' | 'error';
+
 export function ExpertReview() {
   const cases = getReadyCases();
+  const { enabled, user } = useAuth();
   const [selected, setSelected] = useState(cases[0].slug);
   const [ratings, setRatings] = useState<Record<DimKey, number>>({
     relevance: 0,
@@ -32,13 +37,66 @@ export function ExpertReview() {
   });
   const [checks, setChecks] = useState<Record<number, boolean>>({});
   const [suggestion, setSuggestion] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [state, setState] = useState<SubmitState>('idle');
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [myReviews, setMyReviews] = useState<ExpertReviewRow[]>([]);
 
   const active = cases.find((c) => c.slug === selected)!;
+  const allRated = ratings.relevance > 0 && ratings.validity > 0 && ratings.feasibility > 0;
 
-  function submit() {
-    setSubmitted(true);
-    // FUTURE: POST expert responses to a Delphi round table in the database.
+  const refreshMyReviews = useCallback(async () => {
+    if (enabled && user) setMyReviews(await getMyReviews());
+    else setMyReviews([]);
+  }, [enabled, user]);
+
+  useEffect(() => {
+    refreshMyReviews();
+  }, [refreshMyReviews]);
+
+  function resetForm() {
+    setState('idle');
+    setErrorMsg(null);
+    setRatings({ relevance: 0, validity: 0, feasibility: 0 });
+    setChecks({});
+    setSuggestion('');
+  }
+
+  async function submit() {
+    setErrorMsg(null);
+    if (!allRated) {
+      setErrorMsg('Please rate all three dimensions (relevance, validity, feasibility) before submitting.');
+      return;
+    }
+
+    // Build a stable, human-readable checklist map (item text -> checked).
+    const checklistMap: Record<string, boolean> = {};
+    checklist.forEach((item, i) => {
+      checklistMap[item] = Boolean(checks[i]);
+    });
+
+    // No backend configured, or not signed in → local acknowledgement only.
+    if (!enabled || !user) {
+      setState('saved-local');
+      return;
+    }
+
+    setState('saving');
+    const res = await submitExpertReview(user.id, {
+      caseSlug: selected,
+      relevance: ratings.relevance,
+      validity: ratings.validity,
+      feasibility: ratings.feasibility,
+      checklist: checklistMap,
+      comments: suggestion,
+      round: 1,
+    });
+    if (res.error) {
+      setState('error');
+      setErrorMsg(res.error);
+      return;
+    }
+    setState('saved-cloud');
+    refreshMyReviews();
   }
 
   return (
@@ -47,22 +105,44 @@ export function ExpertReview() {
       <aside className="space-y-5">
         <div className="card p-5">
           <h3 className="flex items-center gap-2 font-bold">
-            <IconLock width={18} height={18} className="text-brand-600" /> Expert login
+            <IconLock width={18} height={18} className="text-brand-600" /> Expert access
           </h3>
-          <p className="mt-2 text-sm text-ink-600">
-            Reviewers receive a secure link per Delphi round. Authentication is a placeholder in this
-            build.
-          </p>
-          <div className="mt-3 space-y-2">
-            <input
-              disabled
-              placeholder="Expert email"
-              className="w-full rounded-lg border border-ink-200 bg-ink-50 px-3 py-2 text-sm text-ink-400"
-            />
-            <button disabled className="btn-secondary w-full">
-              Sign in (placeholder)
-            </button>
-          </div>
+          {!enabled ? (
+            <>
+              <p className="mt-2 text-sm text-ink-600">
+                A cloud backend is not configured on this deployment, so submissions are acknowledged
+                locally only.
+              </p>
+              <PlaceholderNote>
+                Add Supabase (see README) to store expert reviews securely in the{' '}
+                <code>expert_reviews</code> table.
+              </PlaceholderNote>
+            </>
+          ) : user ? (
+            <>
+              <p className="mt-2 flex items-center gap-1.5 text-sm text-brand-700">
+                <IconCheck width={14} height={14} /> Signed in as{' '}
+                <span className="font-medium">{user.email}</span>
+              </p>
+              <p className="mt-2 text-sm text-ink-600">
+                Your reviews are saved to the secure <code>expert_reviews</code> table (visible only
+                to you under row-level security).
+              </p>
+              <p className="mt-3 rounded-lg bg-ink-50 p-3 text-sm text-ink-700">
+                Reviews submitted: <span className="font-bold">{myReviews.length}</span>
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="mt-2 text-sm text-ink-600">
+                Reviewing requires a signed-in expert account so submissions can be attributed and
+                secured.
+              </p>
+              <p className="mt-2 text-sm font-medium text-accent-600">
+                Please sign in using the button in the top navigation bar to submit a review.
+              </p>
+            </>
+          )}
         </div>
 
         <div className="card p-5">
@@ -84,9 +164,7 @@ export function ExpertReview() {
             value={selected}
             onChange={(e) => {
               setSelected(e.target.value);
-              setSubmitted(false);
-              setRatings({ relevance: 0, validity: 0, feasibility: 0 });
-              setChecks({});
+              resetForm();
             }}
             className="w-full rounded-lg border border-ink-200 px-3 py-2 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
           >
@@ -165,15 +243,50 @@ export function ExpertReview() {
             />
           </div>
 
-          <button onClick={submit} className="btn-primary mt-5">
-            Submit review
-          </button>
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <button
+              onClick={submit}
+              disabled={state === 'saving'}
+              className="btn-primary"
+            >
+              {state === 'saving' ? (
+                <>
+                  <IconRefresh width={16} height={16} className="animate-spin" /> Submitting…
+                </>
+              ) : enabled && user ? (
+                'Submit review to database'
+              ) : (
+                'Submit review'
+              )}
+            </button>
+            {(state === 'saved-cloud' || state === 'saved-local') && (
+              <button onClick={resetForm} className="btn-ghost">
+                Submit another
+              </button>
+            )}
+          </div>
 
-          {submitted && (
+          {errorMsg && (
+            <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+              {errorMsg}
+            </div>
+          )}
+
+          {state === 'saved-cloud' && (
             <div className="mt-4 rounded-xl border border-brand-200 bg-brand-50 p-4 text-sm text-brand-800">
-              Thank you — your Round-1 ratings for <strong>{active.title}</strong> have been recorded
-              (locally in this demo). Relevance {ratings.relevance}/5 · Validity {ratings.validity}/5
-              · Feasibility {ratings.feasibility}/5.
+              Saved to the database. Your Round-1 review of <strong>{active.title}</strong> was
+              recorded — Relevance {ratings.relevance}/5 · Validity {ratings.validity}/5 ·
+              Feasibility {ratings.feasibility}/5.
+            </div>
+          )}
+
+          {state === 'saved-local' && (
+            <div className="mt-4 rounded-xl border border-accent-400/40 bg-accent-400/10 p-4 text-sm text-ink-700">
+              Recorded locally for <strong>{active.title}</strong> (Relevance {ratings.relevance}/5 ·
+              Validity {ratings.validity}/5 · Feasibility {ratings.feasibility}/5).{' '}
+              {enabled
+                ? 'Sign in to store this review in the database.'
+                : 'Connect Supabase to persist reviews to the database.'}
             </div>
           )}
         </div>
