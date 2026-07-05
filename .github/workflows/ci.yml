@@ -1,0 +1,54 @@
+name: CI
+
+# Self-checking pipeline for CaseStep. Runs on every pull request and on
+# pushes to main so regressions are caught before they land.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel superseded runs on the same ref to save CI minutes.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Lint · Type-check · Test · Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Each step uses `--if-present` so the pipeline stays green even if a
+      # script is removed later; the scripts below are configured in this repo.
+      - name: Lint
+        run: npm run lint --if-present
+
+      - name: Type-check
+        run: npm run typecheck --if-present
+
+      - name: Test
+        run: npm test --if-present
+
+      - name: Build (static export)
+        run: npm run build --if-present
+
+      - name: Upload static export artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: casestep-static-export
+          path: out
+          if-no-files-found: warn
+          retention-days: 7
