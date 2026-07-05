@@ -1,223 +1,277 @@
-# CaseStep
+<div align="center">
 
-**Digital Case-Based Learning to Enhance Clinical Reasoning in Community Medicine**
+# 🩺 CaseStep
 
-An educational platform delivering interactive, branching clinical cases, Script Concordance Testing, and OSCE/OSPE practice for MBBS students — built for the International FAIMER Fellowship project _“Integrating Digital Case-Based Learning to Enhance Clinical Reasoning in Community Medicine.”_
+### Digital Case-Based Learning to Enhance Clinical Reasoning in Community Medicine
 
-> Principal Investigator: **Dr. D. Sunil Kumar** — Dean (Student’s Welfare), Professor of Community Medicine, International FAIMER Fellow, JSS Academy of Higher Education & Research, Mysuru.
+*An International FAIMER Fellowship project · JSS Academy of Higher Education & Research, Mysuru*
+
+[![Next.js](https://img.shields.io/badge/Next.js-14-000000?logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-optional-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Release](https://img.shields.io/badge/release-v1.0.0-0d9488)](CHANGELOG.md)
+
+</div>
 
 ---
 
-## ✨ What’s inside
+CaseStep delivers **digital, case-based learning** for MBBS students in Community Medicine. Instead of memorising facts, students work through authentic patient problems as **interactive, branching journeys** — generating hypotheses, weighing evidence, deciding under uncertainty, and connecting the individual patient to the health of the community. It combines branching cases, **Script Concordance Testing**, **OSCE/OSPE** assessment, reflection, and learning analytics in one platform, aligned with the **NMC Competency-Based Medical Education (CBME)** curriculum.
 
-| Module | Route | Description |
+> **Principal Investigator:** Dr. D. Sunil Kumar — MBBS, MD (Community Medicine), PhD, MBA (Healthcare Management). Dean (Student's Welfare) · Professor of Community Medicine · International FAIMER Fellow, JSS AHER, Mysuru.
+
+<div align="center">
+
+![CaseStep home page](docs/screenshots/01-home.png)
+
+</div>
+
+## Table of contents
+
+- [Highlights](#highlights)
+- [Screenshots](#screenshots)
+- [Case catalogue](#case-catalogue)
+- [Educational frameworks](#educational-frameworks)
+- [Technology stack](#technology-stack)
+- [Architecture](#architecture)
+- [Getting started](#getting-started)
+- [Deployment](#deployment)
+- [Optional Supabase backend](#optional-supabase-backend)
+- [Project structure](#project-structure)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [Citation](#citation)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
+
+## Highlights
+
+- 📚 **11 fully-authored interactive cases** across NCDs, maternal & child health, communicable disease, emergencies, and public-health scenarios.
+- 🧠 **Script Concordance Test** — reasoning under uncertainty on a −2…+2 scale, scored against an expert panel.
+- 🩺 **OSCE / OSPE stations** — weighted checklists, global rating scales, examiner notes, and printable rubrics.
+- 📊 **Student & Faculty dashboards** — progress, SCT/OSCE scores, reflections, cohort analytics, and CSV export.
+- 🔬 **Expert Review / Delphi module** with **live consensus** (median, IQR, % agreement, Round-2 flagging).
+- ☁️ **Optional Supabase backend** — accounts + multi-device sync + persistent expert reviews; the app runs identically without it.
+- ♿ **Accessible, responsive, academic UI**; ⚡ static export deploys anywhere with no server runtime.
+
+## Screenshots
+
+| Case library | Interactive case + branching decision |
+| --- | --- |
+| ![Case library](docs/screenshots/02-cases.png) | ![Case decision](docs/screenshots/03-case-decision.png) |
+
+| Script Concordance Test | OSCE / OSPE station |
+| --- | --- |
+| ![SCT](docs/screenshots/04-sct.png) | ![OSCE](docs/screenshots/05-osce.png) |
+
+| Student dashboard | Faculty dashboard |
+| --- | --- |
+| ![Student dashboard](docs/screenshots/06-student-dashboard.png) | ![Faculty dashboard](docs/screenshots/07-faculty-dashboard.png) |
+
+| Expert Review / Delphi | Cloud sign-in (optional Supabase) |
+| --- | --- |
+| ![Expert review](docs/screenshots/08-expert-review.png) | ![Auth](docs/screenshots/09-auth.png) |
+
+## Case catalogue
+
+All 11 topics are fully authored with the complete journey: **scenario → history → examination → investigations → branching decisions with feedback → clinical reasoning → community diagnosis → management → reflection → summary**.
+
+| # | Case | Focus | Level |
+| --- | --- | --- | --- |
+| 1 | Type 2 Diabetes Mellitus | Threshold diagnosis; screening; complications | Intermediate |
+| 2 | Hypertension | Correct measurement; staging; CVD risk | Intermediate |
+| 3 | Antenatal Care | Risk stratification; danger signs; MCH package | Foundation |
+| 4 | Postnatal Care | Mother + newborn danger signs; breastfeeding | Foundation |
+| 5 | Acute Diarrhoea | IMNCI dehydration classification; ORS + zinc | Foundation |
+| 6 | Upper Respiratory Tract Infection | Centor reasoning; antibiotic stewardship | Foundation |
+| 7 | Urinary Tract Infection | Uncomplicated vs complicated; when to test | Intermediate |
+| 8 | Chest Pain | Cannot-miss triage; time-critical ACS response | Advanced |
+| 9 | Paediatric Growth & Nutrition | Growth trajectory; SAM criteria | Intermediate |
+| 10 | Vector-borne Outbreak | Outbreak-investigation steps; vector control | Advanced |
+| 11 | Environmental / Occupational Health | Exposure→disease reasoning; hierarchy of controls | Advanced |
+
+## Educational frameworks
+
+CaseStep is designed as a serious educational innovation, intentionally reflecting:
+
+`NMC CBME curriculum` · `FAIMER project framework` · `Kern's 6-step model` · `ADDIE` · `TPACK` · `Clinical-reasoning theory` · `Script Concordance Testing` · `OSCE/OSPE competency assessment` · `Mixed-methods educational research` · `Implementation science`
+
+See the **About** and **Research & Evaluation** pages in the app for how each is applied.
+
+## Technology stack
+
+| Layer | Technology | Notes |
 | --- | --- | --- |
-| **Home** | `/` | Academic landing page with learning journey and featured cases. |
-| **About the Project** | `/about` | Rationale, objectives, FAIMER & NMC CBME alignment, Kern & ADDIE. |
-| **Digital Case Library** | `/cases` | Card-based library of 11 case topics (3 fully authored). |
-| **Interactive Case** | `/cases/[slug]` | Stepwise, branching case player with decisions, feedback, red flags, community angle, reflection, and summary. |
-| **Script Concordance Test** | `/sct` | −2 to +2 reasoning-under-uncertainty items scored against an expert panel. |
-| **OSCE / OSPE** | `/osce` | Stations with weighted checklists, global rating scales, examiner notes, and printable rubrics. |
-| **Student Dashboard** | `/dashboard/student` | Progress, SCT/OSCE scores, reflections, strengths & improvement areas. |
-| **Faculty Dashboard** | `/dashboard/faculty` | Cohort analytics, common reasoning errors, CSV export, feedback management. |
-| **Expert Review / Delphi** | `/expert-review` | Relevance / validity / feasibility ratings + checklist, saved to Supabase (`expert_reviews`); **live consensus** (median, IQR, % agreement, Round-2 flags) computed across the panel via an RLS-safe aggregate function. |
-| **Research & Evaluation** | `/research` | Study design, phases, evaluation tools, publications. |
-| **Contact & Team** | `/contact` | Principal investigator and team placeholders. |
+| Framework | **Next.js 14** (App Router) | Static export (`output: 'export'`) — no server runtime |
+| Language | **TypeScript 5** | Typed data contracts (`lib/types.ts`) |
+| Styling | **Tailwind CSS 3** | Custom academic design tokens |
+| Icons | Custom inline SVG | No icon-library dependency |
+| Persistence | **localStorage** (default) | Offline-first source of truth |
+| Backend (optional) | **Supabase** (Postgres + Auth) | Accounts, sync, expert reviews, consensus RPC |
+| Hosting | Netlify / Vercel / any static host | `netlify.toml`, `vercel.json` included |
 
-**All 11 case topics are fully authored** with the complete interactive journey (scenario → history → examination → investigations → branching decisions → clinical reasoning → community diagnosis → management → reflection → summary): Type 2 Diabetes Mellitus, Hypertension, Antenatal Care, Postnatal Care, Acute Diarrhoea, URTI, UTI, Chest Pain, Paediatric Growth & Nutrition, Vector-borne Outbreak Investigation, and Environmental/Occupational Health. The three flagship cases live in `data/cases.ts`; the other eight in `data/cases-extra.ts`.
+## Architecture
 
----
+CaseStep is **static-first** with an **optional** backend that layers on without changing the UI. Full details in **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**.
 
-## 🧰 Tech stack
+```mermaid
+flowchart LR
+    subgraph Browser["Browser (static site)"]
+        UI["App Router pages + components"]
+        Store["localStorage (source of truth)"]
+        Data["Typed data (data/*.ts)"]
+        UI --> Store
+        UI --> Data
+    end
+    subgraph Optional["Optional Supabase backend"]
+        DB[("Postgres: user_progress · expert_reviews")]
+        RPC["expert_review_consensus() — RLS-safe aggregate"]
+    end
+    Store -. sync when signed in .-> DB
+    UI -. consensus .-> RPC
+    UI --> Build["next build → static ./out"] --> Hosts["Netlify · Vercel"]
+```
 
-- **[Next.js 14](https://nextjs.org/)** (App Router) with **static export** (`output: 'export'`)
-- **TypeScript**
-- **Tailwind CSS**
-- **No backend required** — learner progress is stored client-side in `localStorage`
-- **Optional [Supabase](https://supabase.com) backend** — add cloud accounts + multi-device sync with two environment variables (see below); the app runs identically without it
-- Custom inline SVG icons (no icon-library dependency)
-- Responsive, mobile-friendly, accessible (skip link, focus rings, semantic landmarks)
+Key decisions: **static export** for deploy-anywhere simplicity; **localStorage as source of truth** so the app is fully functional offline and cloud sync is purely additive; an **env-gated Supabase client** so one codebase serves both the demo and the research deployment; and an **RLS + `SECURITY DEFINER`** design so the Delphi consensus is computable without exposing any individual expert's ratings.
 
-Because the app compiles to plain static files, it hosts anywhere (Netlify, Vercel, GitHub Pages, S3, institutional web server) with no server runtime.
-
----
-
-## 🚀 Run locally
+## Getting started
 
 Requires **Node.js 20+**.
 
 ```bash
-# 1. Install dependencies
+# 1. Clone
+git clone https://github.com/sunilsclass-hub/casestep.git
+cd casestep
+
+# 2. Install
 npm install
 
-# 2. Start the dev server (hot reload)
-npm run dev
-# open http://localhost:3000
+# 3. Run the dev server (hot reload)
+npm run dev                 # → http://localhost:3000
 
-# 3. Production build → static site in ./out
+# 4. Production build → static site in ./out
 npm run build
 
-# 4. Preview the static build locally
-npx serve out
-# or: python3 -m http.server 8080 --directory out
+# 5. Preview the static build locally
+npx serve out               # or: python3 -m http.server 8080 --directory out
 ```
 
----
+## Deployment
 
-## ☁️ Deploy live
+The build is pure static files, so it hosts anywhere. Two zero-config paths:
 
-### Option A — Vercel (recommended, zero config)
+### Vercel (recommended)
 
-1. Push this repository to GitHub.
-2. Go to **[vercel.com](https://vercel.com)** → **Add New Project** → import the repo.
-3. Vercel auto-detects Next.js. Keep defaults and click **Deploy**.
-   - `vercel.json` pins the build command and `out` output directory.
-4. Your site goes live at `https://<project>.vercel.app`.
-
-Or from the CLI:
+1. Push to GitHub → import the repo at [vercel.com](https://vercel.com).
+2. Next.js is auto-detected; `vercel.json` pins the build. Click **Deploy**.
 
 ```bash
-npm i -g vercel
-vercel          # preview deploy
-vercel --prod   # production deploy
+npm i -g vercel && vercel --prod
 ```
 
-### Option B — Netlify
+### Netlify
 
-1. Push this repository to GitHub.
-2. Go to **[netlify.com](https://netlify.com)** → **Add new site** → **Import an existing project**.
-3. Netlify reads `netlify.toml`:
-   - **Build command:** `npm run build`
-   - **Publish directory:** `out`
-4. Click **Deploy site**.
-
-Or from the CLI:
+1. Import the repo at [netlify.com](https://netlify.com); it reads `netlify.toml`
+   (build `npm run build`, publish `out`).
 
 ```bash
-npm i -g netlify-cli
-netlify deploy --build            # draft
-netlify deploy --build --prod     # production
+npm i -g netlify-cli && netlify deploy --build --prod
 ```
 
-### Option C — Any static host / GitHub Pages
+### GitHub Pages / any static host
 
-Run `npm run build` and upload the contents of the `out/` folder to any static host.
+Run `npm run build` and upload the contents of `out/`.
 
----
+## Optional Supabase backend
 
-## ☁️ Cloud accounts & multi-device sync (optional Supabase)
+By default, learner progress is stored in the browser. To enable **accounts** and **multi-device sync**:
 
-By default CaseStep stores each learner's progress in the browser (`localStorage`).
-To enable **real accounts** and **sync across devices**, connect a free Supabase project:
+1. Create a free project at [supabase.com](https://supabase.com).
+2. **Project Settings → API** → copy the **Project URL** and **anon/public** key.
+3. Copy `.env.example` → `.env.local` and fill both `NEXT_PUBLIC_SUPABASE_*` values.
+4. In the Supabase **SQL editor**, run **[`supabase/schema.sql`](supabase/schema.sql)** (creates
+   `user_progress` + `expert_reviews` tables with row-level security, and the
+   `expert_review_consensus()` function that powers the live Delphi consensus).
+5. Rebuild/redeploy. A **Sign in** control appears; signing in reconciles local and cloud progress
+   (newest-wins) and keeps devices in sync. On Netlify/Vercel, set the same two `NEXT_PUBLIC_*`
+   variables in the site's environment settings.
 
-1. Create a project at **[supabase.com](https://supabase.com)**.
-2. Open **Project Settings → API** and copy the **Project URL** and the **anon/public** key.
-3. Copy `.env.example` to `.env.local` and paste both values:
-   ```env
-   NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
-   ```
-4. In the Supabase **SQL editor**, run the contents of **`supabase/schema.sql`** (creates the
-   `user_progress` table + RLS policies, the `expert_reviews` table, and the
-   `expert_review_consensus()` aggregation function that powers the live Delphi consensus).
-5. Rebuild/redeploy. A **Sign in** control appears in the navbar; signing in reconciles local and
-   cloud progress (newest-wins merge) and keeps them in sync.
+The anon key is a public, browser-safe value; data is protected by RLS. **Never** commit the
+`service_role` key.
 
-On Netlify/Vercel, add the same two `NEXT_PUBLIC_*` variables in the site's **Environment
-variables** settings. They are browser-safe public values — never add the `service_role` key.
-
-**How it works (no UI rewrite):** `lib/storage.ts` remains the single source of truth for the UI.
-`lib/auth.tsx` registers a sync handler that mirrors every local write to Supabase, and
-`lib/sync.ts` merges cloud + local on sign-in. If the env vars are absent, `getSupabase()` returns
-`null` and the whole auth/sync layer no-ops — the app stays purely local.
-
----
-
-## 🗂️ Project structure
+## Project structure
 
 ```
 casestep/
 ├── app/                      # Next.js App Router pages
-│   ├── layout.tsx            # Root layout (Navbar, Footer, metadata)
-│   ├── page.tsx              # Home
-│   ├── about/                # About the project
-│   ├── cases/                # Case library + [slug] interactive player
-│   ├── sct/                  # Script Concordance Test
-│   ├── osce/                 # OSCE / OSPE stations
-│   ├── dashboard/            # Student & Faculty dashboards
-│   ├── expert-review/        # Expert review / Delphi
-│   ├── research/             # Research & evaluation
-│   └── contact/              # Contact & team
+│   ├── layout.tsx  page.tsx  not-found.tsx  globals.css
+│   ├── about/  cases/  cases/[slug]/  sct/  osce/
+│   ├── dashboard/student/  dashboard/faculty/
+│   └── expert-review/  research/  contact/
 ├── components/               # Reusable UI + interactive players
-│   ├── Navbar.tsx  Footer.tsx  ui.tsx  icons.tsx
-│   ├── Providers.tsx  AuthWidget.tsx
-│   ├── CaseCard.tsx  CasePlayer.tsx
-│   ├── SCTPlayer.tsx  SCTSection.tsx
-│   ├── OSCEStationCard.tsx
-│   ├── StudentDashboard.tsx  FacultyDashboard.tsx
-│   ├── ExpertReview.tsx  ContactForm.tsx
-├── data/                     # Local mock data (JSON-like TS modules)
+│   ├── Navbar  Footer  ui  icons  Providers  AuthWidget
+│   ├── CaseCard  CasePlayer  SCTPlayer  SCTSection  OSCEStationCard
+│   ├── StudentDashboard  FacultyDashboard  ExpertReview  ContactForm
+├── data/                     # Local, typed mock data (JSON-like TS)
 │   ├── cases.ts  cases-extra.ts   # 3 flagship + 8 additional full cases
-│   ├── sct.ts  osce.ts  cohort.ts  site.ts
+│   └── sct.ts  osce.ts  cohort.ts  site.ts
 ├── lib/                      # Types, storage, and optional Supabase layer
 │   ├── types.ts  storage.ts  useStore.ts
-│   ├── supabase.ts  auth.tsx  sync.ts
-├── supabase/schema.sql       # Tables + RLS for cloud sync
-├── .env.example              # Optional Supabase env vars
-├── next.config.js  tailwind.config.ts  tsconfig.json
-├── netlify.toml  vercel.json
-└── README.md
+│   └── supabase.ts  auth.tsx  sync.ts  reviews.ts
+├── supabase/schema.sql       # Tables, RLS, and consensus function
+├── docs/                     # Architecture + screenshots
+├── scripts/verify.mjs        # Headless-browser verification + screenshots
+├── .env.example  netlify.toml  vercel.json  CITATION.cff
+└── next.config.js  tailwind.config.ts  tsconfig.json
 ```
 
----
+Data (`data/*`) is typed by `lib/types.ts` and carries `FUTURE DB INTEGRATION` markers, so a
+database that returns the same shapes is a drop-in replacement.
 
-## 🔌 Future database / API integration
+## Roadmap
 
-The app is intentionally structured so a backend can be added **without changing the UI**:
+**v1.0 (this release)** — 11 interactive cases, SCT, OSCE/OSPE, dashboards, Expert Review with live
+Delphi consensus, optional Supabase backend.
 
-- **Data source** — `data/*.ts` export plain objects typed by `lib/types.ts`. Replace each
-  exported constant/getter with async calls (e.g. `getCases()` → a Supabase/Firebase query returning
-  the same `Case[]` shape). Look for the `FUTURE DB INTEGRATION` comments in `data/cases.ts`,
-  `data/sct.ts`, `data/osce.ts`, and `data/cohort.ts`.
-- **Progress & results** — `lib/storage.ts` wraps all persistence behind functions
-  (`saveCaseProgress`, `saveSCTResult`, `saveOSCEResult`). Cloud sync is **already wired**: when
-  Supabase is configured, every write mirrors to `user_progress` (see the section above). To move to
-  fully normalised per-result tables, implement the reference schema in `supabase/schema.sql`.
-- **Auth** — **implemented** (optional) via Supabase email/password in `lib/auth.tsx` +
-  `components/AuthWidget.tsx`. The Expert Review page also has an expert-login placeholder ready to
-  reuse the same auth.
-- **Forms** — the contact form (`components/ContactForm.tsx`) has a `FUTURE` marker for wiring a
-  form/email service (Formspree, Supabase Edge Function, etc.).
+**Planned**
+- [ ] Author SCT items and OSCE stations for all 11 case topics.
+- [ ] Faculty analytics from real student data (normalised tables + faculty role/RLS).
+- [ ] Expert-panel scoring keys for SCT from a completed Delphi round.
+- [ ] Media: real clinical images/videos in place of placeholders.
+- [ ] Localisation / multi-language support.
+- [ ] Rich charting on dashboards (time-series, skills radar).
+- [ ] Instructor authoring UI for cases (no code).
+- [ ] Formal accessibility audit (WCAG 2.1 AA) and automated a11y tests in CI.
+- [ ] Peer-reviewed publication of development, validation, and pilot outcomes.
 
-### Suggested Supabase schema (starter)
+## Contributing
 
-```
-cases(id, slug, title, condition, competency_code, difficulty, minutes, ...)
-case_steps(id, case_id, kind, title, body, bullets jsonb, decision jsonb, ...)
-progress(user_id, case_slug, completed, last_step, decisions jsonb, reflections jsonb, updated_at)
-sct_items(id, module_id, scenario, if_thinking, and_then, expert_mode, rationale)
-sct_results(user_id, module_id, answers jsonb, score, max_score, updated_at)
-osce_stations(id, title, competency, checklist jsonb, ...)
-osce_results(user_id, station_id, checked jsonb, global_rating, score, updated_at)
-expert_reviews(expert_id, case_slug, relevance, validity, feasibility, comments, round)
-```
+Contributions from medical educators, clinicians, and developers are welcome — especially new
+cases and clinical-content review. See **[CONTRIBUTING.md](CONTRIBUTING.md)** for setup, the
+case-authoring guide, and coding conventions.
 
----
+## Citation
 
-## 🎓 Educational frameworks reflected
+If you use CaseStep in research, teaching, or presentations, please cite it (see
+**[CITATION.cff](CITATION.cff)**):
 
-NMC CBME curriculum · FAIMER project framework · Kern’s 6-step model · ADDIE · TPACK ·
-Clinical-reasoning theory · Script Concordance Testing · OSCE/OSPE competency assessment ·
-Mixed-methods educational research · Implementation science.
+> Kumar, D. Sunil. *CaseStep: Digital Case-Based Learning to Enhance Clinical Reasoning in Community
+> Medicine* (Version 1.0.0) [Software]. 2026. JSS Academy of Higher Education & Research, Mysuru.
+> https://github.com/sunilsclass-hub/casestep
 
----
+## License
 
-## 📄 Notes & disclaimer
+Released under the **[MIT License](LICENSE)**. Educational content is provided for undergraduate
+medical education and research use; it is a teaching aid for clinical-reasoning practice, not a
+clinical guideline or a substitute for authoritative national protocols.
 
-- Clinical content is for **undergraduate medical education** and reasoning practice only; it is not
-  a clinical guideline or a substitute for authoritative national protocols.
-- SCT “expert panel” values and faculty-dashboard cohort figures are **illustrative placeholders**
-  for the demo build; they are replaced by real expert responses and student data in the research
-  deployment.
+## Acknowledgements
 
-© CaseStep — For educational and research use. JSS AHER, Mysuru.
+Developed within the **International FAIMER Fellowship**, with thanks to FAIMER mentors and
+advisors, the Department of Community Medicine, and **JSS Academy of Higher Education & Research,
+Mysuru**.
+
+<div align="center">
+<sub>© 2026 CaseStep · For educational and research use.</sub>
+</div>
