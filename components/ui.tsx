@@ -14,14 +14,14 @@ export function PageHeader({
   children?: React.ReactNode;
 }) {
   return (
-    <header className="border-b border-ink-200 bg-gradient-to-b from-brand-50/60 to-white">
-      <div className="container-page py-10 sm:py-14">
+    <header className="relative overflow-hidden border-b border-ink-200 bg-mesh-hero bg-white">
+      <div className="container-page relative animate-fade-in-up py-10 sm:py-14">
         {eyebrow && (
           <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-brand-700">
             {eyebrow}
           </p>
         )}
-        <h1 className="text-3xl font-bold sm:text-4xl">{title}</h1>
+        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
         {description && (
           <p className="mt-3 max-w-3xl text-lg leading-relaxed text-ink-600">{description}</p>
         )}

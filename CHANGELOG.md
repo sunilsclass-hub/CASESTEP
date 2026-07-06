@@ -4,6 +4,59 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] — 2026-07-06
+
+### Premium academic design-system redesign
+
+**Design tokens** (`tailwind.config.ts`, `app/globals.css`)
+- Added an indigo secondary palette alongside the existing teal/slate system,
+  a refined shadow scale (`card`, `cardhover`, `premium`, `glow`), subtle mesh
+  gradient and grid-texture background utilities, and new keyframes
+  (`fade-in-up`, `scale-in`, `shimmer`).
+- New shared component classes: `.card-interactive` (hover-lift), `.skeleton`
+  (shimmer, for genuinely async content), refined `.btn-primary`/`.btn-secondary`
+  hover states.
+- Global `prefers-reduced-motion` override disables all animation/transition
+  durations site-wide for users who request it.
+
+**New shared components** (`components/premium.tsx`)
+- `DemoDataBanner` — consolidates three previously near-duplicated inline
+  "this is demo data" blocks (Faculty Dashboard, Expert Review) into one
+  component.
+- `EmptyState`, `FeatureCard`, `ProgressRing`, `Stepper`.
+
+**Homepage** — full rebuild: corrected stale stats (was showing "2 SCT
+modules" / "3 OSCE stations" — now reads live from the data layer), the exact
+requested CTA set (Start Learning / Explore Case Library / View Faculty
+Dashboard / View Research Framework), a 6-stage visual learning pathway
+(Scenario → Reasoning → Decision → Feedback → Reflection → Assessment), an
+honest trust-indicators section, and a closing CTA band.
+
+**Case Library** — now genuinely searchable and filterable (free-text search,
+topic/tag, difficulty, competency code, and status), via a new
+`CaseLibrary` client component with its own empty state.
+
+**Dashboards** — `ProgressRing` composite "overall clinical reasoning
+progress" metric (Student) and mean-completion ring (Faculty); explicit
+"cases in progress" count; `DemoDataBanner`/`EmptyState` adopted in place of
+ad-hoc inline markup.
+
+**Navigation** — gradient logo mark, animated active-route underline,
+backdrop-blur sticky header, refined mobile drawer transition.
+
+**SEO** — `metadataBase`, Open Graph, and Twitter Card metadata added to the
+root layout.
+
+**Verified**: lint clean, typecheck clean, 17/17 unit tests, 10/10 E2E tests,
+production build green (24/24 pages). A dedicated verification pass checked
+all 13 requested routes at both a 390px mobile viewport and a 1440px desktop
+viewport: every route returned 200, showed **zero horizontal overflow**, and
+had **zero console/runtime errors**.
+
+**Deliberately out of scope for this pass** (see README → Known limitations):
+dark mode, Framer Motion, a full shadcn/ui migration, and a command palette —
+each considered and consciously deferred rather than implemented partially.
+
 ## [1.1.1] — 2026-07-06
 
 ### Fix: Student Dashboard stuck on "Loading your progress…" in production
@@ -163,6 +216,7 @@ transcript.
 - Headless-browser verification: all 11 cases load, core interactivity works,
   0 console errors, 0 runtime errors.
 
+[1.2.0]: https://github.com/sunilsclass-hub/casestep/releases/tag/v1.2.0
 [1.1.1]: https://github.com/sunilsclass-hub/casestep/releases/tag/v1.1.1
 [1.1.0]: https://github.com/sunilsclass-hub/casestep/releases/tag/v1.1.0
 [1.0.0]: https://github.com/sunilsclass-hub/casestep/releases/tag/v1.0.0

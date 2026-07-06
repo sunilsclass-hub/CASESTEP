@@ -27,8 +27,22 @@
   button:focus-visible,
   input:focus-visible,
   textarea:focus-visible,
+  select:focus-visible,
   [tabindex]:focus-visible {
     @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white rounded;
+  }
+
+  /* Respect the user's motion preference across every animation/transition
+     utility used in the app (fade-ins, hovers, progress bars, stepper). */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
@@ -38,16 +52,19 @@
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold
+      transition-all duration-200 ease-premium
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   .btn-primary {
-    @apply btn bg-brand-600 text-white shadow-sm hover:bg-brand-700 focus-visible:ring-brand-500;
+    @apply btn bg-brand-600 text-white shadow-sm hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-glow
+      active:translate-y-0 focus-visible:ring-brand-500;
   }
 
   .btn-secondary {
-    @apply btn border border-ink-200 bg-white text-ink-700 hover:bg-ink-50 focus-visible:ring-ink-400;
+    @apply btn border border-ink-200 bg-white text-ink-700 hover:-translate-y-0.5 hover:border-ink-300 hover:bg-ink-50
+      hover:shadow-card active:translate-y-0 focus-visible:ring-ink-400;
   }
 
   .btn-ghost {
@@ -55,7 +72,11 @@
   }
 
   .card {
-    @apply rounded-2xl border border-ink-200 bg-white shadow-card;
+    @apply rounded-2xl border border-ink-200 bg-white shadow-card transition-shadow duration-200 ease-premium;
+  }
+
+  .card-interactive {
+    @apply card hover:-translate-y-1 hover:shadow-cardhover hover:border-ink-300;
   }
 
   .badge {
@@ -68,6 +89,20 @@
 
   .link {
     @apply font-medium text-brand-700 underline-offset-2 hover:underline;
+  }
+
+  /* Loading-skeleton shimmer (used only for genuinely async content, e.g. a
+     future database fetch — the app's local data never actually needs it,
+     but the primitive is available and respects reduced-motion above). */
+  .skeleton {
+    @apply rounded-md bg-ink-100 bg-[length:200%_100%];
+    background-image: linear-gradient(
+      90deg,
+      theme('colors.ink.100') 25%,
+      theme('colors.ink.50') 37%,
+      theme('colors.ink.100') 63%
+    );
+    animation: shimmer 1.6s ease-in-out infinite;
   }
 }
 

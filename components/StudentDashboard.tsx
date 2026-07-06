@@ -7,6 +7,7 @@ import { resetAll } from '@/lib/storage';
 import { loadIllustrativeDemoProgress } from '@/lib/demoSeed';
 import { getReadyCases } from '@/data/cases';
 import { StatCard, ProgressBar, Badge, PlaceholderNote } from './ui';
+import { ProgressRing, EmptyState } from './premium';
 import {
   IconStethoscope,
   IconBrain,
@@ -27,6 +28,7 @@ export function StudentDashboard() {
 
   const readyCases = getReadyCases();
   const completedCases = readyCases.filter((c) => store.cases[c.slug]?.completed);
+  const inProgressCases = readyCases.filter((c) => store.cases[c.slug] && !store.cases[c.slug]?.completed);
   const totalReflections = Object.values(store.cases).reduce(
     (n, cp) => n + Object.values(cp.reflections ?? {}).filter((t) => t && t.trim().length > 0).length,
     0,
@@ -83,6 +85,19 @@ export function StudentDashboard() {
 
   const hasAnyProgress =
     Object.keys(store.cases).length > 0 || sctResults.length > 0 || osceResults.length > 0;
+
+  // Overall clinical reasoning progress: an equally-weighted composite of case
+  // completion, SCT concordance, and OSCE/OSPE performance across whichever of
+  // those a learner has actually attempted.
+  const progressComponents = [
+    readyCases.length > 0 ? (completedCases.length / readyCases.length) * 100 : null,
+    meanSCT,
+    meanOSCE,
+  ].filter((v): v is number => v !== null);
+  const overallProgress =
+    progressComponents.length === 0
+      ? 0
+      : progressComponents.reduce((a, b) => a + b, 0) / progressComponents.length;
 
   // Most recently completed case (for the "recently completed" card).
   const recentlyCompleted = completedCases
@@ -170,11 +185,18 @@ export function StudentDashboard() {
       )}
 
       {/* KPI row */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="card flex items-center gap-4 p-5 sm:col-span-2 lg:col-span-1">
+          <ProgressRing value={overallProgress} label="reasoning" />
+          <div>
+            <p className="text-sm font-medium text-ink-500">Overall clinical reasoning</p>
+            <p className="text-xs text-ink-400">cases + SCT + OSCE composite</p>
+          </div>
+        </div>
         <StatCard
           label="Cases completed"
           value={`${completedCases.length}/${readyCases.length}`}
-          hint="Fully finished ready cases"
+          hint={`${inProgressCases.length} in progress`}
           icon={<IconStethoscope />}
         />
         <StatCard
@@ -288,9 +310,13 @@ export function StudentDashboard() {
         <div className="card p-6">
           <h2 className="text-lg font-bold">Reflections submitted</h2>
           {totalReflections === 0 ? (
-            <p className="mt-3 text-sm text-ink-500">
-              No reflections yet. Add reflections inside cases to see them here.
-            </p>
+            <div className="mt-3">
+              <EmptyState
+                icon={<IconBook width={20} height={20} />}
+                title="No reflections yet"
+                description="Add a reflection inside any case to see it summarised here."
+              />
+            </div>
           ) : (
             <div className="mt-3 space-y-3">
               {readyCases.map((c) => {
