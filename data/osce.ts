@@ -103,6 +103,38 @@ export const osceStations: OSCEStation[] = [
       'What I will revise before the exam:',
     ],
   },
+  {
+    id: 'osce-diabetes-foot',
+    title: 'Diabetes Foot-Risk Screening & Counseling',
+    type: 'OSCE',
+    minutes: 8,
+    competency: {
+      code: 'CM 3.4',
+      text: 'Screen a diabetic patient’s foot for risk of ulceration and counsel on preventive foot care.',
+    },
+    candidateInstructions:
+      'A 52-year-old with a 6-year history of Type 2 Diabetes attends for a routine review. Perform a foot-risk screening examination and counsel the patient on preventive foot care. You have 8 minutes.',
+    checklist: [
+      { id: 'c1', text: 'Introduces self, obtains consent, explains the examination', weight: 1 },
+      { id: 'c2', text: 'Inspects both feet fully (skin, nails, web spaces, deformity, footwear)', weight: 2 },
+      { id: 'c3', text: 'Tests protective sensation correctly (10-g monofilament at standard sites)', weight: 2 },
+      { id: 'c4', text: 'Palpates dorsalis pedis / posterior tibial pulses', weight: 2 },
+      { id: 'c5', text: 'Identifies and communicates risk category (low / moderate / high risk)', weight: 2 },
+      { id: 'c6', text: 'Counsels on daily self-inspection, footwear, and nail care', weight: 1 },
+      { id: 'c7', text: 'Explains when to seek urgent review (wound, discolouration, infection)', weight: 1 },
+      { id: 'c8', text: 'Checks understanding and arranges appropriate follow-up interval', weight: 1 },
+    ],
+    globalRating: ['Clear fail', 'Borderline', 'Pass', 'Good', 'Excellent'],
+    examinerNotes: [
+      'Common error: testing monofilament sensation through a sock, or at a single site only.',
+      'Reward explicit risk stratification (not just "normal/abnormal") — this determines review frequency.',
+      'Penalise counseling that omits when to seek urgent care for a new wound.',
+    ],
+    studentFeedbackPrompts: [
+      'One technique I want to refine (e.g. monofilament use):',
+      'How confident do I feel stratifying foot risk?',
+    ],
+  },
 ];
 
 export function getStation(id: string): OSCEStation | undefined {

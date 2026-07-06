@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { PageHeader, Section, Badge } from '@/components/ui';
 import { principalInvestigator, team, site } from '@/data/site';
 import { ContactForm } from '@/components/ContactForm';
-import { IconUsers, IconTarget } from '@/components/icons';
+import { IconUsers, IconTarget, IconClock } from '@/components/icons';
 
 export const metadata: Metadata = {
   title: 'Contact & Team',
@@ -39,7 +39,7 @@ export default function ContactPage() {
       </Section>
 
       {/* Team groups */}
-      <Section title="Project team">
+      <Section title="Project team" description="Roles are structured in advance of formal appointment; names are added once confirmed through the appropriate institutional or consent process.">
         <div className="grid gap-6 md:grid-cols-2">
           {team.map((group) => (
             <div key={group.group} className="card p-6">
@@ -48,17 +48,32 @@ export default function ContactPage() {
               </h3>
               <ul className="mt-4 space-y-3">
                 {group.members.map((m) => (
-                  <li key={m.name} className="flex items-center gap-3">
-                    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-ink-100 text-sm font-semibold text-ink-400">
-                      ?
-                    </span>
-                    <div>
-                      <p className="font-medium text-ink-800">{m.name}</p>
-                      <p className="text-xs text-ink-500">
-                        {m.role}
-                        {m.placeholder && ' · to be added'}
-                      </p>
-                    </div>
+                  <li key={m.name}>
+                    {m.placeholder ? (
+                      <div className="flex items-center gap-3 rounded-xl border border-dashed border-ink-300 bg-ink-50 p-3">
+                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-ink-400 ring-1 ring-ink-200">
+                          <IconClock width={18} height={18} />
+                        </span>
+                        <div>
+                          <p className="font-medium text-ink-700">{m.name}</p>
+                          <p className="text-xs italic text-ink-500">{group.placeholderNote}</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-brand-100 text-sm font-semibold text-brand-700">
+                          {m.name
+                            .split(' ')
+                            .map((w) => w[0])
+                            .slice(0, 2)
+                            .join('')}
+                        </span>
+                        <div>
+                          <p className="font-medium text-ink-800">{m.name}</p>
+                          <p className="text-xs text-ink-500">{m.role}</p>
+                        </div>
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>

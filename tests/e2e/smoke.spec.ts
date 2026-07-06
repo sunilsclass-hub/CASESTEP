@@ -69,8 +69,29 @@ test('Expert Review page renders the form and consensus panel', async ({ page })
   await expect(page.getByText(/Consensus summary/i)).toBeVisible();
 });
 
+test('Expert Review demo submission updates the local consensus panel', async ({ page }) => {
+  await page.goto('/expert-review/');
+  const ratingGroups = page.locator('div.mt-2.flex.gap-1\\.5');
+  const count = await ratingGroups.count();
+  expect(count).toBe(7);
+  for (let i = 0; i < count; i++) {
+    await ratingGroups.nth(i).getByRole('button').last().click();
+  }
+  await page.getByRole('button', { name: /^Submit review$/i }).click();
+  await expect(page.getByText(/Recorded as/i)).toBeVisible();
+  await expect(page.getByText(/100% agree/i).first()).toBeVisible();
+});
+
 test('Student dashboard loads its progress view', async ({ page }) => {
   await page.goto('/dashboard/student/');
   await expect(page.getByText(/Case progress/i)).toBeVisible();
   await expect(page.getByText(/Cases completed/i)).toBeVisible();
+});
+
+test('Student dashboard demo-progress seeding populates recommended/recent cards', async ({ page }) => {
+  await page.goto('/dashboard/student/');
+  await expect(page.getByText(/No activity yet on this device/i)).toBeVisible();
+  await page.getByRole('button', { name: /Load illustrative demo progress/i }).click();
+  await expect(page.getByText(/Recently completed case/i)).toBeVisible();
+  await expect(page.getByText(/Next recommended case/i)).toBeVisible();
 });

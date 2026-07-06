@@ -63,6 +63,56 @@ export const commonReasoningErrors: ReasoningError[] = [
   { error: 'Not escalating on red-flag findings', frequency: 19, linkedCase: 'Multiple' },
 ];
 
+export interface TeachingRecommendation {
+  title: string;
+  rationale: string;
+  action: string;
+  linkedError: string;
+}
+
+/**
+ * Illustrative, faculty-facing recommendations derived from the reasoning-error
+ * pattern above — the kind of "so what do I do about it" translation a
+ * facilitator needs after reviewing cohort analytics.
+ */
+export const teachingRecommendations: TeachingRecommendation[] = [
+  {
+    title: 'Add a mini-lecture on diagnostic thresholds before the NCD cases',
+    rationale: '34% of students treated before confirming a biochemical diagnosis.',
+    action:
+      'Run a 10-minute pre-case briefing on FPG/RBS/HbA1c thresholds and repeat-testing rules before assigning the diabetes case.',
+    linkedError: 'Treating before confirming a biochemical diagnosis',
+  },
+  {
+    title: 'Debrief anchoring bias explicitly after the hypertension case',
+    rationale: '41% of students acted on a single BP reading — the most frequent error in the cohort.',
+    action:
+      'Facilitate a short group discussion on measurement variability and white-coat effect immediately after students complete the case.',
+    linkedError: 'Acting on a single BP reading (anchoring)',
+  },
+  {
+    title: 'Pair the diabetes case with the foot-risk OSCE station',
+    rationale: '28% missed complication screening at diagnosis.',
+    action:
+      'Schedule the Diabetes Foot-Risk Screening OSCE station in the same week as the diabetes case to reinforce complication screening as routine.',
+    linkedError: 'Missing complication screening at diagnosis',
+  },
+  {
+    title: 'Add a checklist prompt for baseline antenatal investigations',
+    rationale: '22% under-ordered baseline antenatal investigations.',
+    action:
+      'Introduce a one-page baseline-investigation checklist during the antenatal-care skills session, cross-referenced to the MCP card.',
+    linkedError: 'Under-ordering baseline antenatal investigations',
+  },
+  {
+    title: 'Reinforce red-flag escalation across all cases',
+    rationale: '19% did not escalate on red-flag findings — a cross-cutting pattern, not case-specific.',
+    action:
+      'Add a standing "red flags" recap at the start of each facilitated session, referencing examples from prior cases.',
+    linkedError: 'Not escalating on red-flag findings',
+  },
+];
+
 export interface FeedbackItem {
   id: string;
   student: string;

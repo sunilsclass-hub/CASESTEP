@@ -34,18 +34,32 @@ create policy "own progress - update" on public.user_progress
 -- =====================================================================
 -- 2. (Optional) Expert review submissions for the Delphi module
 -- =====================================================================
+-- Seven rating dimensions cover relevance, content validity, feasibility,
+-- NMC CBME alignment, authenticity of the clinical reasoning, quality of the
+-- formative feedback, and integration of the community/public-health lens —
+-- matching the criteria used in the local (no-backend) demo mode 1:1.
 create table if not exists public.expert_reviews (
-  id           uuid primary key default gen_random_uuid(),
-  expert_id    uuid references auth.users (id) on delete set null,
-  case_slug    text not null,
-  relevance    smallint check (relevance between 1 and 5),
-  validity     smallint check (validity between 1 and 5),
-  feasibility  smallint check (feasibility between 1 and 5),
+  id                       uuid primary key default gen_random_uuid(),
+  expert_id                uuid references auth.users (id) on delete set null,
+  case_slug                text not null,
+  relevance                smallint check (relevance between 1 and 5),
+  validity                 smallint check (validity between 1 and 5),
+  feasibility              smallint check (feasibility between 1 and 5),
+  cbme_alignment           smallint check (cbme_alignment between 1 and 5),
+  reasoning_authenticity   smallint check (reasoning_authenticity between 1 and 5),
+  feedback_quality         smallint check (feedback_quality between 1 and 5),
+  community_integration    smallint check (community_integration between 1 and 5),
   checklist    jsonb default '{}'::jsonb,
   comments     text,
   round        smallint not null default 1,
   created_at   timestamptz not null default now()
 );
+
+-- Idempotent for deployments created before the 7-dimension expansion.
+alter table public.expert_reviews add column if not exists cbme_alignment smallint check (cbme_alignment between 1 and 5);
+alter table public.expert_reviews add column if not exists reasoning_authenticity smallint check (reasoning_authenticity between 1 and 5);
+alter table public.expert_reviews add column if not exists feedback_quality smallint check (feedback_quality between 1 and 5);
+alter table public.expert_reviews add column if not exists community_integration smallint check (community_integration between 1 and 5);
 
 alter table public.expert_reviews enable row level security;
 
@@ -88,6 +102,18 @@ as $$
     union all
     select 'feasibility', feasibility::numeric
       from public.expert_reviews where case_slug = p_case_slug and feasibility is not null
+    union all
+    select 'cbme_alignment', cbme_alignment::numeric
+      from public.expert_reviews where case_slug = p_case_slug and cbme_alignment is not null
+    union all
+    select 'reasoning_authenticity', reasoning_authenticity::numeric
+      from public.expert_reviews where case_slug = p_case_slug and reasoning_authenticity is not null
+    union all
+    select 'feedback_quality', feedback_quality::numeric
+      from public.expert_reviews where case_slug = p_case_slug and feedback_quality is not null
+    union all
+    select 'community_integration', community_integration::numeric
+      from public.expert_reviews where case_slug = p_case_slug and community_integration is not null
   )
   select
     dimension,

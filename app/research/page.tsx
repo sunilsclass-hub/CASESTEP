@@ -1,11 +1,22 @@
 import type { Metadata } from 'next';
 import { PageHeader, Section, Badge, PlaceholderNote } from '@/components/ui';
-import { IconChart, IconUsers, IconBook, IconCheck } from '@/components/icons';
+import { IconChart, IconUsers, IconBook, IconCheck, IconLock } from '@/components/icons';
+import {
+  studyOverview,
+  design,
+  kirkpatrick,
+  logicModel,
+  evaluationMatrix,
+  ethics,
+  limitations,
+  scaleUpPlan,
+  scholarlyOutputs,
+} from '@/data/research';
 
 export const metadata: Metadata = {
   title: 'Research & Evaluation',
   description:
-    'Study design, needs assessment, Delphi consensus, module development, pilot implementation, evaluation tools, and outcomes for the CaseStep FAIMER project.',
+    'Study design, aims, participants, outcome measures, Kirkpatrick evaluation, logic model, ethics, limitations, and scale-up plan for the CaseStep FAIMER project.',
 };
 
 const phases = [
@@ -18,7 +29,7 @@ const phases = [
   {
     n: '02',
     title: 'Delphi consensus',
-    text: 'Panel of experts rates candidate cases for relevance, content validity, and feasibility across iterative rounds to a defined consensus threshold.',
+    text: 'Panel of experts rates candidate cases across seven dimensions (relevance, validity, feasibility, CBME alignment, reasoning authenticity, feedback quality, community integration) across iterative rounds to a defined consensus threshold.',
     method: 'Modified Delphi · median/IQR & % agreement',
   },
   {
@@ -41,21 +52,6 @@ const phases = [
   },
 ];
 
-const quantTools = [
-  'Clinical-reasoning case-decision accuracy (branching)',
-  'Script Concordance Test concordance scores',
-  'OSCE/OSPE checklist and global-rating scores',
-  'Pre/post knowledge and confidence scales',
-  'Engagement analytics (completion, time-on-task)',
-];
-
-const qualTools = [
-  'Semi-structured student interviews / focus groups',
-  'Open-ended reflection analysis (thematic)',
-  'Faculty facilitator feedback',
-  'Expert (Delphi) qualitative suggestions',
-];
-
 export default function ResearchPage() {
   return (
     <>
@@ -65,20 +61,67 @@ export default function ResearchPage() {
         description="CaseStep is built as an educational research project — from needs assessment and expert consensus to a piloted, evaluated intervention informed by implementation science."
       />
 
-      <Section title="Study design at a glance">
-        <div className="grid gap-4 sm:grid-cols-3">
+      {/* Aim, objectives, background/problem/innovation */}
+      <Section title="Study overview">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="space-y-4">
+            <div className="card p-5">
+              <p className="text-sm font-medium text-ink-500">Background</p>
+              <p className="mt-1 text-sm leading-relaxed text-ink-700">{studyOverview.background}</p>
+            </div>
+            <div className="card p-5">
+              <p className="text-sm font-medium text-ink-500">Educational problem</p>
+              <p className="mt-1 text-sm leading-relaxed text-ink-700">{studyOverview.problem}</p>
+            </div>
+            <div className="card p-5">
+              <p className="text-sm font-medium text-ink-500">Innovation</p>
+              <p className="mt-1 text-sm leading-relaxed text-ink-700">{studyOverview.innovation}</p>
+            </div>
+          </div>
+          <div className="card p-5">
+            <p className="text-sm font-medium text-ink-500">Aim</p>
+            <p className="mt-1 text-sm font-semibold leading-relaxed text-ink-900">{studyOverview.aim}</p>
+            <p className="mt-4 text-sm font-medium text-ink-500">Objectives</p>
+            <ul className="mt-2 space-y-2">
+              {studyOverview.objectives.map((o) => (
+                <li key={o} className="flex gap-2 text-sm text-ink-700">
+                  <IconCheck width={16} height={16} className="mt-0.5 flex-shrink-0 text-brand-500" /> {o}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Section>
+
+      {/* Design, participants, intervention, comparator, outcome measures */}
+      <Section title="Study design" className="border-t border-ink-200">
+        <div className="grid gap-4 sm:grid-cols-2">
           <div className="card p-5">
             <p className="text-sm font-medium text-ink-500">Design</p>
-            <p className="mt-1 font-semibold text-ink-900">Mixed-methods, quasi-experimental (pre/post) with a development &amp; validation phase.</p>
+            <p className="mt-1 text-sm font-semibold text-ink-900">{design.type}</p>
           </div>
           <div className="card p-5">
-            <p className="text-sm font-medium text-ink-500">Setting &amp; participants</p>
-            <p className="mt-1 font-semibold text-ink-900">MBBS students in the Community Medicine posting; faculty and external experts.</p>
+            <p className="text-sm font-medium text-ink-500">Participants</p>
+            <p className="mt-1 text-sm text-ink-700">{design.participants}</p>
           </div>
           <div className="card p-5">
-            <p className="text-sm font-medium text-ink-500">Frameworks</p>
-            <p className="mt-1 font-semibold text-ink-900">Kern · ADDIE · TPACK · Implementation science · Clinical-reasoning theory.</p>
+            <p className="text-sm font-medium text-ink-500">Intervention</p>
+            <p className="mt-1 text-sm text-ink-700">{design.intervention}</p>
           </div>
+          <div className="card p-5">
+            <p className="text-sm font-medium text-ink-500">Comparator / control</p>
+            <p className="mt-1 text-sm text-ink-700">{design.comparator}</p>
+          </div>
+        </div>
+        <div className="mt-4 card p-5">
+          <p className="text-sm font-medium text-ink-500">Outcome measures</p>
+          <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+            {design.outcomeMeasures.map((o) => (
+              <li key={o} className="flex gap-2 text-sm text-ink-700">
+                <IconCheck width={16} height={16} className="mt-0.5 flex-shrink-0 text-brand-500" /> {o}
+              </li>
+            ))}
+          </ul>
         </div>
       </Section>
 
@@ -101,14 +144,164 @@ export default function ResearchPage() {
         </ol>
       </Section>
 
-      <Section title="Evaluation tools" className="border-t border-ink-200">
+      {/* Kirkpatrick mapping */}
+      <Section title="Kirkpatrick evaluation mapping" className="border-t border-ink-200">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[720px] text-left text-sm">
+            <thead>
+              <tr className="border-b border-ink-200 text-xs uppercase tracking-wide text-ink-500">
+                <th className="py-2 pr-4">Level</th>
+                <th className="py-2 pr-4">What is measured</th>
+                <th className="py-2">Tool</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-ink-100">
+              {kirkpatrick.map((row) => (
+                <tr key={row.level}>
+                  <td className="py-3 pr-4 align-top font-semibold text-ink-900">{row.level}</td>
+                  <td className="py-3 pr-4 align-top text-ink-700">{row.measure}</td>
+                  <td className="py-3 align-top text-ink-700">{row.tool}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Section>
+
+      {/* Logic model */}
+      <Section title="Logic model" className="border-t border-ink-200">
+        <div className="grid gap-3 sm:grid-cols-5">
+          {(
+            [
+              ['Inputs', logicModel.inputs],
+              ['Activities', logicModel.activities],
+              ['Outputs', logicModel.outputs],
+              ['Outcomes', logicModel.outcomes],
+              ['Impact', logicModel.impact],
+            ] as const
+          ).map(([label, items]) => (
+            <div key={label} className="card p-4">
+              <Badge tone="brand">{label}</Badge>
+              <ul className="mt-3 space-y-1.5">
+                {items.map((i) => (
+                  <li key={i} className="text-xs leading-relaxed text-ink-700">
+                    {i}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Evaluation matrix */}
+      <Section title="Evaluation matrix" className="border-t border-ink-200">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[820px] text-left text-sm">
+            <thead>
+              <tr className="border-b border-ink-200 text-xs uppercase tracking-wide text-ink-500">
+                <th className="py-2 pr-4">Objective</th>
+                <th className="py-2 pr-4">Data source</th>
+                <th className="py-2 pr-4">Method</th>
+                <th className="py-2">Timing</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-ink-100">
+              {evaluationMatrix.map((row) => (
+                <tr key={row.objective}>
+                  <td className="py-3 pr-4 align-top font-medium text-ink-900">{row.objective}</td>
+                  <td className="py-3 pr-4 align-top text-ink-700">{row.dataSource}</td>
+                  <td className="py-3 pr-4 align-top text-ink-700">{row.method}</td>
+                  <td className="py-3 align-top text-ink-700">{row.timing}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Section>
+
+      {/* Ethics & data privacy */}
+      <Section title="Ethical considerations & data privacy" className="border-t border-ink-200">
+        <div className="card p-6">
+          <div className="mb-3 flex items-center gap-2">
+            <IconLock width={18} height={18} className="text-brand-600" />
+            <h3 className="font-bold">Commitments</h3>
+          </div>
+          <ul className="space-y-2">
+            {ethics.map((e) => (
+              <li key={e} className="flex gap-2 text-sm text-ink-700">
+                <IconCheck width={16} height={16} className="mt-0.5 flex-shrink-0 text-brand-500" /> {e}
+              </li>
+            ))}
+          </ul>
+          <PlaceholderNote>
+            No ethics-approval number is quoted anywhere on this platform. One will be obtained, and
+            cited here, before any real participant data are collected.
+          </PlaceholderNote>
+        </div>
+      </Section>
+
+      {/* Limitations & mitigation */}
+      <Section title="Limitations & mitigation strategies" className="border-t border-ink-200">
+        <div className="grid gap-4 sm:grid-cols-2">
+          {limitations.map((l) => (
+            <div key={l.limitation} className="card p-5">
+              <p className="text-sm font-semibold text-ink-900">{l.limitation}</p>
+              <p className="mt-2 text-sm text-ink-600">
+                <span className="font-medium text-ink-700">Mitigation: </span>
+                {l.mitigation}
+              </p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Scale-up plan */}
+      <Section title="Scale-up plan" className="border-t border-ink-200">
+        <div className="card p-6">
+          <ol className="space-y-2">
+            {scaleUpPlan.map((s, i) => (
+              <li key={s} className="flex gap-3 text-sm text-ink-700">
+                <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-brand-100 text-xs font-bold text-brand-700">
+                  {i + 1}
+                </span>
+                {s}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </Section>
+
+      {/* Publications & manuscripts */}
+      <Section title="Expected scholarly outputs" className="border-t border-ink-200">
+        <div className="card p-6">
+          <div className="mb-3 flex items-center gap-2">
+            <IconBook width={18} height={18} className="text-brand-600" />
+            <h3 className="font-bold">Dissemination plan</h3>
+          </div>
+          <ul className="space-y-3 text-sm text-ink-700">
+            {scholarlyOutputs.map((o) => (
+              <li key={o.title} className="rounded-lg border border-ink-200 p-3">
+                <span className="font-semibold text-ink-800">{o.title} (planned): </span>
+                {o.text}
+              </li>
+            ))}
+          </ul>
+          <PlaceholderNote>
+            Publication details, DOIs and links will be added here as outputs are produced.
+          </PlaceholderNote>
+        </div>
+      </Section>
+
+      {/* Evaluation tools summary (quant/qual) */}
+      <Section title="Evaluation tools at a glance" className="border-t border-ink-200">
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="card p-6">
             <h3 className="flex items-center gap-2 font-bold">
               <IconChart width={18} height={18} className="text-brand-600" /> Quantitative outcomes
             </h3>
             <ul className="mt-3 space-y-2">
-              {quantTools.map((t) => (
+              {design.outcomeMeasures.slice(0, 5).map((t) => (
                 <li key={t} className="flex gap-2 text-sm text-ink-700">
                   <IconCheck width={16} height={16} className="mt-0.5 flex-shrink-0 text-brand-500" /> {t}
                 </li>
@@ -120,40 +313,18 @@ export default function ResearchPage() {
               <IconUsers width={18} height={18} className="text-brand-600" /> Qualitative feedback
             </h3>
             <ul className="mt-3 space-y-2">
-              {qualTools.map((t) => (
+              {[
+                'Semi-structured student interviews / focus groups',
+                'Open-ended reflection analysis (thematic)',
+                'Faculty facilitator feedback',
+                'Expert (Delphi) qualitative suggestions',
+              ].map((t) => (
                 <li key={t} className="flex gap-2 text-sm text-ink-700">
                   <IconCheck width={16} height={16} className="mt-0.5 flex-shrink-0 text-brand-500" /> {t}
                 </li>
               ))}
             </ul>
           </div>
-        </div>
-      </Section>
-
-      <Section title="Publications & manuscripts" className="border-t border-ink-200">
-        <div className="card p-6">
-          <div className="mb-3 flex items-center gap-2">
-            <IconBook width={18} height={18} className="text-brand-600" />
-            <h3 className="font-bold">Dissemination plan</h3>
-          </div>
-          <ul className="space-y-3 text-sm text-ink-700">
-            <li className="rounded-lg border border-ink-200 p-3">
-              <span className="font-semibold text-ink-800">Manuscript 1 (planned): </span>
-              Development and Delphi validation of digital case-based learning modules in Community
-              Medicine.
-            </li>
-            <li className="rounded-lg border border-ink-200 p-3">
-              <span className="font-semibold text-ink-800">Manuscript 2 (planned): </span>
-              Effect of digital case-based learning on clinical reasoning — a mixed-methods pilot.
-            </li>
-            <li className="rounded-lg border border-ink-200 p-3">
-              <span className="font-semibold text-ink-800">Conference abstracts: </span>
-              FAIMER, medical-education and public-health conferences.
-            </li>
-          </ul>
-          <PlaceholderNote>
-            Publication details, DOIs and links will be added here as outputs are produced.
-          </PlaceholderNote>
         </div>
       </Section>
     </>

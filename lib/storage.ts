@@ -44,13 +44,31 @@ export interface OSCEResult {
   updatedAt: number;
 }
 
+/**
+ * A single Delphi-style expert review, captured locally so the Expert Review
+ * module works as a real demo without requiring a backend. `reviewerLabel` is
+ * a self-chosen demo identifier (e.g. "Reviewer A") — never a real name — so
+ * multiple illustrative panel members can be simulated on one device.
+ */
+export interface ExpertReviewLocal {
+  id: string;
+  caseSlug: string;
+  reviewerLabel: string;
+  ratings: Record<string, number>;
+  checklist: Record<string, boolean>;
+  comments: string;
+  round: number;
+  createdAt: number;
+}
+
 export interface Store {
   cases: Record<string, CaseProgress>;
   sct: Record<string, SCTResult>;
   osce: Record<string, OSCEResult>;
+  expertReviews: ExpertReviewLocal[];
 }
 
-const empty: Store = { cases: {}, sct: {}, osce: {} };
+const empty: Store = { cases: {}, sct: {}, osce: {}, expertReviews: [] };
 
 /**
  * Optional cloud-sync hook. The auth layer (lib/auth.tsx) registers a handler
@@ -127,6 +145,37 @@ export function saveSCTResult(result: SCTResult) {
 export function saveOSCEResult(result: OSCEResult) {
   const store = readStore();
   store.osce[result.stationId] = result;
+  writeStore(store);
+}
+
+/**
+ * Local (demo) Expert Review persistence.
+ *
+ * FUTURE DB INTEGRATION: when Supabase is configured (see lib/reviews.ts),
+ * submissions are additionally written to the `expert_reviews` table. This
+ * local copy always exists so the Delphi consensus panel works out of the box
+ * on a no-backend deployment — the exact demo experience FAIMER reviewers see.
+ */
+export function saveLocalExpertReview(review: Omit<ExpertReviewLocal, 'id' | 'createdAt'>) {
+  const store = readStore();
+  const entry: ExpertReviewLocal = {
+    ...review,
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    createdAt: Date.now(),
+  };
+  store.expertReviews = [...store.expertReviews, entry];
+  writeStore(store);
+  return entry;
+}
+
+export function getLocalExpertReviews(caseSlug?: string): ExpertReviewLocal[] {
+  const store = readStore();
+  return caseSlug ? store.expertReviews.filter((r) => r.caseSlug === caseSlug) : store.expertReviews;
+}
+
+export function clearLocalExpertReviews() {
+  const store = readStore();
+  store.expertReviews = [];
   writeStore(store);
 }
 
