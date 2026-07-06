@@ -1,13 +1,15 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useStore } from '@/lib/useStore';
 import { useAuth } from '@/lib/auth';
 import { resetAll } from '@/lib/storage';
 import { loadIllustrativeDemoProgress } from '@/lib/demoSeed';
 import { getReadyCases } from '@/data/cases';
+import { caseIllustration } from '@/data/media';
 import { StatCard, ProgressBar, Badge, PlaceholderNote } from './ui';
-import { ProgressRing, EmptyState } from './premium';
+import { ProgressRing, EmptyState, DemoDataBanner } from './premium';
 import {
   IconStethoscope,
   IconBrain,
@@ -107,35 +109,67 @@ export function StudentDashboard() {
   // First not-yet-completed ready case, in library order (for "next recommended").
   const nextRecommended = readyCases.find((c) => !store.cases[c.slug]?.completed);
 
+  // Illustrative achievement badges — computed locally from the same
+  // local-only progress used everywhere else on this dashboard. Not a
+  // certificate or institutional credential; purely motivational UI.
+  const badges = [
+    { id: 'first-case', title: 'First case completed', icon: <IconStethoscope width={18} height={18} />, unlocked: completedCases.length >= 1 },
+    { id: 'reasoning', title: 'Reasoning under uncertainty', icon: <IconBrain width={18} height={18} />, unlocked: sctResults.length >= 1 },
+    { id: 'skills', title: 'Skills assessed (OSCE/OSPE)', icon: <IconClipboard width={18} height={18} />, unlocked: osceResults.length >= 1 },
+    { id: 'reflective', title: 'Reflective learner', icon: <IconBook width={18} height={18} />, unlocked: totalReflections >= 1 },
+  ];
+
+  const reflectionInsight =
+    totalReflections === 0
+      ? { label: 'Not started', note: 'Add a reflection inside any case to begin building this profile.' }
+      : totalReflections <= 2
+        ? { label: 'Building a reflective habit', note: 'A couple of reflections logged so far — keep going after each case.' }
+        : { label: 'Consistently reflective learner', note: 'You reflect regularly — a strong habit for consolidating clinical reasoning.' };
+
   return (
     <div className="container-page py-8">
+      <DemoDataBanner title="Your dashboard">
+        This view reflects activity stored only in this browser (or your signed-in account, if
+        enabled). Demo-seeded progress is clearly labelled and illustrative — it is never presented
+        as real learner data.
+      </DemoDataBanner>
+
       {/* Empty-state onboarding — only shown before any real progress exists */}
       {!hasAnyProgress && (
-        <div className="mb-8 rounded-2xl border border-brand-200 bg-brand-50 p-6">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-wide text-brand-700">
-                Get started
-              </p>
-              <h2 className="mt-1 text-xl font-bold text-ink-900">
-                No activity yet on this device
-              </h2>
-              <p className="mt-1 max-w-xl text-sm text-ink-600">
-                Start your first case to begin building a real profile, or load illustrative demo
-                progress to preview what a populated dashboard looks like (clearly labelled — not
-                real student data, and clearable at any time).
-              </p>
-            </div>
-            <div className="flex flex-shrink-0 flex-col gap-2 sm:flex-row">
-              <Link href="/cases" className="btn-primary whitespace-nowrap">
-                Start your first case <IconArrowRight width={16} height={16} />
-              </Link>
-              <button
-                onClick={() => loadIllustrativeDemoProgress()}
-                className="btn-secondary whitespace-nowrap"
-              >
-                Load illustrative demo progress
-              </button>
+        <div className="mb-8 mt-6 overflow-hidden rounded-2xl border border-brand-200 bg-brand-50">
+          <div className="flex flex-col gap-6 p-6 sm:flex-row sm:items-center">
+            <Image
+              src="/media/home/learning-pathway.svg"
+              alt="Visual learning pathway: Scenario, Reasoning, Decision, Feedback, Reflection, Assessment"
+              width={640}
+              height={220}
+              className="hidden w-full max-w-xs flex-shrink-0 sm:block"
+            />
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-wide text-brand-700">
+                  Get started
+                </p>
+                <h2 className="mt-1 text-xl font-bold text-ink-900">
+                  No activity yet on this device
+                </h2>
+                <p className="mt-1 max-w-xl text-sm text-ink-600">
+                  Start your first case to begin building a real profile, or load illustrative demo
+                  progress to preview what a populated dashboard looks like (clearly labelled — not
+                  real student data, and clearable at any time).
+                </p>
+              </div>
+              <div className="flex flex-shrink-0 flex-col gap-2 sm:flex-row">
+                <Link href="/cases" className="btn-primary whitespace-nowrap">
+                  Start your first case <IconArrowRight width={16} height={16} />
+                </Link>
+                <button
+                  onClick={() => loadIllustrativeDemoProgress()}
+                  className="btn-secondary whitespace-nowrap"
+                >
+                  Load illustrative demo progress
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -143,7 +177,7 @@ export function StudentDashboard() {
 
       {/* Recently completed / next recommended */}
       {hasAnyProgress && (
-        <div className="mb-8 grid gap-4 sm:grid-cols-2">
+        <div className="mb-8 mt-6 grid gap-4 sm:grid-cols-2">
           <div className="card p-5">
             <p className="flex items-center gap-2 text-sm font-semibold text-ink-500">
               <IconCheck width={16} height={16} className="text-brand-600" /> Recently completed case
@@ -160,25 +194,37 @@ export function StudentDashboard() {
               <p className="mt-2 text-sm text-ink-500">No case completed yet — you&apos;re in progress.</p>
             )}
           </div>
-          <div className="card p-5">
-            <p className="flex items-center gap-2 text-sm font-semibold text-ink-500">
-              <IconTarget width={16} height={16} className="text-accent-600" /> Next recommended case
-            </p>
-            {nextRecommended ? (
-              <>
-                <p className="mt-2 text-lg font-bold text-ink-900">{nextRecommended.condition}</p>
-                <p className="mt-1 text-sm text-ink-500">
-                  {nextRecommended.difficulty} · {nextRecommended.minutes} min
-                </p>
-                <Link href={`/cases/${nextRecommended.slug}`} className="btn-primary mt-3">
-                  {store.cases[nextRecommended.slug] ? 'Continue case' : 'Start case'}{' '}
-                  <IconArrowRight width={14} height={14} />
-                </Link>
-              </>
-            ) : (
-              <p className="mt-2 text-sm font-medium text-brand-700">
-                All ready cases complete — try the SCT or OSCE/OSPE modules next!
+          <div className="card flex gap-4 p-5">
+            <div className="min-w-0 flex-1">
+              <p className="flex items-center gap-2 text-sm font-semibold text-ink-500">
+                <IconTarget width={16} height={16} className="text-accent-600" /> Next recommended case
               </p>
+              {nextRecommended ? (
+                <>
+                  <p className="mt-2 text-lg font-bold text-ink-900">{nextRecommended.condition}</p>
+                  <p className="mt-1 text-sm text-ink-500">
+                    {nextRecommended.difficulty} · {nextRecommended.minutes} min
+                  </p>
+                  <Link href={`/cases/${nextRecommended.slug}`} className="btn-primary mt-3">
+                    {store.cases[nextRecommended.slug] ? 'Continue case' : 'Start case'}{' '}
+                    <IconArrowRight width={14} height={14} />
+                  </Link>
+                </>
+              ) : (
+                <p className="mt-2 text-sm font-medium text-brand-700">
+                  All ready cases complete — try the SCT or OSCE/OSPE modules next!
+                </p>
+              )}
+            </div>
+            {nextRecommended && caseIllustration[nextRecommended.slug] && (
+              <span className="relative hidden h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-brand-50 to-indigo-50 sm:block">
+                <Image
+                  src={caseIllustration[nextRecommended.slug]}
+                  alt=""
+                  fill
+                  className="object-contain p-2"
+                />
+              </span>
             )}
           </div>
         </div>
@@ -217,6 +263,32 @@ export function StudentDashboard() {
           hint={`${totalReflections} reflection(s) · ${totalDecisions} decision(s)`}
           icon={<IconBook />}
         />
+      </div>
+
+      {/* Achievement badges — illustrative, motivational only; not a credential */}
+      <div className="card mt-6 p-5">
+        <h2 className="text-sm font-semibold text-ink-500">Achievements</h2>
+        <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {badges.map((b) => (
+            <div
+              key={b.id}
+              className={`flex items-center gap-2.5 rounded-xl border p-3 ${
+                b.unlocked
+                  ? 'border-brand-200 bg-brand-50 text-brand-800'
+                  : 'border-dashed border-ink-200 bg-ink-50 text-ink-400'
+              }`}
+            >
+              <span
+                className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${
+                  b.unlocked ? 'bg-brand-600 text-white' : 'bg-white text-ink-300 ring-1 ring-ink-200'
+                }`}
+              >
+                {b.icon}
+              </span>
+              <span className="text-xs font-medium leading-snug">{b.title}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-3">
@@ -308,7 +380,11 @@ export function StudentDashboard() {
         </div>
 
         <div className="card p-6">
-          <h2 className="text-lg font-bold">Reflections submitted</h2>
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="text-lg font-bold">Reflections submitted</h2>
+            <span className="badge bg-indigo-100 text-indigo-800">{reflectionInsight.label}</span>
+          </div>
+          <p className="mt-1 text-xs text-ink-500">{reflectionInsight.note}</p>
           {totalReflections === 0 ? (
             <div className="mt-3">
               <EmptyState

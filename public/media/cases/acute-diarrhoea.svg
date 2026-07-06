@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-labelledby="diarrhoea-title">
+  <title id="diarrhoea-title">Illustration representing Acute Diarrhoea — ORS and rehydration</title>
+  <circle cx="200" cy="150" r="110" fill="#f0fdfa"/>
+  <circle cx="200" cy="150" r="78" fill="#ccfbf1" opacity="0.8"/>
+  <!-- glass of ORS -->
+  <path d="M170 110h60l-8 110h-44z" fill="#ffffff" stroke="#0f766e" stroke-width="3"/>
+  <path d="M174 150h52l-6 66h-40z" fill="#5eead4"/>
+  <line x1="164" y1="110" x2="236" y2="110" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/>
+  <!-- droplets -->
+  <path d="M280 130c0 9-7 16-15 16s-15-7-15-16c0-9 15-26 15-26s15 17 15 26z" fill="#2dd4bf"/>
+  <path d="M255 175c0 6-5 11-10 11s-10-5-10-11c0-6 10-18 10-18s10 12 10 18z" fill="#5eead4"/>
+</svg>

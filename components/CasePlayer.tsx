@@ -24,6 +24,8 @@ import {
   IconStethoscope,
   IconBook,
 } from './icons';
+import { Illustration, VideoPlaceholder } from './media';
+import { caseIllustration, caseVideos } from '@/data/media';
 
 const kindMeta: Record<
   CaseStep['kind'],
@@ -183,18 +185,40 @@ export function CasePlayer({ case: c }: { case: Case }) {
           </ul>
         )}
 
-        {/* Media placeholder */}
-        {step.media && (
-          <figure className="mt-5 overflow-hidden rounded-xl border border-dashed border-ink-300 bg-ink-50">
-            <div className="flex aspect-video items-center justify-center text-ink-400">
-              <span className="text-sm">
-                {step.media.type === 'video' ? '▶ Video placeholder' : '🖼 Image placeholder'}
-              </span>
-            </div>
-            <figcaption className="border-t border-ink-200 px-4 py-2 text-xs text-ink-500">
-              {step.media.caption}
-            </figcaption>
-          </figure>
+        {/* Media: a real topic illustration for images, a proper placeholder card for video */}
+        {step.media && step.media.type === 'image' && (
+          <div className="mt-5">
+            {caseIllustration[c.slug] ? (
+              <Illustration
+                src={caseIllustration[c.slug]}
+                alt={`Educational illustration for ${c.condition}`}
+                caption={step.media.caption}
+              />
+            ) : (
+              <figure className="overflow-hidden rounded-xl border border-dashed border-ink-300 bg-ink-50">
+                <div className="flex aspect-video items-center justify-center text-ink-400">
+                  <span className="text-sm">🖼 Image placeholder</span>
+                </div>
+                <figcaption className="border-t border-ink-200 px-4 py-2 text-xs text-ink-500">
+                  {step.media.caption}
+                </figcaption>
+              </figure>
+            )}
+          </div>
+        )}
+        {step.media && step.media.type === 'video' && !caseVideos[c.slug] && (
+          <div className="mt-5">
+            <VideoPlaceholder title={step.media.caption} objective={step.media.caption} />
+          </div>
+        )}
+
+        {/* Dedicated video gallery for the flagship cases, shown at the management step */}
+        {step.kind === 'management' && caseVideos[c.slug] && (
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {caseVideos[c.slug].map((v) => (
+              <VideoPlaceholder key={v.title} title={v.title} objective={v.objective} />
+            ))}
+          </div>
         )}
 
         {/* Red flags */}

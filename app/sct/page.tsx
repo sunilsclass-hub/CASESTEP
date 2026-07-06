@@ -36,13 +36,6 @@ export default function SCTPage() {
         </div>
 
         <SCTSection />
-
-        <div className="mt-10 rounded-xl border border-dashed border-ink-300 bg-ink-50 p-4 text-sm text-ink-500">
-          <span className="font-semibold text-ink-700">Expert panel placeholder:</span> scores here
-          compare against illustrative expert modal answers. In the research deployment, a panel of
-          Community Medicine experts completes each item and their aggregated responses generate the
-          scoring key.
-        </div>
       </Section>
     </>
   );

@@ -1,6 +1,15 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { PageHeader, Section, Badge } from '@/components/ui';
-import { IconCheck, IconTarget, IconBrain, IconGlobe } from '@/components/icons';
+import { IconCheck, IconTarget, IconBrain, IconGlobe, IconArrowRight, IconClipboard } from '@/components/icons';
+
+const faimerLogic = [
+  { icon: <IconGlobe />, title: 'Fellowship', text: 'International FAIMER Fellowship: structured mentorship and peer review.' },
+  { icon: <IconTarget />, title: 'Needs assessment', text: 'Identify the applied-reasoning gap in Community Medicine teaching.' },
+  { icon: <IconBrain />, title: 'Curriculum innovation', text: 'Design and build digital case-based learning, SCT, and OSCE/OSPE modules.' },
+  { icon: <IconClipboard />, title: 'Evaluation', text: 'Pilot, evaluate, and iterate using a mixed-methods design.' },
+  { icon: <IconCheck />, title: 'Dissemination', text: 'Share outcomes with FAIMER, the institution, and the wider medical-education community.' },
+];
 
 export const metadata: Metadata = {
   title: 'About the Project',
@@ -194,6 +203,21 @@ export default function AboutPage() {
         </div>
       </Section>
 
+      {/* Clinical reasoning pathway */}
+      <Section
+        title="The clinical reasoning pathway"
+        description="Every module — case, SCT item, or OSCE/OSPE station — rehearses the same underlying pathway."
+        className="border-t border-ink-200"
+      >
+        <Image
+          src="/media/home/learning-pathway.svg"
+          alt="Visual learning pathway: Scenario, Reasoning, Decision, Feedback, Reflection, Assessment"
+          width={640}
+          height={220}
+          className="mx-auto w-full max-w-3xl"
+        />
+      </Section>
+
       {/* Kern + ADDIE */}
       <Section title="Curriculum development frameworks" className="border-t border-ink-200">
         <div className="grid gap-8 lg:grid-cols-2">
@@ -258,6 +282,30 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
+      </Section>
+
+      {/* FAIMER project logic */}
+      <Section
+        title="FAIMER project logic"
+        description="How the fellowship structure translates into this platform, end to end."
+        className="border-t border-ink-200"
+      >
+        <ol className="grid gap-3 sm:grid-cols-5">
+          {faimerLogic.map((s, i) => (
+            <li key={s.title} className="card-interactive relative p-4">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-white">
+                {s.icon}
+              </span>
+              <h3 className="mt-3 text-sm font-semibold text-ink-900">{s.title}</h3>
+              <p className="mt-1 text-xs leading-snug text-ink-500">{s.text}</p>
+              {i < faimerLogic.length - 1 && (
+                <span className="absolute -right-2 top-1/2 hidden -translate-y-1/2 text-ink-300 sm:block" aria-hidden>
+                  <IconArrowRight width={14} height={14} />
+                </span>
+              )}
+            </li>
+          ))}
+        </ol>
       </Section>
 
       {/* Constructive alignment */}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-labelledby="pnc-title">
+  <title id="pnc-title">Illustration representing Postnatal Care — mother and newborn follow-up</title>
+  <circle cx="200" cy="150" r="110" fill="#f0fdfa"/>
+  <circle cx="200" cy="150" r="78" fill="#ccfbf1" opacity="0.8"/>
+  <ellipse cx="200" cy="205" rx="60" ry="18" fill="#99f6e4" opacity="0.6"/>
+  <!-- newborn bundle -->
+  <ellipse cx="200" cy="170" rx="48" ry="34" fill="#ffffff" stroke="#0f766e" stroke-width="3"/>
+  <circle cx="200" cy="148" r="22" fill="#fde68a"/>
+  <path d="M182 145a18 18 0 0 1 36 0" fill="none" stroke="#d97706" stroke-width="3" stroke-linecap="round"/>
+  <!-- heart care icon -->
+  <path d="M290 118c0-10-8-16-16-16-6 0-11 3-14 8-3-5-8-8-14-8-8 0-16 6-16 16 0 16 30 34 30 34s30-18 30-34z" fill="#f59e0b"/>
+</svg>

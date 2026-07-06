@@ -12,7 +12,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-optional-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Release](https://img.shields.io/badge/release-v1.2.0-0d9488)](CHANGELOG.md)
+[![Release](https://img.shields.io/badge/release-v1.3.1-0d9488)](CHANGELOG.md)
 
 **🔗 Live demo: [casestep.vercel.app](https://casestep.vercel.app/)**
 
@@ -40,6 +40,7 @@ The live site runs with **no backend required**: every page — including the St
 - [Screenshots](#screenshots)
 - [Case catalogue](#case-catalogue)
 - [Educational frameworks](#educational-frameworks)
+- [Media & academic integrity](#media--academic-integrity)
 - [Technology stack](#technology-stack)
 - [Architecture](#architecture)
 - [Getting started](#getting-started)
@@ -63,6 +64,7 @@ The live site runs with **no backend required**: every page — including the St
 - 🔎 **Searchable, filterable Case Library** — filter by topic, difficulty, competency, or status.
 - 🎨 **Premium academic design system** — a cohesive token set (indigo/teal/slate palette, refined shadows, subtle mesh gradients), shared components (`FeatureCard`, `ProgressRing`, `Stepper`, `EmptyState`, `DemoDataBanner`), and tasteful, reduced-motion-aware micro-interactions throughout.
 - ♿ **Accessible, responsive, academic UI**; ⚡ static export deploys anywhere with no server runtime.
+- 🖼️ **Original illustration system** — every case, OSCE station, and the homepage carries a hand-authored, abstract SVG illustration and, where relevant, a clearly-labelled video placeholder. See [Media & academic integrity](#media--academic-integrity) below.
 
 ## Screenshots
 
@@ -107,6 +109,33 @@ CaseStep is designed as a serious educational innovation, intentionally reflecti
 `NMC CBME curriculum` · `FAIMER project framework` · `Kern's 6-step model` · `ADDIE` · `TPACK` · `Clinical-reasoning theory` · `Script Concordance Testing` · `OSCE/OSPE competency assessment` · `Mixed-methods educational research` · `Implementation science`
 
 See the **About** and **Research & Evaluation** pages in the app for how each is applied.
+
+## Media & academic integrity
+
+CaseStep uses **no stock photography, no real patient imagery, and no third-party or copyrighted
+media anywhere on the platform.** Every visual is one of two things:
+
+1. **Original illustrations** — small, hand-authored, flat-design SVGs (`public/media/**`), one per
+   case topic and OSCE station. They are deliberately abstract/iconographic so they can never be
+   mistaken for a real clinical photograph, and they carry zero licensing risk and near-zero
+   network weight.
+2. **Video placeholders** — a labelled card (title, learning objective, planned duration,
+   transcript/captions "to be added") describing a planned institution-approved demonstration
+   video. **No video file is embedded anywhere in this repository or deployment.** Real footage can
+   only be added after institutional review and consent processes are complete.
+
+A site-wide banner (`components/media.tsx` → `LaunchBanner`, mounted in `app/layout.tsx`) makes the
+demonstration status explicit on every page: *"FAIMER demonstration mode. All learner, expert, and
+analytics data shown on this platform are illustrative. No real patient data is used anywhere."*
+This mirrors the existing `DemoDataBanner` treatment already used on the dashboards and Expert
+Review page.
+
+Every page — SCT, both dashboards, Research & Evaluation, About, and Contact & Team — now shares
+this same illustration/`DemoDataBanner`/disclaimer visual language, not just the Case Library and
+OSCE stations from the initial multimedia pass.
+
+**Current version:** v1.3.1 — Multimedia Launch Preview + Launch Completion Pass (see
+[CHANGELOG.md](CHANGELOG.md)).
 
 ## Technology stack
 
@@ -316,6 +345,17 @@ Stated plainly, for FAIMER mentors and reviewers:
   system — Type 2 Diabetes, Hypertension, and Antenatal Care were used as the reference
   implementations; the remaining 8 inherit the same components and styling automatically (they use
   the identical `CasePlayer`) but have not been individually content-reviewed for this redesign.
+- **v1.3 multimedia scope, stated honestly**: illustrations and video placeholders are wired into
+  the Case Library, individual case pages, `CasePlayer`, all 4 OSCE/OSPE stations, the homepage, the
+  SCT module tabs, both dashboards, and the About page's framework diagrams (v1.3.0 + the v1.3.1
+  Launch Completion Pass). SCT modules reuse the closest matching case illustration rather than
+  commissioning a new asset per module — a deliberate, low-risk choice to avoid low-value duplicate
+  artwork. No new video placeholders were added outside the original three flagship cases and four
+  OSCE stations; expanding video coverage to more cases remains a reasonable follow-up.
+- The Student Dashboard's achievement badges and reflection-engagement label are simple,
+  locally-computed heuristics (thresholds on counts already shown elsewhere on the dashboard) —
+  they are not a validated instrument or an institutional credential, and are presented as
+  motivational UI only.
 
 ## Roadmap
 

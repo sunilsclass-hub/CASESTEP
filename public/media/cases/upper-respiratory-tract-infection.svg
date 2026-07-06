@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-labelledby="urti-title">
+  <title id="urti-title">Illustration representing Upper Respiratory Tract Infection</title>
+  <circle cx="200" cy="150" r="110" fill="#eef2ff"/>
+  <circle cx="200" cy="150" r="78" fill="#e0e7ff" opacity="0.7"/>
+  <!-- abstract head/throat profile -->
+  <path d="M160 200c-10-20-10-50 10-68 22-20 58-14 70 8 8 14 6 30-2 40-4 16 2 26 2 26" fill="#c7d2fe" stroke="#4338ca" stroke-width="3"/>
+  <!-- respiratory lines -->
+  <path d="M250 150c14 0 14 14 28 14" fill="none" stroke="#4f46e5" stroke-width="4" stroke-linecap="round"/>
+  <path d="M250 168c18 0 18 18 36 18" fill="none" stroke="#818cf8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M250 132c10 0 10 10 20 10" fill="none" stroke="#818cf8" stroke-width="4" stroke-linecap="round"/>
+</svg>

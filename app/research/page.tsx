@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { PageHeader, Section, Badge, PlaceholderNote } from '@/components/ui';
-import { IconChart, IconUsers, IconBook, IconCheck, IconLock } from '@/components/icons';
+import { IconChart, IconUsers, IconBook, IconCheck, IconLock, IconArrowRight } from '@/components/icons';
 import {
   studyOverview,
   design,
@@ -146,6 +146,17 @@ export default function ResearchPage() {
 
       {/* Kirkpatrick mapping */}
       <Section title="Kirkpatrick evaluation mapping" className="border-t border-ink-200">
+        <div className="mb-6 flex flex-col items-center gap-1.5">
+          {kirkpatrick.map((row, i) => (
+            <div
+              key={row.level}
+              className="flex items-center justify-center rounded-lg bg-brand-600 py-2 text-center text-xs font-semibold text-white"
+              style={{ width: `${100 - i * 16}%`, opacity: 0.65 + i * 0.09 }}
+            >
+              {row.level}
+            </div>
+          ))}
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[720px] text-left text-sm">
             <thead>
@@ -169,7 +180,11 @@ export default function ResearchPage() {
       </Section>
 
       {/* Logic model */}
-      <Section title="Logic model" className="border-t border-ink-200">
+      <Section
+        title="Logic model"
+        description="A planned, illustrative program logic — Inputs flow through Activities and Outputs to the Outcomes and Impact the project aims to demonstrate."
+        className="border-t border-ink-200"
+      >
         <div className="grid gap-3 sm:grid-cols-5">
           {(
             [
@@ -179,16 +194,24 @@ export default function ResearchPage() {
               ['Outcomes', logicModel.outcomes],
               ['Impact', logicModel.impact],
             ] as const
-          ).map(([label, items]) => (
-            <div key={label} className="card p-4">
+          ).map(([label, items], i, arr) => (
+            <div key={label} className="relative card p-4">
               <Badge tone="brand">{label}</Badge>
               <ul className="mt-3 space-y-1.5">
-                {items.map((i) => (
-                  <li key={i} className="text-xs leading-relaxed text-ink-700">
-                    {i}
+                {items.map((it) => (
+                  <li key={it} className="text-xs leading-relaxed text-ink-700">
+                    {it}
                   </li>
                 ))}
               </ul>
+              {i < arr.length - 1 && (
+                <span
+                  className="absolute -right-2.5 top-1/2 hidden -translate-y-1/2 text-ink-300 sm:block"
+                  aria-hidden
+                >
+                  <IconArrowRight width={14} height={14} />
+                </span>
+              )}
             </div>
           ))}
         </div>
@@ -279,14 +302,26 @@ export default function ResearchPage() {
             <IconBook width={18} height={18} className="text-brand-600" />
             <h3 className="font-bold">Dissemination plan</h3>
           </div>
-          <ul className="space-y-3 text-sm text-ink-700">
-            {scholarlyOutputs.map((o) => (
-              <li key={o.title} className="rounded-lg border border-ink-200 p-3">
-                <span className="font-semibold text-ink-800">{o.title} (planned): </span>
-                {o.text}
-              </li>
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-stretch">
+            {scholarlyOutputs.map((o, i) => (
+              <div key={o.title} className="flex flex-1 items-center gap-3">
+                <div className="flex-1 rounded-lg border border-ink-200 p-3 text-sm text-ink-700">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-100 text-xs font-bold text-brand-700">
+                    {i + 1}
+                  </span>
+                  <p className="mt-2">
+                    <span className="font-semibold text-ink-800">{o.title} (planned): </span>
+                    {o.text}
+                  </p>
+                </div>
+                {i < scholarlyOutputs.length - 1 && (
+                  <span className="hidden flex-shrink-0 text-ink-300 lg:block" aria-hidden>
+                    <IconArrowRight width={16} height={16} />
+                  </span>
+                )}
+              </div>
             ))}
-          </ul>
+          </div>
           <PlaceholderNote>
             Publication details, DOIs and links will be added here as outputs are produced.
           </PlaceholderNote>

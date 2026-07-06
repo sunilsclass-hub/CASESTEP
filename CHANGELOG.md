@@ -4,6 +4,110 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.1] — 2026-07-06
+
+### Launch Completion Pass — multimedia and visual completion across SCT, dashboards, research, about, and contact pages
+
+Extends the v1.3.0 media system to every remaining page, so the whole
+platform now shares one consistent visual language. No case data, scoring
+logic, or existing v1.3.0 components (media system, `CasePlayer`,
+`OSCEStationCard`, `LaunchBanner`) were changed structurally — this pass only
+adds presentation on top.
+
+**SCT** (`components/SCTSection.tsx`, `components/SCTPlayer.tsx`,
+`data/media.ts`) — each module now shows a topic illustration (reusing the
+matching case SVG — no new assets, no fabricated per-module artwork); every
+clinical vignette is presented in a dedicated card; after submission, an
+expert-vs-learner position is shown on a −2…+2 scale track (a single
+illustrative modal value, not a fabricated full-panel distribution); the
+score card gains a `ProgressRing`; the module tab bar scrolls horizontally on
+narrow screens; the "expert panel placeholder" note is now the shared
+`DemoDataBanner` component for visual consistency with the rest of the site.
+
+**Student Dashboard** (`components/StudentDashboard.tsx`) — a `DemoDataBanner`
+now states plainly that the view reflects only this browser's local data; the
+empty state shows the learning-pathway illustration; the "Next recommended
+case" card gains a topic-illustration thumbnail; a new illustrative
+achievement-badges row (first case, SCT attempted, OSCE attempted, reflective
+learner — motivational UI, not a credential) and a reflection-engagement
+indicator were added. The "Load illustrative demo progress" flow and the
+always-synchronous, never-indefinitely-loading `useStore()` behaviour are
+unchanged.
+
+**Faculty Dashboard** (`components/FacultyDashboard.tsx`) — adds a topic-wise
+performance heatmap (colour-banded completion/decision-accuracy table) beside
+the existing reasoning-error list. The exact required disclaimer text
+("Illustrative cohort analytics for FAIMER demonstration; real analytics will
+be generated after authenticated deployment and ethics-approved
+implementation.") was already present via `DemoDataBanner` and is unchanged.
+
+**Research & Evaluation** (`app/research/page.tsx`) — the logic-model grid
+now reads as a connected diagram (arrows between Inputs → Impact); a
+Kirkpatrick-level pyramid visual sits above the existing mapping table; the
+expected-scholarly-outputs list is now a connected pipeline. All wording
+remains "planned" / "illustrative" — no real data or outcomes are shown.
+
+**About** (`app/about/page.tsx`) — adds a "Clinical reasoning pathway" visual
+(the same learning-pathway illustration, reused for consistency) and a
+5-step "FAIMER project logic" diagram, alongside the existing Kern/ADDIE/
+TPACK/CBME/constructive-alignment content.
+
+**Contact & Team** (`app/contact/page.tsx`) — the PI card now shows academic
+credential badges; team-group headings get a distinct icon per group; a
+collaboration-invitation card and an explicit consent/institutional-approval
+note were added; the contact form now sits beside a `DemoDataBanner` stating
+it is not yet wired to a delivery backend. No names were invented — every
+team entry remains the existing placeholder structure from `data/site.ts`.
+
+Verified with the full unit test suite, a static build (24/24 routes), and a
+headless-browser pass (0 console/runtime errors) covering home, cases,
+case-decision flow, SCT scoring, OSCE, both dashboards, Expert Review, and
+About; Research and Contact were checked by direct static-HTML inspection of
+the build output.
+
+## [1.3.0] — 2026-07-06
+
+### Multimedia launch preview
+
+**Media system** (`components/media.tsx`, `data/media.ts`) — a small, reusable
+set of primitives so no component ever hardcodes a media path:
+- `Illustration` — a captioned `next/image` panel with a default
+  "Educational illustration — no real patient data used" note.
+- `VideoPlaceholder` — a clearly-labelled card (title, learning objective,
+  planned duration, transcript/captions "to be added") for a planned
+  institution-approved demonstration video. No video file is embedded
+  anywhere on the platform.
+- `LaunchBanner` — a site-wide strip ("FAIMER demonstration mode...") now
+  mounted once in `app/layout.tsx`, above the navbar on every route.
+- `data/media.ts` centralises the case-slug → illustration/video lookups
+  (`caseIllustration`, `caseVideos`) and OSCE-station equivalents
+  (`osceIllustration`, `osceVideos`).
+
+**Original illustrations** (`public/media/**/*.svg`) — 13 new hand-authored,
+abstract/iconographic SVGs (one per case topic, one for the diabetic-foot
+OSCE station, one 6-stage learning-pathway diagram for the homepage).
+All are original flat-design vector art in the existing brand palette;
+none depict real people, photographs, or third-party/copyrighted content —
+by construction there is nothing to clear for copyright or patient consent.
+
+**Case Library & case pages** — `CaseCard` now shows a topic illustration
+thumbnail; the case-detail header (`app/cases/[slug]/page.tsx`) shows a
+larger illustration alongside the title/summary; `CasePlayer` upgrades its
+existing image/video media steps to the new `Illustration`/`VideoPlaceholder`
+components and adds a two-video placeholder gallery at the management step
+for the three flagship cases (Type 2 Diabetes, Hypertension, Antenatal Care).
+
+**OSCE/OSPE** — `OSCEStationCard` now renders a station illustration and a
+video placeholder (walkthrough demonstration) for all four stations.
+
+**Homepage** — the learning-pathway SVG diagram is now shown above the
+existing 6-step journey grid as a visual companion.
+
+No case data, step counts, decision options, or scoring logic changed in
+this release — only presentation. Verified with the full unit test suite,
+a static build, and a headless-browser pass (0 console/runtime errors)
+across all 24 routes.
+
 ## [1.2.0] — 2026-07-06
 
 ### Premium academic design-system redesign
