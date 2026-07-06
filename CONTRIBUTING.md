@@ -79,6 +79,13 @@ feature, and keep them lightweight and deterministic.
 5. For clinical content, please note your qualification/role so reviewers can
    appropriately weigh the medical accuracy.
 
+## Repository governance
+
+`main` is protected: changes land via pull request with a green CI run. See
+**[docs/BRANCH_PROTECTION.md](docs/BRANCH_PROTECTION.md)** for the exact
+recommended settings (required checks, no force-push, no deletion, conversation
+resolution, and optional review approval).
+
 ## Code of conduct
 
 Be respectful and constructive. This is an educational project serving students
