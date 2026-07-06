@@ -12,6 +12,7 @@ import {
   type FeedbackItem,
 } from '@/data/cohort';
 import { StatCard, ProgressBar, Badge, PlaceholderNote } from './ui';
+import { DemoDataBanner, ProgressRing } from './premium';
 import { IconUsers, IconStethoscope, IconBrain, IconChart, IconClipboard, IconTarget } from './icons';
 
 /** Builds a CSV string from the mock analytics and triggers a client download. */
@@ -47,15 +48,12 @@ export function FacultyDashboard() {
 
   return (
     <div className="container-page py-8">
-      <div className="mb-6 rounded-xl border border-accent-400/50 bg-accent-400/10 p-4 text-sm text-ink-700">
-        <p className="font-semibold text-accent-700">Demo analytics</p>
-        <p className="mt-1">
-          Illustrative cohort analytics for FAIMER demonstration; real analytics will be generated
-          after authenticated deployment and ethics-approved implementation.
-        </p>
-      </div>
+      <DemoDataBanner title="Demo analytics">
+        Illustrative cohort analytics for FAIMER demonstration; real analytics will be generated
+        after authenticated deployment and ethics-approved implementation.
+      </DemoDataBanner>
 
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+      <div className="mb-6 mt-6 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-ink-500">Aggregate view of cohort performance.</p>
         <button onClick={exportCSV} className="btn-primary">
           <IconChart width={16} height={16} /> Export data (CSV)
@@ -63,11 +61,17 @@ export function FacultyDashboard() {
       </div>
 
       {/* KPIs */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="card flex items-center gap-4 p-5 sm:col-span-2 lg:col-span-1">
+          <ProgressRing value={cohortSummary.meanCompletion} label="completion" />
+          <div>
+            <p className="text-sm font-medium text-ink-500">Mean completion</p>
+            <p className="text-xs text-ink-400">across all live cases</p>
+          </div>
+        </div>
         <StatCard label="Enrolled students" value={cohortSummary.students} icon={<IconUsers />} />
         <StatCard label="Active this week" value={cohortSummary.activeThisWeek} icon={<IconUsers />} />
         <StatCard label="Cases live" value={cohortSummary.casesAvailable} icon={<IconStethoscope />} />
-        <StatCard label="Mean completion" value={`${cohortSummary.meanCompletion}%`} icon={<IconChart />} />
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">

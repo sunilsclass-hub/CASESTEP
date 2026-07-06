@@ -15,10 +15,10 @@ export function Navbar() {
     href === '/' ? pathname === '/' : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ink-200 bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-ink-200/80 bg-white/80 backdrop-blur-lg">
       <nav className="container-page flex h-16 items-center justify-between" aria-label="Main">
         <Link href="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-white">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-indigo-600 text-white shadow-sm">
             <IconStethoscope width={20} height={20} />
           </span>
           <span className="flex flex-col leading-none">
@@ -34,13 +34,17 @@ export function Navbar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`rounded-md px-3 py-2 text-sm font-medium transition ${
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              className={`relative rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 ${
                 isActive(item.href)
-                  ? 'bg-brand-50 text-brand-700'
+                  ? 'text-brand-700'
                   : 'text-ink-600 hover:bg-ink-50 hover:text-ink-900'
               }`}
             >
               {item.label}
+              {isActive(item.href) && (
+                <span className="absolute inset-x-2 -bottom-[1px] h-0.5 rounded-full bg-brand-600" />
+              )}
             </Link>
           ))}
         </div>
@@ -64,14 +68,15 @@ export function Navbar() {
       </nav>
 
       {open && (
-        <div className="border-t border-ink-200 bg-white lg:hidden">
+        <div className="animate-fade-in-up border-t border-ink-200 bg-white/95 backdrop-blur lg:hidden">
           <div className="container-page grid grid-cols-2 gap-1 py-3">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className={`rounded-md px-3 py-2 text-sm font-medium ${
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                className={`rounded-md px-3 py-2.5 text-sm font-medium transition-colors ${
                   isActive(item.href) ? 'bg-brand-50 text-brand-700' : 'text-ink-700 hover:bg-ink-50'
                 }`}
               >

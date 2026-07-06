@@ -14,6 +14,7 @@ import {
 } from '@/lib/reviews';
 import type { ExpertReviewLocal } from '@/lib/storage';
 import { Badge, PlaceholderNote } from './ui';
+import { DemoDataBanner } from './premium';
 import { IconLock, IconStar, IconCheck, IconRefresh, IconChart } from './icons';
 
 /** Delphi consensus threshold: % of ratings that must be 4–5 to "agree". */
@@ -135,9 +136,8 @@ export function ExpertReview() {
     <div className="grid gap-8 lg:grid-cols-3">
       {/* Instructions + status */}
       <aside className="space-y-5">
-        <div className="rounded-xl border border-accent-400/50 bg-accent-400/10 p-4 text-sm text-ink-700">
-          <p className="font-semibold text-accent-700">Demo Expert Review Mode</p>
-          <p className="mt-1">
+        <DemoDataBanner title="Demo Expert Review Mode">
+          <p>
             No sign-in is required — this module runs entirely on <strong>illustrative demo
             data</strong> stored on this device, so it is fully usable during a FAIMER
             demonstration with no backend configured. No real expert names, ethics approval, or
@@ -148,7 +148,7 @@ export function ExpertReview() {
             consensus) remains available as an optional research-deployment mode — see the
             reviewer-identity panel below.
           </p>
-        </div>
+        </DemoDataBanner>
 
         <div className="card p-5">
           <h3 className="flex items-center gap-2 font-bold">

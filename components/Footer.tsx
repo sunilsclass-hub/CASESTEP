@@ -1,13 +1,19 @@
 import Link from 'next/link';
 import { site, nav } from '@/data/site';
+import { IconStethoscope } from './icons';
 
 export function Footer() {
   return (
     <footer className="mt-auto border-t border-ink-200 bg-white">
       <div className="container-page grid gap-8 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div className="sm:col-span-2 lg:col-span-2">
-          <p className="text-lg font-bold text-ink-900">{site.name}</p>
-          <p className="mt-2 max-w-md text-sm leading-relaxed text-ink-600">
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-indigo-600 text-white">
+              <IconStethoscope width={16} height={16} />
+            </span>
+            <p className="text-lg font-bold text-ink-900">{site.name}</p>
+          </div>
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-600">
             {site.projectTitle}.
           </p>
           <p className="mt-3 text-sm text-ink-500">

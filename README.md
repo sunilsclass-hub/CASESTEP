@@ -12,7 +12,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-optional-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Release](https://img.shields.io/badge/release-v1.1.1-0d9488)](CHANGELOG.md)
+[![Release](https://img.shields.io/badge/release-v1.2.0-0d9488)](CHANGELOG.md)
 
 **🔗 Live demo: [casestep.vercel.app](https://casestep.vercel.app/)**
 
@@ -60,6 +60,8 @@ The live site runs with **no backend required**: every page — including the St
 - 📊 **Student & Faculty dashboards** — progress, SCT/OSCE scores, reflections, cohort analytics, actionable teaching recommendations, illustrative demo-data seeding, and CSV export.
 - 🔬 **Expert Review / Delphi module** — **7 rating dimensions**, a review-quality checklist, and **live consensus** (median, IQR, % agreement, Round-2 flagging) computed **locally by default** (no backend required), with optional Supabase sync.
 - ☁️ **Optional Supabase backend** — accounts + multi-device sync + persistent expert reviews; the app runs identically without it.
+- 🔎 **Searchable, filterable Case Library** — filter by topic, difficulty, competency, or status.
+- 🎨 **Premium academic design system** — a cohesive token set (indigo/teal/slate palette, refined shadows, subtle mesh gradients), shared components (`FeatureCard`, `ProgressRing`, `Stepper`, `EmptyState`, `DemoDataBanner`), and tasteful, reduced-motion-aware micro-interactions throughout.
 - ♿ **Accessible, responsive, academic UI**; ⚡ static export deploys anywhere with no server runtime.
 
 ## Screenshots
@@ -304,13 +306,26 @@ Stated plainly, for FAIMER mentors and reviewers:
 - The optional Supabase backend is fully scaffolded (auth, sync, Expert Review persistence, a
   consensus RPC) but **is not connected to the public live demo** — the demo intentionally runs in
   pure local/offline mode so it never depends on a backend being configured correctly.
+- **Deliberately deferred design-system scope** (v1.2): dark mode, a JS animation library (Framer
+  Motion), a full shadcn/ui migration, and a command palette were not implemented in this pass —
+  each is a real, non-trivial addition, and doing any of them halfway would have added risk without
+  matching benefit. The current system uses CSS-only transitions/animations (fast, zero extra JS
+  payload, `prefers-reduced-motion`-aware) and a hand-tuned Tailwind component set instead. All are
+  reasonable follow-ups once the platform is in active use.
+- Not every one of the 11 cases has received a full bespoke visual pass beyond the shared design
+  system — Type 2 Diabetes, Hypertension, and Antenatal Care were used as the reference
+  implementations; the remaining 8 inherit the same components and styling automatically (they use
+  the identical `CasePlayer`) but have not been individually content-reviewed for this redesign.
 
 ## Roadmap
 
-**v1.1 (this release)** — Expert Review works fully without sign-in (local-first Delphi consensus,
-7 rating dimensions), Student Dashboard demo-data seeding, 5 SCT modules, 4 OSCE/OSPE stations,
-expanded About/Research/Contact pages, and a structural fix removing the last indefinite-loading
-states.
+**v1.2 (this release)** — Premium academic design system (new tokens, `FeatureCard`, `ProgressRing`,
+`Stepper`, `EmptyState`, `DemoDataBanner`), a rebuilt homepage, a searchable/filterable Case
+Library, Open Graph metadata, and a full mobile + desktop route verification pass.
+
+**v1.1** — Expert Review works fully without sign-in (local-first Delphi consensus, 7 rating
+dimensions), Student Dashboard demo-data seeding, 5 SCT modules, 4 OSCE/OSPE stations, expanded
+About/Research/Contact pages, and a structural fix removing the last indefinite-loading states.
 
 **v1.0** — 11 interactive cases, SCT, OSCE/OSPE, dashboards, optional Supabase backend.
 

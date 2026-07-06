@@ -8,13 +8,16 @@ import { site } from '@/data/site';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 
+const description =
+  'CaseStep delivers digital case-based learning modules in Community Medicine to enhance clinical reasoning in MBBS students, aligned with NMC CBME and the FAIMER project framework.';
+
 export const metadata: Metadata = {
+  metadataBase: new URL('https://casestep.vercel.app'),
   title: {
     default: `${site.name} — ${site.tagline}`,
     template: `%s · ${site.name}`,
   },
-  description:
-    'CaseStep delivers digital case-based learning modules in Community Medicine to enhance clinical reasoning in MBBS students, aligned with NMC CBME and the FAIMER project framework.',
+  description,
   keywords: [
     'Community Medicine',
     'Case-Based Learning',
@@ -26,6 +29,18 @@ export const metadata: Metadata = {
     'Medical Education',
   ],
   authors: [{ name: 'Dr. D. Sunil Kumar' }],
+  openGraph: {
+    type: 'website',
+    siteName: site.name,
+    title: `${site.name} — ${site.tagline}`,
+    description,
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${site.name} — ${site.tagline}`,
+    description,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
