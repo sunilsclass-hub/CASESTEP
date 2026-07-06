@@ -1,8 +1,19 @@
 import type { Metadata } from 'next';
-import { PageHeader, Section, Badge } from '@/components/ui';
+import { PageHeader, Section, Badge, PlaceholderNote } from '@/components/ui';
+import { DemoDataBanner } from '@/components/premium';
 import { principalInvestigator, team, site } from '@/data/site';
 import { ContactForm } from '@/components/ContactForm';
-import { IconUsers, IconTarget, IconClock } from '@/components/icons';
+import { IconUsers, IconTarget, IconClock, IconGlobe } from '@/components/icons';
+
+const piCredentials = ['MBBS', 'MD (Community Medicine)', 'PhD', 'MBA (Healthcare Management)', 'Dean (Student’s Welfare)', 'International FAIMER Fellow'];
+
+const groupIcon: Record<string, React.ReactNode> = {
+  'Co-Investigators': <IconTarget width={18} height={18} className="text-brand-600" />,
+  'External Experts / Reviewers': <IconUsers width={18} height={18} className="text-brand-600" />,
+  'FAIMER Mentors / Advisors': <IconGlobe width={18} height={18} className="text-brand-600" />,
+  'Technical Collaborators': <IconClock width={18} height={18} className="text-brand-600" />,
+  'Student & Faculty Contributors': <IconUsers width={18} height={18} className="text-brand-600" />,
+};
 
 export const metadata: Metadata = {
   title: 'Contact & Team',
@@ -33,6 +44,11 @@ export default function ContactPage() {
               <p className="mt-2 text-sm font-medium text-ink-700">
                 {principalInvestigator.affiliation}
               </p>
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {piCredentials.map((c) => (
+                  <Badge key={c}>{c}</Badge>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -44,7 +60,7 @@ export default function ContactPage() {
           {team.map((group) => (
             <div key={group.group} className="card p-6">
               <h3 className="flex items-center gap-2 font-bold text-ink-900">
-                <IconUsers width={18} height={18} className="text-brand-600" /> {group.group}
+                {groupIcon[group.group] ?? <IconUsers width={18} height={18} className="text-brand-600" />} {group.group}
               </h3>
               <ul className="mt-4 space-y-3">
                 {group.members.map((m) => (
@@ -80,6 +96,28 @@ export default function ContactPage() {
             </div>
           ))}
         </div>
+        <PlaceholderNote>
+          <span className="font-semibold text-ink-700">Consent &amp; institutional approval note: </span>
+          No collaborator, mentor, or contributor name is published on this platform without their
+          explicit consent and the appropriate institutional approval. Every placeholder above will
+          be replaced with a named, credited entry only once that process is complete.
+        </PlaceholderNote>
+      </Section>
+
+      {/* Collaboration invitation */}
+      <Section title="Collaborate with us" className="border-t border-ink-200">
+        <div className="card bg-gradient-to-br from-brand-50 to-indigo-50 p-6">
+          <h3 className="flex items-center gap-2 font-bold text-ink-900">
+            <IconGlobe width={18} height={18} className="text-brand-600" /> Open to collaboration
+          </h3>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-700">
+            {site.name} welcomes collaboration from Community Medicine faculty, medical educators,
+            FAIMER fellows and mentors, clinical-reasoning and assessment experts, and educational
+            technologists — whether to review case content, contribute to the expert (Delphi) panel,
+            co-author scholarly outputs, or pilot the platform at another institution. Please reach
+            out via the enquiry form below.
+          </p>
+        </div>
       </Section>
 
       {/* Contact block */}
@@ -108,6 +146,10 @@ export default function ContactPage() {
                 <dd className="text-ink-700">{site.institution}</dd>
               </div>
             </dl>
+            <DemoDataBanner title="Demo contact form">
+              The form alongside this card is a front-end demo — it is not yet wired to an email or
+              form-processing service, so submissions are not delivered anywhere.
+            </DemoDataBanner>
           </div>
 
           {/* Contact form (client component; placeholder backend) */}

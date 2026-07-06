@@ -30,6 +30,15 @@ export const osceIllustration: Record<string, string> = {
   'osce-diabetes-foot': '/media/osce/diabetes-foot-risk-screening.svg',
 };
 
+/** SCT modules reuse the closest case illustration — same visual language, no new assets needed. */
+export const sctIllustration: Record<string, string> = {
+  'sct-t2dm': '/media/cases/type-2-diabetes-mellitus.svg',
+  'sct-htn': '/media/cases/hypertension.svg',
+  'sct-anc': '/media/cases/antenatal-care.svg',
+  'sct-diarrhoea': '/media/cases/acute-diarrhoea.svg',
+  'sct-tb-outbreak': '/media/cases/vector-borne-outbreak.svg',
+};
+
 /** Video placeholders keyed by an id referenced from case-step data or OSCE stations. */
 export interface VideoPlaceholderSpec {
   title: string;

@@ -39,6 +39,13 @@ function exportCSV() {
   URL.revokeObjectURL(url);
 }
 
+/** Colour band for a heatmap cell — illustrative thresholds only, not a validated cut-off. */
+function heatClass(pct: number): string {
+  if (pct >= 75) return 'bg-brand-500/80 text-white';
+  if (pct >= 50) return 'bg-accent-400/60 text-ink-900';
+  return 'bg-rose-400/70 text-white';
+}
+
 export function FacultyDashboard() {
   const [feedback, setFeedback] = useState<FeedbackItem[]>(feedbackQueue);
 
@@ -155,6 +162,43 @@ export function FacultyDashboard() {
                 <p className="mt-0.5 text-xs text-ink-400">Linked case: {e.linkedCase}</p>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Topic-weakness heatmap */}
+        <div className="card p-6 lg:col-span-2">
+          <h2 className="text-lg font-bold">Topic-wise performance heatmap</h2>
+          <p className="mt-1 text-sm text-ink-500">
+            Illustrative cell colouring (green ≥75%, amber 50–74%, rose &lt;50%) — a quick scan for
+            which topics need attention.
+          </p>
+          <div className="mt-4 overflow-x-auto">
+            <table className="w-full min-w-[480px] text-left text-sm">
+              <thead>
+                <tr className="text-xs uppercase tracking-wide text-ink-500">
+                  <th className="pb-2 pr-4">Case</th>
+                  <th className="pb-2 pr-2">Completion</th>
+                  <th className="pb-2">Decision accuracy</th>
+                </tr>
+              </thead>
+              <tbody>
+                {caseStats.map((c) => (
+                  <tr key={c.slug}>
+                    <td className="py-1.5 pr-4 font-medium text-ink-800">{c.condition}</td>
+                    <td className="py-1.5 pr-2">
+                      <span className={`inline-block w-full rounded-md px-3 py-1.5 text-center font-semibold ${heatClass(c.completion)}`}>
+                        {c.completion}%
+                      </span>
+                    </td>
+                    <td className="py-1.5">
+                      <span className={`inline-block w-full rounded-md px-3 py-1.5 text-center font-semibold ${heatClass(c.avgDecisionAccuracy)}`}>
+                        {c.avgDecisionAccuracy}%
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

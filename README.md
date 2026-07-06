@@ -12,7 +12,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-optional-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Release](https://img.shields.io/badge/release-v1.3.0-0d9488)](CHANGELOG.md)
+[![Release](https://img.shields.io/badge/release-v1.3.1-0d9488)](CHANGELOG.md)
 
 **🔗 Live demo: [casestep.vercel.app](https://casestep.vercel.app/)**
 
@@ -130,7 +130,12 @@ analytics data shown on this platform are illustrative. No real patient data is 
 This mirrors the existing `DemoDataBanner` treatment already used on the dashboards and Expert
 Review page.
 
-**Current version:** v1.3.0 — Multimedia Launch Preview (see [CHANGELOG.md](CHANGELOG.md)).
+Every page — SCT, both dashboards, Research & Evaluation, About, and Contact & Team — now shares
+this same illustration/`DemoDataBanner`/disclaimer visual language, not just the Case Library and
+OSCE stations from the initial multimedia pass.
+
+**Current version:** v1.3.1 — Multimedia Launch Preview + Launch Completion Pass (see
+[CHANGELOG.md](CHANGELOG.md)).
 
 ## Technology stack
 
@@ -341,11 +346,16 @@ Stated plainly, for FAIMER mentors and reviewers:
   implementations; the remaining 8 inherit the same components and styling automatically (they use
   the identical `CasePlayer`) but have not been individually content-reviewed for this redesign.
 - **v1.3 multimedia scope, stated honestly**: illustrations and video placeholders are wired into
-  the Case Library, individual case pages, `CasePlayer`, all 4 OSCE/OSPE stations, and the homepage.
-  The SCT page, Student/Faculty dashboards, Research & Evaluation, About, and Contact pages still
-  use the v1.2 design system's icon-based visual language (no dedicated topic illustrations or
-  diagram treatments added yet) — extending the same `Illustration`/`VideoPlaceholder` components to
-  those pages is a reasonable, low-risk follow-up rather than something done partially here.
+  the Case Library, individual case pages, `CasePlayer`, all 4 OSCE/OSPE stations, the homepage, the
+  SCT module tabs, both dashboards, and the About page's framework diagrams (v1.3.0 + the v1.3.1
+  Launch Completion Pass). SCT modules reuse the closest matching case illustration rather than
+  commissioning a new asset per module — a deliberate, low-risk choice to avoid low-value duplicate
+  artwork. No new video placeholders were added outside the original three flagship cases and four
+  OSCE stations; expanding video coverage to more cases remains a reasonable follow-up.
+- The Student Dashboard's achievement badges and reflection-engagement label are simple,
+  locally-computed heuristics (thresholds on counts already shown elsewhere on the dashboard) —
+  they are not a validated instrument or an institutional credential, and are presented as
+  motivational UI only.
 
 ## Roadmap
 
