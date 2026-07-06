@@ -110,7 +110,7 @@ See the **About** and **Research & Evaluation** pages in the app for how each is
 | Icons | Custom inline SVG | No icon-library dependency |
 | Persistence | **localStorage** (default) | Offline-first source of truth |
 | Backend (optional) | **Supabase** (Postgres + Auth) | Accounts, sync, expert reviews, consensus RPC |
-| Hosting | Netlify / Vercel / any static host | `netlify.toml`, `vercel.json` included |
+| Hosting | Netlify / Vercel / any static host | `netlify.toml` included; Vercel auto-detects Next.js |
 
 ## Architecture
 
@@ -165,7 +165,8 @@ The build is pure static files, so it hosts anywhere. Two zero-config paths:
 ### Vercel (recommended)
 
 1. Push to GitHub → import the repo at [vercel.com](https://vercel.com).
-2. Next.js is auto-detected; `vercel.json` pins the build. Click **Deploy**.
+2. Next.js is auto-detected. Leave **Framework = Next.js** and **Output Directory = default**
+   (do **not** override it to `out` — Next.js `output: 'export'` is served automatically). Click **Deploy**.
 
 ```bash
 npm i -g vercel && vercel --prod
@@ -226,7 +227,7 @@ casestep/
 ├── scripts/verify.mjs        # Headless-browser verification + screenshots
 ├── .github/workflows/ci.yml  # Lint · type-check · test · build · E2E
 ├── vitest.config.ts  playwright.config.ts
-├── .env.example  netlify.toml  vercel.json  CITATION.cff
+├── .env.example  netlify.toml  CITATION.cff
 └── next.config.js  tailwind.config.ts  tsconfig.json
 ```
 
