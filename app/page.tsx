@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { CTALink, Badge } from '@/components/ui';
 import { FeatureCard } from '@/components/premium';
 import { CaseCard } from '@/components/CaseCard';
@@ -187,6 +188,13 @@ export default function HomePage() {
             Every case follows the same evidence-informed path, from first encounter to
             consolidated reflection.
           </p>
+          <Image
+            src="/media/home/learning-pathway.svg"
+            alt="Visual learning pathway: Scenario, Reasoning, Decision, Feedback, Reflection, Assessment"
+            width={640}
+            height={220}
+            className="mt-8 hidden w-full max-w-3xl sm:block"
+          />
           <ol className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
             {journey.map((s, i) => (
               <li key={s.title} className="card-interactive relative p-4">

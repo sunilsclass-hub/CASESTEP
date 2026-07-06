@@ -5,12 +5,17 @@ import type { OSCEStation } from '@/lib/types';
 import { saveOSCEResult } from '@/lib/storage';
 import { Badge } from './ui';
 import { IconClock, IconPrint, IconRefresh, IconCheck, IconStar } from './icons';
+import { Illustration, VideoPlaceholder } from './media';
+import { osceIllustration, osceVideos } from '@/data/media';
 
 export function OSCEStationCard({ station }: { station: OSCEStation }) {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [rating, setRating] = useState<number>(-1);
   const [feedback, setFeedback] = useState<Record<string, string>>({});
   const [scored, setScored] = useState(false);
+
+  const illustration = osceIllustration[station.id];
+  const video = osceVideos[station.id];
 
   const maxScore = station.checklist.reduce((s, i) => s + i.weight, 0);
   const score = station.checklist.reduce(
@@ -74,6 +79,20 @@ export function OSCEStationCard({ station }: { station: OSCEStation }) {
         </p>
         <p className="mt-1 text-sm text-ink-700">{station.candidateInstructions}</p>
       </div>
+
+      {/* Station media */}
+      {(illustration || video) && (
+        <div className="mt-6 grid gap-4 no-print sm:grid-cols-2">
+          {illustration && (
+            <Illustration
+              src={illustration}
+              alt={`Illustration for the ${station.title} OSCE station`}
+              aspect="aspect-[4/3]"
+            />
+          )}
+          {video && <VideoPlaceholder title={video.title} objective={video.objective} />}
+        </div>
+      )}
 
       {/* Checklist */}
       <div className="mt-6">

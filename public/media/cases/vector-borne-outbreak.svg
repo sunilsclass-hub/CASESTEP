@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-labelledby="outbreak-title">
+  <title id="outbreak-title">Illustration representing Vector-borne Disease Outbreak Investigation</title>
+  <circle cx="200" cy="150" r="110" fill="#fef2f2"/>
+  <circle cx="200" cy="150" r="78" fill="#fee2e2" opacity="0.7"/>
+  <!-- epidemic curve -->
+  <polyline points="130,210 155,205 175,180 195,140 215,175 235,195 260,208 285,212" fill="none" stroke="#dc2626" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="120" y1="215" x2="290" y2="215" stroke="#334155" stroke-width="2"/>
+  <!-- map pin cluster -->
+  <path d="M150 105c0 12-10 20-10 20s-10-8-10-20a10 10 0 0 1 20 0z" fill="#f59e0b"/>
+  <path d="M175 95c0 10-8 17-8 17s-8-7-8-17a8 8 0 0 1 16 0z" fill="#f59e0b"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-labelledby="uti-title">
+  <title id="uti-title">Illustration representing Urinary Tract Infection</title>
+  <circle cx="200" cy="150" r="110" fill="#eef2ff"/>
+  <circle cx="200" cy="150" r="78" fill="#e0e7ff" opacity="0.7"/>
+  <!-- abstract kidney shape -->
+  <path d="M175 110c-22 0-34 22-30 44 3 16-8 20-8 36 0 20 18 32 36 26 10-4 12-16 22-16s12 12 22 16c18 6 36-6 36-26 0-16-11-20-8-36 4-22-8-44-30-44-14 0-16 10-20 10s-6-10-20-10z" fill="#c7d2fe" stroke="#4338ca" stroke-width="3"/>
+  <circle cx="175" cy="150" r="6" fill="#4f46e5"/>
+  <circle cx="225" cy="150" r="6" fill="#4f46e5"/>
+  <line x1="200" y1="216" x2="200" y2="245" stroke="#4338ca" stroke-width="4" stroke-linecap="round"/>
+</svg>

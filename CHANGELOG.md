@@ -4,6 +4,49 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.0] — 2026-07-06
+
+### Multimedia launch preview
+
+**Media system** (`components/media.tsx`, `data/media.ts`) — a small, reusable
+set of primitives so no component ever hardcodes a media path:
+- `Illustration` — a captioned `next/image` panel with a default
+  "Educational illustration — no real patient data used" note.
+- `VideoPlaceholder` — a clearly-labelled card (title, learning objective,
+  planned duration, transcript/captions "to be added") for a planned
+  institution-approved demonstration video. No video file is embedded
+  anywhere on the platform.
+- `LaunchBanner` — a site-wide strip ("FAIMER demonstration mode...") now
+  mounted once in `app/layout.tsx`, above the navbar on every route.
+- `data/media.ts` centralises the case-slug → illustration/video lookups
+  (`caseIllustration`, `caseVideos`) and OSCE-station equivalents
+  (`osceIllustration`, `osceVideos`).
+
+**Original illustrations** (`public/media/**/*.svg`) — 13 new hand-authored,
+abstract/iconographic SVGs (one per case topic, one for the diabetic-foot
+OSCE station, one 6-stage learning-pathway diagram for the homepage).
+All are original flat-design vector art in the existing brand palette;
+none depict real people, photographs, or third-party/copyrighted content —
+by construction there is nothing to clear for copyright or patient consent.
+
+**Case Library & case pages** — `CaseCard` now shows a topic illustration
+thumbnail; the case-detail header (`app/cases/[slug]/page.tsx`) shows a
+larger illustration alongside the title/summary; `CasePlayer` upgrades its
+existing image/video media steps to the new `Illustration`/`VideoPlaceholder`
+components and adds a two-video placeholder gallery at the management step
+for the three flagship cases (Type 2 Diabetes, Hypertension, Antenatal Care).
+
+**OSCE/OSPE** — `OSCEStationCard` now renders a station illustration and a
+video placeholder (walkthrough demonstration) for all four stations.
+
+**Homepage** — the learning-pathway SVG diagram is now shown above the
+existing 6-step journey grid as a visual companion.
+
+No case data, step counts, decision options, or scoring logic changed in
+this release — only presentation. Verified with the full unit test suite,
+a static build, and a headless-browser pass (0 console/runtime errors)
+across all 24 routes.
+
 ## [1.2.0] — 2026-07-06
 
 ### Premium academic design-system redesign
