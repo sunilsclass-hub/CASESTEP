@@ -75,6 +75,16 @@ describe('Expert Review form rendering', () => {
 });
 
 describe('student dashboard loading', () => {
+  it('renders meaningful content synchronously on first render — never an indefinite loading state', () => {
+    // Regression test for the production bug where the dashboard could be
+    // stuck on "Loading your progress…" forever: useStore() must resolve its
+    // initial value synchronously (no effect-only population), so the first
+    // render already contains real content, before any `await`/microtask.
+    const { container } = render(<StudentDashboard />);
+    expect(container.textContent).not.toMatch(/Loading your progress/i);
+    expect(container.textContent).toMatch(/Cases completed/i);
+  });
+
   it('renders the progress view after mount', async () => {
     render(<StudentDashboard />);
     expect(await screen.findByText(/Case progress/i)).toBeInTheDocument();

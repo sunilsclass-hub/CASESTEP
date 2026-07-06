@@ -136,12 +136,17 @@ export function ExpertReview() {
       {/* Instructions + status */}
       <aside className="space-y-5">
         <div className="rounded-xl border border-accent-400/50 bg-accent-400/10 p-4 text-sm text-ink-700">
-          <p className="font-semibold text-accent-700">Demo mode</p>
+          <p className="font-semibold text-accent-700">Demo Expert Review Mode</p>
           <p className="mt-1">
-            This module runs on <strong>illustrative demo data</strong> stored on this device — no
-            real expert names, ethics approval, or institutional Delphi data are used. It will be
-            replaced by an authenticated expert panel and real Round-1/Round-2 data after ethics
-            approval and expert recruitment.
+            No sign-in is required — this module runs entirely on <strong>illustrative demo
+            data</strong> stored on this device, so it is fully usable during a FAIMER
+            demonstration with no backend configured. No real expert names, ethics approval, or
+            institutional Delphi data are used anywhere here.
+          </p>
+          <p className="mt-2 text-xs text-ink-500">
+            The secure, sign-in-based workflow (Supabase-backed submissions + cross-device
+            consensus) remains available as an optional research-deployment mode — see the
+            reviewer-identity panel below.
           </p>
         </div>
 

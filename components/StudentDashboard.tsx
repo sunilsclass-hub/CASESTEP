@@ -19,14 +19,11 @@ import {
 } from './icons';
 
 export function StudentDashboard() {
+  // useStore() always resolves synchronously (see lib/useStore.ts) — there is
+  // no loading gate here, so this component always renders meaningful content
+  // (a populated dashboard, or the "get started" prompt below) on first paint.
   const store = useStore();
   const { enabled, user } = useAuth();
-
-  if (!store) {
-    return (
-      <div className="container-page py-16 text-center text-ink-500">Loading your progress…</div>
-    );
-  }
 
   const readyCases = getReadyCases();
   const completedCases = readyCases.filter((c) => store.cases[c.slug]?.completed);

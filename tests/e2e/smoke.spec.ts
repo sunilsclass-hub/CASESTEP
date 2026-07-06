@@ -88,6 +88,34 @@ test('Student dashboard loads its progress view', async ({ page }) => {
   await expect(page.getByText(/Cases completed/i)).toBeVisible();
 });
 
+test('Student dashboard never shows an indefinite loading state (production regression)', async ({ page }) => {
+  const consoleErrors: string[] = [];
+  const pageErrors: string[] = [];
+  page.on('console', (m) => {
+    if (m.type() === 'error') consoleErrors.push(m.text());
+  });
+  page.on('pageerror', (e) => pageErrors.push(String(e)));
+
+  // A cold navigation (not a client-side transition) is the scenario that
+  // exposed the production bug: the server-rendered HTML must never contain
+  // an un-escapable "Loading your progress…" placeholder.
+  const response = await page.goto('/dashboard/student/', { waitUntil: 'domcontentloaded' });
+  expect(response?.status()).toBe(200);
+
+  // Assert immediately (before hydration necessarily completes) that the old
+  // stuck-loading text is not present in the DOM at all.
+  await expect(page.getByText(/Loading your progress/i)).toHaveCount(0);
+
+  // And that meaningful content is visible once the page settles.
+  await page.waitForLoadState('networkidle');
+  await expect(page.getByText(/Cases completed/i)).toBeVisible();
+  await expect(page.getByText(/Get started|Recently completed case/i)).toBeVisible();
+
+  const realConsoleErrors = consoleErrors.filter((e) => !/favicon|404|Failed to load resource/i.test(e));
+  expect(realConsoleErrors).toEqual([]);
+  expect(pageErrors).toEqual([]);
+});
+
 test('Student dashboard demo-progress seeding populates recommended/recent cards', async ({ page }) => {
   await page.goto('/dashboard/student/');
   await expect(page.getByText(/No activity yet on this device/i)).toBeVisible();

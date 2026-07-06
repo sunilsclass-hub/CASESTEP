@@ -66,13 +66,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     let mounted = true;
 
-    supabase.auth.getSession().then(({ data }: { data: { session: Session | null } }) => {
-      if (!mounted) return;
-      if (data.session?.user) {
-        onLogin(data.session.user);
-      }
-      setLoading(false);
-    });
+    // Belt-and-braces: if the Supabase project is paused/unreachable and the
+    // network request to getSession() never settles, this ensures `loading`
+    // still resolves so nothing in the UI can wait on it forever.
+    const safety = setTimeout(() => {
+      if (mounted) setLoading(false);
+    }, 4000);
+
+    supabase.auth
+      .getSession()
+      .then(({ data }: { data: { session: Session | null } }) => {
+        if (!mounted) return;
+        if (data.session?.user) {
+          onLogin(data.session.user);
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        // Network/config error reaching Supabase — fail open to the
+        // signed-out, local-only experience rather than hanging.
+        if (mounted) setLoading(false);
+      })
+      .finally(() => clearTimeout(safety));
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
@@ -85,6 +100,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     return () => {
       mounted = false;
+      clearTimeout(safety);
       sub.subscription.unsubscribe();
     };
   }, [onLogin]);

@@ -12,7 +12,9 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-optional-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Release](https://img.shields.io/badge/release-v1.1.0-0d9488)](CHANGELOG.md)
+[![Release](https://img.shields.io/badge/release-v1.1.1-0d9488)](CHANGELOG.md)
+
+**🔗 Live demo: [casestep.vercel.app](https://casestep.vercel.app/)**
 
 </div>
 
@@ -21,6 +23,10 @@
 CaseStep delivers **digital, case-based learning** for MBBS students in Community Medicine. Instead of memorising facts, students work through authentic patient problems as **interactive, branching journeys** — generating hypotheses, weighing evidence, deciding under uncertainty, and connecting the individual patient to the health of the community. It combines branching cases, **Script Concordance Testing**, **OSCE/OSPE** assessment, reflection, and learning analytics in one platform, aligned with the **NMC Competency-Based Medical Education (CBME)** curriculum.
 
 > **Principal Investigator:** Dr. D. Sunil Kumar — MBBS, MD (Community Medicine), PhD, MBA (Healthcare Management). Dean (Student's Welfare) · Professor of Community Medicine · International FAIMER Fellow, JSS AHER, Mysuru.
+
+### Demo mode, at a glance
+
+The live site runs with **no backend required**: every page — including the Student Dashboard, Faculty Dashboard, and Expert Review — works fully offline in the browser using `localStorage`, with **clearly labelled illustrative/demo data** wherever real data would otherwise be expected (cohort analytics, expert consensus, sample learner progress). No real student records, real expert identities, real ethics-approval numbers, or real Delphi results are used anywhere. An **optional Supabase backend** (see [below](#optional-supabase-backend)) adds real accounts and cross-device sync when you're ready for an authenticated, ethics-approved deployment — the same UI serves both modes.
 
 <div align="center">
 
@@ -281,15 +287,38 @@ npm run build       # production static export → ./out
 
 If these succeed locally, the primary CI job will pass.
 
+## Known limitations
+
+Stated plainly, for FAIMER mentors and reviewers:
+
+- **All cohort/expert/learner data shown by default is illustrative demo data**, clearly labelled
+  as such (Faculty Dashboard analytics, Expert Review consensus, and the Student Dashboard's
+  optional "Load illustrative demo progress" seed). None of it is real.
+- **SCT modules currently cover 5 of the 11 case topics** (Type 2 Diabetes, Hypertension, Antenatal
+  Care, Acute Diarrhoea, and Tuberculosis/fever-outbreak reasoning); the remaining topics are
+  planned (see Roadmap).
+- **OSCE/OSPE covers 4 stations**; expert-panel SCT scoring keys and Faculty Dashboard analytics
+  are illustrative until a real expert panel and a real, ethics-approved pilot cohort exist.
+- **No ethics-approval number, real expert name, or real student record appears anywhere** in this
+  codebase or the live demo — by design, until formal approval and recruitment are complete.
+- The optional Supabase backend is fully scaffolded (auth, sync, Expert Review persistence, a
+  consensus RPC) but **is not connected to the public live demo** — the demo intentionally runs in
+  pure local/offline mode so it never depends on a backend being configured correctly.
+
 ## Roadmap
 
-**v1.0 (this release)** — 11 interactive cases, SCT, OSCE/OSPE, dashboards, Expert Review with live
-Delphi consensus, optional Supabase backend.
+**v1.1 (this release)** — Expert Review works fully without sign-in (local-first Delphi consensus,
+7 rating dimensions), Student Dashboard demo-data seeding, 5 SCT modules, 4 OSCE/OSPE stations,
+expanded About/Research/Contact pages, and a structural fix removing the last indefinite-loading
+states.
+
+**v1.0** — 11 interactive cases, SCT, OSCE/OSPE, dashboards, optional Supabase backend.
 
 **Planned**
-- [ ] Author SCT items and OSCE stations for all 11 case topics.
-- [ ] Faculty analytics from real student data (normalised tables + faculty role/RLS).
-- [ ] Expert-panel scoring keys for SCT from a completed Delphi round.
+- [ ] Author SCT items and OSCE stations for the remaining case topics.
+- [ ] Faculty analytics from real student data (normalised tables + faculty role/RLS) after an
+      authenticated, ethics-approved deployment.
+- [ ] Expert-panel scoring keys for SCT from a completed real Delphi round.
 - [ ] Media: real clinical images/videos in place of placeholders.
 - [ ] Localisation / multi-language support.
 - [ ] Rich charting on dashboards (time-series, skills radar).

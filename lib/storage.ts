@@ -70,6 +70,13 @@ export interface Store {
 
 const empty: Store = { cases: {}, sct: {}, osce: {}, expertReviews: [] };
 
+/** A fresh, empty progress store — the deterministic value used for both the
+ * server-rendered markup and the client's first paint (see lib/useStore.ts),
+ * so there is never a server/client markup mismatch to recover from. */
+export function emptyStore(): Store {
+  return { cases: {}, sct: {}, osce: {}, expertReviews: [] };
+}
+
 /**
  * Optional cloud-sync hook. The auth layer (lib/auth.tsx) registers a handler
  * here when a user signs in; every local write is then mirrored to Supabase.

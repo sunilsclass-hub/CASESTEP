@@ -47,12 +47,16 @@ export function FacultyDashboard() {
 
   return (
     <div className="container-page py-8">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm text-ink-500">
-          Aggregate view of cohort performance.{' '}
-          <span className="font-medium text-ink-600">Demo data</span> — wired to a database in the
-          research deployment.
+      <div className="mb-6 rounded-xl border border-accent-400/50 bg-accent-400/10 p-4 text-sm text-ink-700">
+        <p className="font-semibold text-accent-700">Demo analytics</p>
+        <p className="mt-1">
+          Illustrative cohort analytics for FAIMER demonstration; real analytics will be generated
+          after authenticated deployment and ethics-approved implementation.
         </p>
+      </div>
+
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-ink-500">Aggregate view of cohort performance.</p>
         <button onClick={exportCSV} className="btn-primary">
           <IconChart width={16} height={16} /> Export data (CSV)
         </button>
