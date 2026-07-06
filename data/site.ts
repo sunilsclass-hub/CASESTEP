@@ -38,9 +38,17 @@ export const principalInvestigator: TeamMember = {
   affiliation: 'JSS Academy of Higher Education & Research, Mysuru',
 };
 
-export const team: { group: string; members: TeamMember[] }[] = [
+export interface TeamGroup {
+  group: string;
+  /** Shown on each placeholder card in this group instead of a generic note. */
+  placeholderNote: string;
+  members: TeamMember[];
+}
+
+export const team: TeamGroup[] = [
   {
     group: 'Co-Investigators',
+    placeholderNote: 'To be added after institutional approval.',
     members: [
       { name: 'Co-Investigator (Community Medicine)', role: 'Co-Investigator', placeholder: true },
       { name: 'Co-Investigator (Medical Education)', role: 'Co-Investigator', placeholder: true },
@@ -48,6 +56,7 @@ export const team: { group: string; members: TeamMember[] }[] = [
   },
   {
     group: 'External Experts / Reviewers',
+    placeholderNote: 'External expert details to be updated after consent.',
     members: [
       { name: 'Subject Expert — Community Medicine', role: 'External Expert', placeholder: true },
       { name: 'Assessment / Clinical Reasoning Expert', role: 'External Expert', placeholder: true },
@@ -55,6 +64,7 @@ export const team: { group: string; members: TeamMember[] }[] = [
   },
   {
     group: 'FAIMER Mentors / Advisors',
+    placeholderNote: 'To be added after institutional approval.',
     members: [
       { name: 'FAIMER Faculty Mentor', role: 'Mentor / Advisor', placeholder: true },
       { name: 'FAIMER Project Advisor', role: 'Mentor / Advisor', placeholder: true },
@@ -62,9 +72,18 @@ export const team: { group: string; members: TeamMember[] }[] = [
   },
   {
     group: 'Technical Collaborators',
+    placeholderNote: 'To be added as collaborators join the project.',
     members: [
       { name: 'Educational Technologist', role: 'Technical Collaborator', placeholder: true },
       { name: 'Data / Analytics Support', role: 'Technical Collaborator', placeholder: true },
+    ],
+  },
+  {
+    group: 'Student & Faculty Contributors',
+    placeholderNote: 'To be added after the pilot cohort is enrolled.',
+    members: [
+      { name: 'Student Contributor (pilot cohort)', role: 'Student Contributor', placeholder: true },
+      { name: 'Faculty Facilitator (Community Medicine)', role: 'Faculty Contributor', placeholder: true },
     ],
   },
 ];

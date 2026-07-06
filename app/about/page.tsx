@@ -41,6 +41,46 @@ const addie = [
   ['Evaluate', 'Formative and summative evaluation; iterate.'],
 ];
 
+const cbmeDomains = [
+  ['Knowledge', 'Case investigations, differential reasoning, and management steps rehearse applied biomedical and public-health knowledge, not recall alone.'],
+  ['Skill', 'OSCE/OSPE stations assess hands-on and interpretive skills (BP measurement, foot-risk screening, growth-chart interpretation) with weighted checklists.'],
+  ['Communication', 'Counseling steps within cases and OSCE stations explicitly assess patient communication and shared understanding.'],
+  ['Professionalism', 'Reflection prompts after each case cultivate self-awareness, humility about uncertainty, and a public-health orientation to individual care.'],
+];
+
+const tpack = [
+  ['Technology', 'A branching digital-case engine, instant formative feedback, and analytics dashboards — chosen because they enable rehearsal and feedback at a scale lectures cannot.'],
+  ['Pedagogy', 'Case-based learning, script-concordance theory, and constructive alignment (competency → activity → assessment) drive the design, not the tool.'],
+  ['Content', 'NMC CBME Community Medicine competencies — NCDs, MCH, communicable disease, emergencies, occupational/environmental health — authored by a subject-matter specialist.'],
+];
+
+const constructiveAlignment = [
+  {
+    competency: 'Diagnose & manage Type 2 Diabetes (CM 3.4)',
+    activity: 'Type 2 Diabetes digital case — branching decisions on diagnosis and first-line therapy',
+    assessment: 'In-case decision scoring + SCT item on diagnostic thresholds',
+    evidence: 'Case-decision accuracy; SCT concordance score',
+  },
+  {
+    competency: 'Measure BP and counsel on hypertension (CM 3.4)',
+    activity: 'Hypertension case + BP-measurement OSCE station',
+    assessment: 'Weighted OSCE checklist + global rating scale',
+    evidence: 'OSCE station score; examiner global rating',
+  },
+  {
+    competency: 'Provide risk-stratified antenatal care (CM 9.x)',
+    activity: 'Antenatal Care case + danger-sign counseling OSCE station',
+    assessment: 'Branching decisions + OSCE checklist on danger-sign counseling',
+    evidence: 'Case completion; OSCE checklist score',
+  },
+  {
+    competency: 'Investigate an outbreak (CM 8.x)',
+    activity: 'Vector-borne outbreak-investigation case',
+    assessment: 'Decision points on case definition and control measures',
+    evidence: 'Case-decision accuracy; reflection quality',
+  },
+];
+
 export default function AboutPage() {
   return (
     <>
@@ -183,6 +223,70 @@ export default function AboutPage() {
               ))}
             </ol>
           </div>
+        </div>
+      </Section>
+
+      {/* NMC CBME domain alignment */}
+      <Section title="NMC CBME domain alignment" description="How each competency domain is addressed by the platform's activities." className="border-t border-ink-200">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[640px] text-left text-sm">
+            <thead>
+              <tr className="border-b border-ink-200 text-xs uppercase tracking-wide text-ink-500">
+                <th className="w-40 py-2 pr-4">Domain</th>
+                <th className="py-2">How CaseStep addresses it</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-ink-100">
+              {cbmeDomains.map(([domain, text]) => (
+                <tr key={domain}>
+                  <td className="py-3 pr-4 align-top font-semibold text-ink-900">{domain}</td>
+                  <td className="py-3 align-top text-ink-700">{text}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Section>
+
+      {/* TPACK */}
+      <Section title="TPACK — technology in service of pedagogy and content" className="border-t border-ink-200">
+        <div className="grid gap-4 sm:grid-cols-3">
+          {tpack.map(([k, text]) => (
+            <div key={k} className="card p-5">
+              <Badge tone="brand">{k}</Badge>
+              <p className="mt-3 text-sm leading-relaxed text-ink-700">{text}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Constructive alignment */}
+      <Section
+        title="Constructive alignment"
+        description="Competency, learning activity, assessment, and evidence are deliberately linked for every module — illustrative examples below."
+        className="border-t border-ink-200"
+      >
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[860px] text-left text-sm">
+            <thead>
+              <tr className="border-b border-ink-200 text-xs uppercase tracking-wide text-ink-500">
+                <th className="py-2 pr-4">Competency</th>
+                <th className="py-2 pr-4">Learning activity</th>
+                <th className="py-2 pr-4">Assessment</th>
+                <th className="py-2">Evidence collected</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-ink-100">
+              {constructiveAlignment.map((row) => (
+                <tr key={row.competency}>
+                  <td className="py-3 pr-4 align-top font-medium text-ink-900">{row.competency}</td>
+                  <td className="py-3 pr-4 align-top text-ink-700">{row.activity}</td>
+                  <td className="py-3 pr-4 align-top text-ink-700">{row.assessment}</td>
+                  <td className="py-3 align-top text-ink-700">{row.evidence}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </Section>
     </>

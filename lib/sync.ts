@@ -23,6 +23,7 @@ export function mergeStores(a: Store, b: Store): Store {
     cases: { ...a.cases },
     sct: { ...a.sct },
     osce: { ...a.osce },
+    expertReviews: [...a.expertReviews],
   };
   for (const [k, v] of Object.entries(b.cases)) {
     if (!merged.cases[k] || v.updatedAt > merged.cases[k].updatedAt) merged.cases[k] = v;
@@ -32,6 +33,14 @@ export function mergeStores(a: Store, b: Store): Store {
   }
   for (const [k, v] of Object.entries(b.osce)) {
     if (!merged.osce[k] || v.updatedAt > merged.osce[k].updatedAt) merged.osce[k] = v;
+  }
+  // Expert reviews are an append-only demo log — union by id rather than overwrite.
+  const knownIds = new Set(merged.expertReviews.map((r) => r.id));
+  for (const r of b.expertReviews) {
+    if (!knownIds.has(r.id)) {
+      merged.expertReviews.push(r);
+      knownIds.add(r.id);
+    }
   }
   return merged;
 }

@@ -4,11 +4,19 @@ import Link from 'next/link';
 import { useStore } from '@/lib/useStore';
 import { useAuth } from '@/lib/auth';
 import { resetAll } from '@/lib/storage';
-import { cases, getReadyCases } from '@/data/cases';
-import { sctModules } from '@/data/sct';
-import { getStation } from '@/data/osce';
+import { loadIllustrativeDemoProgress } from '@/lib/demoSeed';
+import { getReadyCases } from '@/data/cases';
 import { StatCard, ProgressBar, Badge, PlaceholderNote } from './ui';
-import { IconStethoscope, IconBrain, IconClipboard, IconBook, IconRefresh, IconCheck } from './icons';
+import {
+  IconStethoscope,
+  IconBrain,
+  IconClipboard,
+  IconBook,
+  IconRefresh,
+  IconCheck,
+  IconArrowRight,
+  IconTarget,
+} from './icons';
 
 export function StudentDashboard() {
   const store = useStore();
@@ -76,8 +84,94 @@ export function StudentDashboard() {
     return { label: c.condition, pct: Math.round(frac * 100) };
   });
 
+  const hasAnyProgress =
+    Object.keys(store.cases).length > 0 || sctResults.length > 0 || osceResults.length > 0;
+
+  // Most recently completed case (for the "recently completed" card).
+  const recentlyCompleted = completedCases
+    .map((c) => ({ c, updatedAt: store.cases[c.slug]?.updatedAt ?? 0 }))
+    .sort((a, b) => b.updatedAt - a.updatedAt)[0]?.c;
+
+  // First not-yet-completed ready case, in library order (for "next recommended").
+  const nextRecommended = readyCases.find((c) => !store.cases[c.slug]?.completed);
+
   return (
     <div className="container-page py-8">
+      {/* Empty-state onboarding — only shown before any real progress exists */}
+      {!hasAnyProgress && (
+        <div className="mb-8 rounded-2xl border border-brand-200 bg-brand-50 p-6">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wide text-brand-700">
+                Get started
+              </p>
+              <h2 className="mt-1 text-xl font-bold text-ink-900">
+                No activity yet on this device
+              </h2>
+              <p className="mt-1 max-w-xl text-sm text-ink-600">
+                Start your first case to begin building a real profile, or load illustrative demo
+                progress to preview what a populated dashboard looks like (clearly labelled — not
+                real student data, and clearable at any time).
+              </p>
+            </div>
+            <div className="flex flex-shrink-0 flex-col gap-2 sm:flex-row">
+              <Link href="/cases" className="btn-primary whitespace-nowrap">
+                Start your first case <IconArrowRight width={16} height={16} />
+              </Link>
+              <button
+                onClick={() => loadIllustrativeDemoProgress()}
+                className="btn-secondary whitespace-nowrap"
+              >
+                Load illustrative demo progress
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Recently completed / next recommended */}
+      {hasAnyProgress && (
+        <div className="mb-8 grid gap-4 sm:grid-cols-2">
+          <div className="card p-5">
+            <p className="flex items-center gap-2 text-sm font-semibold text-ink-500">
+              <IconCheck width={16} height={16} className="text-brand-600" /> Recently completed case
+            </p>
+            {recentlyCompleted ? (
+              <>
+                <p className="mt-2 text-lg font-bold text-ink-900">{recentlyCompleted.condition}</p>
+                <p className="mt-1 text-sm text-ink-500">{recentlyCompleted.competency.code}</p>
+                <Link href={`/cases/${recentlyCompleted.slug}`} className="link mt-3 inline-flex items-center gap-1 text-sm">
+                  Review case <IconArrowRight width={14} height={14} />
+                </Link>
+              </>
+            ) : (
+              <p className="mt-2 text-sm text-ink-500">No case completed yet — you&apos;re in progress.</p>
+            )}
+          </div>
+          <div className="card p-5">
+            <p className="flex items-center gap-2 text-sm font-semibold text-ink-500">
+              <IconTarget width={16} height={16} className="text-accent-600" /> Next recommended case
+            </p>
+            {nextRecommended ? (
+              <>
+                <p className="mt-2 text-lg font-bold text-ink-900">{nextRecommended.condition}</p>
+                <p className="mt-1 text-sm text-ink-500">
+                  {nextRecommended.difficulty} · {nextRecommended.minutes} min
+                </p>
+                <Link href={`/cases/${nextRecommended.slug}`} className="btn-primary mt-3">
+                  {store.cases[nextRecommended.slug] ? 'Continue case' : 'Start case'}{' '}
+                  <IconArrowRight width={14} height={14} />
+                </Link>
+              </>
+            ) : (
+              <p className="mt-2 text-sm font-medium text-brand-700">
+                All ready cases complete — try the SCT or OSCE/OSPE modules next!
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* KPI row */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard

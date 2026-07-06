@@ -7,11 +7,12 @@ import {
   sctStats,
   osceStats,
   commonReasoningErrors,
+  teachingRecommendations,
   feedbackQueue,
   type FeedbackItem,
 } from '@/data/cohort';
 import { StatCard, ProgressBar, Badge, PlaceholderNote } from './ui';
-import { IconUsers, IconStethoscope, IconBrain, IconChart, IconClipboard } from './icons';
+import { IconUsers, IconStethoscope, IconBrain, IconChart, IconClipboard, IconTarget } from './icons';
 
 /** Builds a CSV string from the mock analytics and triggers a client download. */
 function exportCSV() {
@@ -25,6 +26,7 @@ function exportCSV() {
     ...sctStats.map((s) => ['SCT', `${s.module} — mean %`, String(s.meanScore)]),
     ...osceStats.map((o) => ['OSCE', `${o.station} — mean %`, String(o.meanScore)]),
     ...commonReasoningErrors.map((e) => ['Reasoning error', e.error, `${e.frequency}%`]),
+    ...teachingRecommendations.map((r) => ['Teaching recommendation', r.title, r.action]),
   ];
   const csv = rows.map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(',')).join('\n');
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -146,6 +148,26 @@ export function FacultyDashboard() {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* Actionable teaching recommendations */}
+      <div className="mt-8 card p-6">
+        <h2 className="flex items-center gap-2 text-lg font-bold">
+          <IconTarget width={18} height={18} className="text-brand-600" /> Actionable teaching recommendations
+        </h2>
+        <p className="mt-1 text-sm text-ink-500">
+          Illustrative, derived from the reasoning-error pattern above — what to do about it in the
+          next facilitated session.
+        </p>
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          {teachingRecommendations.map((r) => (
+            <div key={r.title} className="rounded-xl border border-ink-200 p-4">
+              <p className="font-semibold text-ink-900">{r.title}</p>
+              <p className="mt-1 text-xs text-ink-500">{r.rationale}</p>
+              <p className="mt-2 text-sm text-ink-700">{r.action}</p>
+            </div>
+          ))}
         </div>
       </div>
 

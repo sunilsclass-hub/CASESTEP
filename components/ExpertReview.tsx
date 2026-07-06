@@ -1,25 +1,20 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getReadyCases } from '@/data/cases';
 import { useAuth } from '@/lib/auth';
 import {
+  reviewDimensions,
   submitExpertReview,
-  getMyReviews,
-  getConsensus,
-  type ExpertReviewRow,
-  type ConsensusRow,
+  getLocalExpertReviews,
+  clearLocalExpertReviews,
+  computeLocalConsensus,
+  exportLocalReviewsCSV,
+  type ReviewDimensionKey,
 } from '@/lib/reviews';
+import type { ExpertReviewLocal } from '@/lib/storage';
 import { Badge, PlaceholderNote } from './ui';
-import { IconLock, IconStar, IconCheck, IconRefresh } from './icons';
-
-const ratingDims = [
-  { key: 'relevance', label: 'Relevance', help: 'Is the case relevant to NMC CBME competencies and community practice?' },
-  { key: 'validity', label: 'Content validity', help: 'Is the clinical content accurate, current, and complete?' },
-  { key: 'feasibility', label: 'Feasibility', help: 'Is the case feasible to implement in the UG posting?' },
-] as const;
-
-type DimKey = (typeof ratingDims)[number]['key'];
+import { IconLock, IconStar, IconCheck, IconRefresh, IconChart } from './icons';
 
 /** Delphi consensus threshold: % of ratings that must be 4–5 to "agree". */
 const CONSENSUS_THRESHOLD = 75;
@@ -28,6 +23,9 @@ const CONSENSUS_THRESHOLD = 75;
 function fmt(n: number): string {
   return Number.isInteger(n) ? String(n) : n.toFixed(1);
 }
+
+const zeroRatings = (): Record<ReviewDimensionKey, number> =>
+  Object.fromEntries(reviewDimensions.map((d) => [d.key, 0])) as Record<ReviewDimensionKey, number>;
 
 const checklist = [
   'Learning objectives are clear and competency-linked.',
@@ -38,154 +36,176 @@ const checklist = [
   'Language and level are appropriate for MBBS students.',
 ];
 
-type SubmitState = 'idle' | 'saving' | 'saved-cloud' | 'saved-local' | 'error';
+type SubmitState = 'idle' | 'saving' | 'saved' | 'error';
 
 export function ExpertReview() {
   const cases = getReadyCases();
   const { enabled, user } = useAuth();
   const [selected, setSelected] = useState(cases[0].slug);
-  const [ratings, setRatings] = useState<Record<DimKey, number>>({
-    relevance: 0,
-    validity: 0,
-    feasibility: 0,
-  });
+  const [reviewerLabel, setReviewerLabel] = useState('Reviewer A');
+  const [ratings, setRatings] = useState<Record<ReviewDimensionKey, number>>(zeroRatings());
   const [checks, setChecks] = useState<Record<number, boolean>>({});
   const [suggestion, setSuggestion] = useState('');
   const [state, setState] = useState<SubmitState>('idle');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [myReviews, setMyReviews] = useState<ExpertReviewRow[]>([]);
-  const [consensus, setConsensus] = useState<ConsensusRow[]>([]);
+  const [cloudSaved, setCloudSaved] = useState(false);
+  const [allLocalReviews, setAllLocalReviews] = useState<ExpertReviewLocal[]>([]);
 
   const active = cases.find((c) => c.slug === selected)!;
-  const allRated = ratings.relevance > 0 && ratings.validity > 0 && ratings.feasibility > 0;
+  const allRated = reviewDimensions.every((d) => ratings[d.key] > 0);
 
-  // Consensus display helpers.
-  const liveConsensus = enabled && !!user;
-  const consensusByDim = consensus.reduce<Partial<Record<DimKey, ConsensusRow>>>((acc, row) => {
-    acc[row.dimension] = row;
-    return acc;
-  }, {});
-  const consensusCount = consensus.reduce((max, r) => Math.max(max, r.n), 0);
-
-  const refreshMyReviews = useCallback(async () => {
-    if (enabled && user) setMyReviews(await getMyReviews());
-    else setMyReviews([]);
-  }, [enabled, user]);
-
-  const refreshConsensus = useCallback(async () => {
-    if (enabled && user) setConsensus(await getConsensus(selected));
-    else setConsensus([]);
-  }, [enabled, user, selected]);
+  const refreshLocal = useCallback(() => {
+    setAllLocalReviews(getLocalExpertReviews());
+  }, []);
 
   useEffect(() => {
-    refreshMyReviews();
-  }, [refreshMyReviews]);
+    refreshLocal();
+  }, [refreshLocal]);
 
-  useEffect(() => {
-    refreshConsensus();
-  }, [refreshConsensus]);
+  const reviewsForCase = useMemo(
+    () => allLocalReviews.filter((r) => r.caseSlug === selected),
+    [allLocalReviews, selected],
+  );
+  const consensus = useMemo(() => computeLocalConsensus(reviewsForCase), [reviewsForCase]);
+  const consensusByDim = useMemo(
+    () => Object.fromEntries(consensus.map((c) => [c.dimension, c])),
+    [consensus],
+  );
 
   function resetForm() {
     setState('idle');
     setErrorMsg(null);
-    setRatings({ relevance: 0, validity: 0, feasibility: 0 });
+    setRatings(zeroRatings());
     setChecks({});
     setSuggestion('');
+    setCloudSaved(false);
   }
 
   async function submit() {
     setErrorMsg(null);
     if (!allRated) {
-      setErrorMsg('Please rate all three dimensions (relevance, validity, feasibility) before submitting.');
+      setErrorMsg('Please rate all seven dimensions before submitting.');
+      return;
+    }
+    if (!reviewerLabel.trim()) {
+      setErrorMsg('Please enter a reviewer label (e.g. "Reviewer A") — no real names needed for this demo.');
       return;
     }
 
-    // Build a stable, human-readable checklist map (item text -> checked).
     const checklistMap: Record<string, boolean> = {};
     checklist.forEach((item, i) => {
       checklistMap[item] = Boolean(checks[i]);
     });
 
-    // No backend configured, or not signed in → local acknowledgement only.
-    if (!enabled || !user) {
-      setState('saved-local');
-      return;
-    }
-
     setState('saving');
-    const res = await submitExpertReview(user.id, {
-      caseSlug: selected,
-      relevance: ratings.relevance,
-      validity: ratings.validity,
-      feasibility: ratings.feasibility,
-      checklist: checklistMap,
-      comments: suggestion,
-      round: 1,
-    });
-    if (res.error) {
-      setState('error');
-      setErrorMsg(res.error);
-      return;
-    }
-    setState('saved-cloud');
-    refreshMyReviews();
-    refreshConsensus();
+    const res = await submitExpertReview(
+      {
+        caseSlug: selected,
+        reviewerLabel: reviewerLabel.trim(),
+        ratings,
+        checklist: checklistMap,
+        comments: suggestion,
+        round: 1,
+      },
+      user?.id,
+    );
+    setState('saved');
+    setCloudSaved(res.cloud);
+    refreshLocal();
+  }
+
+  function exportCSV() {
+    const csv = exportLocalReviewsCSV(allLocalReviews);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'casestep-expert-reviews-demo.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function clearDemoData() {
+    if (!confirm('Clear all locally stored demo expert reviews on this device? This cannot be undone.')) return;
+    clearLocalExpertReviews();
+    refreshLocal();
   }
 
   return (
     <div className="grid gap-8 lg:grid-cols-3">
-      {/* Login placeholder + instructions */}
+      {/* Instructions + status */}
       <aside className="space-y-5">
+        <div className="rounded-xl border border-accent-400/50 bg-accent-400/10 p-4 text-sm text-ink-700">
+          <p className="font-semibold text-accent-700">Demo mode</p>
+          <p className="mt-1">
+            This module runs on <strong>illustrative demo data</strong> stored on this device — no
+            real expert names, ethics approval, or institutional Delphi data are used. It will be
+            replaced by an authenticated expert panel and real Round-1/Round-2 data after ethics
+            approval and expert recruitment.
+          </p>
+        </div>
+
         <div className="card p-5">
           <h3 className="flex items-center gap-2 font-bold">
-            <IconLock width={18} height={18} className="text-brand-600" /> Expert access
+            <IconLock width={18} height={18} className="text-brand-600" /> Reviewer identity (demo)
           </h3>
-          {!enabled ? (
-            <>
-              <p className="mt-2 text-sm text-ink-600">
-                A cloud backend is not configured on this deployment, so submissions are acknowledged
-                locally only.
-              </p>
-              <PlaceholderNote>
-                Add Supabase (see README) to store expert reviews securely in the{' '}
-                <code>expert_reviews</code> table.
-              </PlaceholderNote>
-            </>
-          ) : user ? (
-            <>
-              <p className="mt-2 flex items-center gap-1.5 text-sm text-brand-700">
-                <IconCheck width={14} height={14} /> Signed in as{' '}
-                <span className="font-medium">{user.email}</span>
-              </p>
-              <p className="mt-2 text-sm text-ink-600">
-                Your reviews are saved to the secure <code>expert_reviews</code> table (visible only
-                to you under row-level security).
-              </p>
-              <p className="mt-3 rounded-lg bg-ink-50 p-3 text-sm text-ink-700">
-                Reviews submitted: <span className="font-bold">{myReviews.length}</span>
-              </p>
-            </>
-          ) : (
-            <>
-              <p className="mt-2 text-sm text-ink-600">
-                Reviewing requires a signed-in expert account so submissions can be attributed and
-                secured.
-              </p>
-              <p className="mt-2 text-sm font-medium text-accent-600">
-                Please sign in using the button in the top navigation bar to submit a review.
-              </p>
-            </>
+          <p className="mt-2 text-sm text-ink-600">
+            Enter a self-chosen label to simulate a panel member on this device (e.g. “Reviewer A”,
+            “Reviewer B”). Submit under different labels to build up an illustrative multi-expert
+            consensus.
+          </p>
+          <input
+            value={reviewerLabel}
+            onChange={(e) => setReviewerLabel(e.target.value)}
+            placeholder="Reviewer A"
+            className="mt-3 w-full rounded-lg border border-ink-200 px-3 py-2 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
+          />
+          {enabled && (
+            <p className="mt-3 text-xs text-ink-500">
+              {user ? (
+                <>
+                  <IconCheck width={12} height={12} className="mr-1 inline text-brand-500" />
+                  Signed in as {user.email} — reviews also sync to the secure database.
+                </>
+              ) : (
+                'Sign in (top-right) to additionally sync reviews to the database across devices.'
+              )}
+            </p>
           )}
         </div>
 
         <div className="card p-5">
           <h3 className="font-bold">Delphi process</h3>
           <ol className="mt-3 space-y-2 text-sm text-ink-600">
-            <li>1. Round 1 — rate relevance, validity, feasibility.</li>
-            <li>2. Analyse consensus (e.g., median &amp; IQR / % agreement).</li>
-            <li>3. Round 2 — re-rate items lacking consensus.</li>
+            <li>1. Round 1 — rate all seven dimensions per case.</li>
+            <li>2. Analyse consensus (median &amp; IQR / % agreement).</li>
+            <li>3. Round 2 — re-rate items below the consensus threshold.</li>
             <li>4. Finalise the validated case bank.</li>
           </ol>
+        </div>
+
+        <div className="card p-5">
+          <div className="mb-2 flex items-center justify-between">
+            <h3 className="font-bold">Demo submissions</h3>
+            <Badge tone="brand">{allLocalReviews.length}</Badge>
+          </div>
+          <p className="text-sm text-ink-600">Stored locally on this device across all cases.</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <button
+              onClick={exportCSV}
+              disabled={allLocalReviews.length === 0}
+              className="btn-secondary text-xs"
+            >
+              <IconChart width={14} height={14} /> Export CSV
+            </button>
+            <button
+              onClick={clearDemoData}
+              disabled={allLocalReviews.length === 0}
+              className="btn-ghost text-xs text-rose-600 hover:bg-rose-50"
+            >
+              <IconRefresh width={14} height={14} /> Clear demo data
+            </button>
+          </div>
         </div>
       </aside>
 
@@ -211,9 +231,9 @@ export function ExpertReview() {
             Competency {active.competency.code} · {active.difficulty}
           </p>
 
-          {/* Rating dimensions (5-point) */}
+          {/* Rating dimensions (5-point, all 7) */}
           <div className="mt-6 space-y-5">
-            {ratingDims.map((dim) => (
+            {reviewDimensions.map((dim) => (
               <div key={dim.key}>
                 <div className="flex items-center justify-between">
                   <p className="font-medium text-ink-800">{dim.label}</p>
@@ -242,7 +262,7 @@ export function ExpertReview() {
 
           {/* Checklist */}
           <div className="mt-6">
-            <p className="mb-2 font-medium text-ink-800">Case review checklist</p>
+            <p className="mb-2 font-medium text-ink-800">Case review quality checklist</p>
             <ul className="space-y-2">
               {checklist.map((item, i) => (
                 <li key={i}>
@@ -277,24 +297,18 @@ export function ExpertReview() {
           </div>
 
           <div className="mt-5 flex flex-wrap items-center gap-3">
-            <button
-              onClick={submit}
-              disabled={state === 'saving'}
-              className="btn-primary"
-            >
+            <button onClick={submit} disabled={state === 'saving'} className="btn-primary">
               {state === 'saving' ? (
                 <>
                   <IconRefresh width={16} height={16} className="animate-spin" /> Submitting…
                 </>
-              ) : enabled && user ? (
-                'Submit review to database'
               ) : (
                 'Submit review'
               )}
             </button>
-            {(state === 'saved-cloud' || state === 'saved-local') && (
+            {state === 'saved' && (
               <button onClick={resetForm} className="btn-ghost">
-                Submit another
+                Submit another (e.g. as a different reviewer)
               </button>
             )}
           </div>
@@ -305,50 +319,30 @@ export function ExpertReview() {
             </div>
           )}
 
-          {state === 'saved-cloud' && (
+          {state === 'saved' && (
             <div className="mt-4 rounded-xl border border-brand-200 bg-brand-50 p-4 text-sm text-brand-800">
-              Saved to the database. Your Round-1 review of <strong>{active.title}</strong> was
-              recorded — Relevance {ratings.relevance}/5 · Validity {ratings.validity}/5 ·
-              Feasibility {ratings.feasibility}/5.
-            </div>
-          )}
-
-          {state === 'saved-local' && (
-            <div className="mt-4 rounded-xl border border-accent-400/40 bg-accent-400/10 p-4 text-sm text-ink-700">
-              Recorded locally for <strong>{active.title}</strong> (Relevance {ratings.relevance}/5 ·
-              Validity {ratings.validity}/5 · Feasibility {ratings.feasibility}/5).{' '}
-              {enabled
-                ? 'Sign in to store this review in the database.'
-                : 'Connect Supabase to persist reviews to the database.'}
+              Recorded as <strong>{reviewerLabel}</strong> for <strong>{active.title}</strong> (demo
+              submission, saved on this device).{' '}
+              {cloudSaved && 'Also synced to the database.'}
             </div>
           )}
         </div>
 
-        {/* Consensus summary — live from the database when available */}
+        {/* Consensus summary — computed live from local demo submissions */}
         <div className="mt-6 card p-6">
           <div className="mb-1 flex items-center justify-between">
-            <h3 className="text-lg font-bold">Consensus summary</h3>
-            <div className="flex items-center gap-2">
-              {liveConsensus && (
-                <button
-                  onClick={refreshConsensus}
-                  className="btn-ghost px-2 py-1 text-xs"
-                  aria-label="Refresh consensus"
-                >
-                  <IconRefresh width={14} height={14} /> Refresh
-                </button>
-              )}
-              <Badge tone="muted">Delphi Round 1</Badge>
-            </div>
+            <h3 className="text-lg font-bold">Consensus summary (illustrative)</h3>
+            <Badge tone="muted">Delphi Round 1</Badge>
           </div>
           <p className="mb-3 text-sm text-ink-500">
-            {active.title} · consensus threshold ≥ {CONSENSUS_THRESHOLD}% rating 4–5
+            {active.title} · consensus threshold ≥ {CONSENSUS_THRESHOLD}% rating 4–5 · computed from{' '}
+            {reviewsForCase.length} demo submission{reviewsForCase.length === 1 ? '' : 's'} on this device
           </p>
 
-          <div className="grid gap-4 sm:grid-cols-3">
-            {ratingDims.map((d) => {
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {reviewDimensions.map((d) => {
               const row = consensusByDim[d.key];
-              const hasData = liveConsensus && row && row.n > 0;
+              const hasData = row && row.n > 0;
               const met = hasData && row.pct_agree >= CONSENSUS_THRESHOLD;
               return (
                 <div
@@ -374,7 +368,8 @@ export function ExpertReview() {
                         met ? 'text-brand-700' : 'text-accent-600'
                       }`}
                     >
-                      {Math.round(row.pct_agree)}% agree · {met ? 'consensus' : 'Round 2'}
+                      {row.n} rating{row.n === 1 ? '' : 's'} · {Math.round(row.pct_agree)}% agree ·{' '}
+                      {met ? 'consensus' : 'Round 2'}
                     </p>
                   )}
                 </div>
@@ -382,23 +377,18 @@ export function ExpertReview() {
             })}
           </div>
 
-          {liveConsensus ? (
-            consensusCount > 0 ? (
-              <p className="mt-4 text-xs text-ink-500">
-                Based on {consensusCount} expert review{consensusCount === 1 ? '' : 's'} of this case.
-                Dimensions below the threshold are flagged for a Round-2 re-rating.
-              </p>
-            ) : (
-              <PlaceholderNote>
-                No reviews stored for this case yet. Submit a review above (or have the panel submit)
-                and the median, IQR and % agreement will populate here automatically.
-              </PlaceholderNote>
-            )
-          ) : (
+          {reviewsForCase.length === 0 ? (
             <PlaceholderNote>
-              Consensus is computed live from the database when Supabase is configured and you are
-              signed in. {enabled ? 'Sign in to view panel consensus.' : 'Connect Supabase (see README) to enable it.'}
+              No demo reviews submitted for this case yet. Submit one above — you can submit several
+              times under different reviewer labels to see an illustrative multi-expert consensus
+              build up.
             </PlaceholderNote>
+          ) : (
+            <p className="mt-4 text-xs text-ink-500">
+              Illustrative only — dimensions below the threshold are flagged for a Round-2 re-rating.
+              Real consensus will be computed once an authenticated expert panel completes Round 1
+              after ethics approval.
+            </p>
           )}
         </div>
       </div>

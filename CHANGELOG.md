@@ -4,6 +4,64 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] — 2026-07-06
+
+### FAIMER Year 2 presentation readiness — UX and content upgrade
+
+**Expert Review / Delphi**
+- Expanded from 3 to **7 rating dimensions**: relevance, content validity,
+  feasibility, NMC CBME alignment, authenticity of clinical reasoning, quality
+  of feedback, and community/public-health integration.
+- **Local-first demo mode**: every submission is saved to `localStorage` and
+  the Delphi consensus (median, IQR, % agreement, Round-2 flagging) is now
+  computed **entirely client-side** — the module is fully functional with zero
+  backend, matching the deployed no-database default. Supabase sync remains
+  available and optional.
+- Reviewer-label field (demo-only, never a real name), CSV export of local
+  submissions, and a "Clear demo data" control.
+- `supabase/schema.sql` extended with the four additional rating columns and
+  an idempotent migration for existing deployments.
+
+**Student Dashboard**
+- Illustrative demo-data seeding ("Load illustrative demo progress"), clearly
+  labelled as non-real and explicitly user-triggered, so a first-time visitor
+  (e.g. a FAIMER mentor) sees a populated dashboard on request.
+- New "Recently completed case" and "Next recommended case" cards.
+
+**Faculty Dashboard**
+- New "Actionable teaching recommendations" section translating the
+  common-reasoning-error pattern into concrete facilitation actions.
+
+**OSCE/OSPE**
+- Added a 4th station: **Diabetes Foot-Risk Screening & Counseling**.
+
+**About page**
+- Added an NMC CBME domain-alignment table, a TPACK mapping table, and a
+  constructive-alignment table (competency → activity → assessment →
+  evidence).
+
+**Research & Evaluation page**
+- Added aim/objectives, participants, intervention, comparator, and outcome
+  measures; a Kirkpatrick evaluation mapping; a logic model; an evaluation
+  matrix; an ethics & data-privacy section; limitations & mitigation
+  strategies; a scale-up plan; and an expanded scholarly-outputs list.
+
+**Contact & Team page**
+- Replaced "?" placeholder avatars with elegant, clearly-labelled placeholder
+  cards (e.g. "External expert details to be updated after consent"); added a
+  fifth team group (Student & Faculty Contributors).
+
+**Testing**
+- Added unit and E2E coverage for the 7-dimension Expert Review submission +
+  local consensus computation, the dashboard demo-seeding flow, and the 4th
+  OSCE station.
+
+**Deployment**
+- Fixed a Vercel build failure (`out/routes-manifest.json missing`) caused by
+  a `vercel.json` output-directory override conflicting with Next's
+  `output: 'export'`; Vercel now auto-detects Next.js and serves the export
+  natively.
+
 ## [1.0.0] — 2026-07-05
 
 ### Initial release — "CaseStep Initial Release"
@@ -44,4 +102,5 @@ adheres to [Semantic Versioning](https://semver.org/).
 - Headless-browser verification: all 11 cases load, core interactivity works,
   0 console errors, 0 runtime errors.
 
+[1.1.0]: https://github.com/sunilsclass-hub/casestep/releases/tag/v1.1.0
 [1.0.0]: https://github.com/sunilsclass-hub/casestep/releases/tag/v1.0.0

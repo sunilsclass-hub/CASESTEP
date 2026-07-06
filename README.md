@@ -12,7 +12,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-optional-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Release](https://img.shields.io/badge/release-v1.0.0-0d9488)](CHANGELOG.md)
+[![Release](https://img.shields.io/badge/release-v1.1.0-0d9488)](CHANGELOG.md)
 
 </div>
 
@@ -51,8 +51,8 @@ CaseStep delivers **digital, case-based learning** for MBBS students in Communit
 - 📚 **11 fully-authored interactive cases** across NCDs, maternal & child health, communicable disease, emergencies, and public-health scenarios.
 - 🧠 **Script Concordance Test** — reasoning under uncertainty on a −2…+2 scale, scored against an expert panel.
 - 🩺 **OSCE / OSPE stations** — weighted checklists, global rating scales, examiner notes, and printable rubrics.
-- 📊 **Student & Faculty dashboards** — progress, SCT/OSCE scores, reflections, cohort analytics, and CSV export.
-- 🔬 **Expert Review / Delphi module** with **live consensus** (median, IQR, % agreement, Round-2 flagging).
+- 📊 **Student & Faculty dashboards** — progress, SCT/OSCE scores, reflections, cohort analytics, actionable teaching recommendations, illustrative demo-data seeding, and CSV export.
+- 🔬 **Expert Review / Delphi module** — **7 rating dimensions**, a review-quality checklist, and **live consensus** (median, IQR, % agreement, Round-2 flagging) computed **locally by default** (no backend required), with optional Supabase sync.
 - ☁️ **Optional Supabase backend** — accounts + multi-device sync + persistent expert reviews; the app runs identically without it.
 - ♿ **Accessible, responsive, academic UI**; ⚡ static export deploys anywhere with no server runtime.
 
@@ -259,8 +259,9 @@ CaseStep has two test layers:
   static site (`tests/e2e`).
 
 Both layers cover: homepage rendering, the 11-case catalogue, a **full Type 2
-Diabetes case flow**, **SCT submission & scoring**, OSCE page rendering, the
-Expert Review form, and dashboard loading.
+Diabetes case flow**, **SCT submission & scoring**, OSCE page rendering, a
+**full local Expert Review Delphi submission with consensus computation**, and
+Student Dashboard loading including the illustrative demo-data seeding flow.
 
 ```bash
 npm test            # Vitest unit/component tests (watch: npm run test:watch)

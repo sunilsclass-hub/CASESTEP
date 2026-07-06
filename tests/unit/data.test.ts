@@ -52,7 +52,8 @@ describe('assessment data', () => {
   });
 
   it('OSCE stations carry weighted checklists and rating scales', () => {
-    expect(osceStations.length).toBeGreaterThan(0);
+    expect(osceStations.length).toBeGreaterThanOrEqual(4);
+    expect(osceStations.some((s) => s.id === 'osce-diabetes-foot')).toBe(true);
     for (const s of osceStations) {
       expect(s.checklist.length).toBeGreaterThan(0);
       expect(s.globalRating.length).toBeGreaterThan(0);
