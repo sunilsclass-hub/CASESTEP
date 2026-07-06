@@ -55,11 +55,26 @@ national programmes (NPCDCS, IMNCI, MCH) where relevant.
   for SSR) and **backend-optional** (never assume Supabase is configured).
 - Preserve **accessibility**: semantic elements, labels, focus states.
 
+## Tests
+
+CaseStep uses **Vitest + React Testing Library** for unit/component tests
+(`tests/unit`) and **Playwright** for end-to-end tests (`tests/e2e`).
+
+```bash
+npm test            # Vitest (the CI quality gate)
+npm run build       # required before E2E
+npm run test:e2e    # Playwright (installs a browser on first run)
+```
+
+Please add or update tests when you add a case, an assessment item, or a
+feature, and keep them lightweight and deterministic.
+
 ## Pull request process
 
 1. Branch from `main`.
 2. Make focused commits with clear, descriptive messages.
-3. Ensure `npm run build` passes.
+3. Ensure `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`
+   all pass locally (this is exactly what CI checks).
 4. Open a pull request describing the change and its educational rationale.
 5. For clinical content, please note your qualification/role so reviewers can
    appropriately weigh the medical accuracy.

@@ -1,0 +1,14 @@
+/** Test stubs for next/navigation hooks (no app router in jsdom). */
+export const usePathname = () => '/';
+export const useRouter = () => ({
+  push: () => {},
+  replace: () => {},
+  prefetch: () => {},
+  back: () => {},
+  forward: () => {},
+  refresh: () => {},
+});
+export const useSearchParams = () => new URLSearchParams();
+export const useParams = () => ({});
+export const redirect = () => {};
+export const notFound = () => {};

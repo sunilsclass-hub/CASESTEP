@@ -27,6 +27,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts.bak
 
+# testing
+/coverage
+/playwright-report
+/test-results
+/playwright/.cache
+
 # editor
 .vscode/*
 !.vscode/extensions.json
