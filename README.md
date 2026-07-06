@@ -221,8 +221,11 @@ casestep/
 │   ├── types.ts  storage.ts  useStore.ts
 │   └── supabase.ts  auth.tsx  sync.ts  reviews.ts
 ├── supabase/schema.sql       # Tables, RLS, and consensus function
+├── tests/                    # unit/ (Vitest + RTL) · e2e/ (Playwright) · mocks/
 ├── docs/                     # Architecture + screenshots
 ├── scripts/verify.mjs        # Headless-browser verification + screenshots
+├── .github/workflows/ci.yml  # Lint · type-check · test · build · E2E
+├── vitest.config.ts  playwright.config.ts
 ├── .env.example  netlify.toml  vercel.json  CITATION.cff
 └── next.config.js  tailwind.config.ts  tsconfig.json
 ```
@@ -235,27 +238,46 @@ database that returns the same shapes is a drop-in replacement.
 Every pull request and every push to `main` is checked automatically by
 **GitHub Actions** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)). The
 **CI badge** at the top of this README reflects the status of the latest run on
-`main` — green means lint, type-check, and the production build all pass.
+`main` — green means lint, type-check, tests, and the production build all pass.
 
-The pipeline (Node.js 20, npm cache) runs:
+The pipeline (Node.js 20, npm cache) has two jobs:
 
-| Step | Command | Gate |
+| Job | Steps | Gate |
 | --- | --- | --- |
-| Lint | `npm run lint` | ESLint (`next/core-web-vitals`) |
-| Type-check | `npm run typecheck` | `tsc --noEmit` |
-| Test | `npm test --if-present` | runs if a test script is added |
-| Build | `npm run build` | Next.js static export |
+| **Lint · Type-check · Test · Build** | `npm run lint` → `npm run typecheck` → `npm test` → `npm run build` | ESLint (`next/core-web-vitals`), `tsc --noEmit`, Vitest unit/component tests, static export |
+| **End-to-end (Playwright)** | `npm ci` → install Chromium → `npm run build` → `npm run test:e2e` | Real-browser flows against the built site |
 
-**Verify locally before opening a PR** — run the same checks the CI does:
+### Testing
+
+CaseStep has two test layers:
+
+- **Unit / component tests** — [Vitest](https://vitest.dev/) + [React Testing
+  Library](https://testing-library.com/) in jsdom (`tests/unit`). Fast and
+  browserless; this is the primary quality gate on `npm test`.
+- **End-to-end tests** — [Playwright](https://playwright.dev/) against the built
+  static site (`tests/e2e`).
+
+Both layers cover: homepage rendering, the 11-case catalogue, a **full Type 2
+Diabetes case flow**, **SCT submission & scoring**, OSCE page rendering, the
+Expert Review form, and dashboard loading.
 
 ```bash
-npm ci          # clean, lockfile-exact install
-npm run lint       # ESLint
-npm run typecheck  # TypeScript, no emit
-npm run build      # production static export → ./out
+npm test            # Vitest unit/component tests (watch: npm run test:watch)
+npm run build       # required before E2E (produces ./out)
+npm run test:e2e    # Playwright E2E (installs a browser on first run)
 ```
 
-If all four succeed locally, CI will pass.
+**Verify locally before opening a PR** — run the same checks CI does:
+
+```bash
+npm ci              # clean, lockfile-exact install
+npm run lint        # ESLint
+npm run typecheck   # TypeScript, no emit
+npm test            # Vitest
+npm run build       # production static export → ./out
+```
+
+If these succeed locally, the primary CI job will pass.
 
 ## Roadmap
 
