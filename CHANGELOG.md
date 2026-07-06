@@ -4,6 +4,67 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.1.1] — 2026-07-06
+
+### Fix: Student Dashboard stuck on "Loading your progress…" in production
+
+**Root cause**: `useStore()` initialised its state as `null` and relied entirely
+on a `useEffect` to populate it after mount. The server-rendered (static-export)
+HTML for `/dashboard/student/` therefore always contains the "Loading your
+progress…" placeholder text; if client-side hydration for that route was ever
+interrupted or delayed on the live Vercel deployment, nothing else could ever
+replace it — there was no fallback, timeout, or synchronous path to real
+content. This is a structural bug class (an indefinite-loading state with a
+single point of failure), not a data or logic error, which is why it wasn't
+reproduced in local dev, CI, or the headless-browser verification used for
+prior releases (all of which hydrate reliably in a controlled environment).
+
+**Fix**: `useStore()` now computes its initial value **synchronously** via a
+lazy `useState` initializer calling `readStore()` directly during render
+(`readStore()` is a pure, try/catch-guarded function of `typeof window`, so
+this is always safe). There is no longer any code path that renders a bare
+"loading" placeholder pending an effect — the dashboard always renders
+meaningful content (real progress, or the "get started" prompt) on first
+paint, in both local dev and production, with or without localStorage,
+Supabase, or authentication available.
+
+**Additional hardening**
+- Fixed a missing `.catch()` on the Supabase `getSession()` call in
+  `lib/auth.tsx` (a related latent bug: an unreachable/paused Supabase project
+  would leave `AuthProvider`'s own loading state unresolved), plus a 4-second
+  safety-net timeout so auth loading can never hang indefinitely either.
+- Added Next.js `error.tsx` boundaries (root, Student Dashboard, Faculty
+  Dashboard, Expert Review) so any unexpected runtime error shows a
+  recoverable "Try again" fallback instead of a frozen or blank page.
+
+### Presentation-readiness improvements
+
+- **Expert Review**: relabelled as "Demo Expert Review Mode" — explicitly
+  confirmed to require no sign-in; the illustrative rating form and consensus
+  summary always render locally, with the Supabase-backed workflow described
+  as an optional future/research-deployment mode.
+- **SCT**: expanded from 2 to **5 dedicated modules**, one each for Type 2
+  Diabetes, Hypertension, Antenatal Care, Acute Diarrhoea, and
+  Tuberculosis/fever-outbreak reasoning (17 items total), all following
+  correct SCT principles (−2…+2 scale, expert-panel placeholder, per-item
+  rationale).
+- **Faculty Dashboard**: added the explicit note "Illustrative cohort
+  analytics for FAIMER demonstration; real analytics will be generated after
+  authenticated deployment and ethics-approved implementation."
+- **OSCE/OSPE**: confirmed the 4th station (Diabetes Foot-Risk Screening &
+  Counseling) is present and fully scoring-capable (checklist, global rating,
+  feedback, save, reset, print).
+- **Routes**: confirmed the navbar and all internal links point to the
+  correct live routes (`/dashboard/student`, `/dashboard/faculty`,
+  `/expert-review`, `/sct`, `/osce`); no legacy routes exist, so no redirects
+  were needed.
+- **README**: added the live demo URL, a "Demo mode at a glance" summary, and
+  a "Known limitations" section.
+
+**Verified**: lint clean, typecheck clean, unit + E2E test suites green,
+production build passes (24/24 pages). See the PR for the full verification
+transcript.
+
 ## [1.1.0] — 2026-07-06
 
 ### FAIMER Year 2 presentation readiness — UX and content upgrade
@@ -102,5 +163,6 @@ adheres to [Semantic Versioning](https://semver.org/).
 - Headless-browser verification: all 11 cases load, core interactivity works,
   0 console errors, 0 runtime errors.
 
+[1.1.1]: https://github.com/sunilsclass-hub/casestep/releases/tag/v1.1.1
 [1.1.0]: https://github.com/sunilsclass-hub/casestep/releases/tag/v1.1.0
 [1.0.0]: https://github.com/sunilsclass-hub/casestep/releases/tag/v1.0.0

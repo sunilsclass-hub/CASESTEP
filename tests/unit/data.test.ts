@@ -51,6 +51,14 @@ describe('assessment data', () => {
     }
   });
 
+  it('provides a dedicated SCT module for each of the five requested topics', () => {
+    expect(sctModules.length).toBeGreaterThanOrEqual(5);
+    const ids = sctModules.map((m) => m.id);
+    for (const expected of ['sct-t2dm', 'sct-htn', 'sct-anc', 'sct-diarrhoea', 'sct-tb-outbreak']) {
+      expect(ids).toContain(expected);
+    }
+  });
+
   it('OSCE stations carry weighted checklists and rating scales', () => {
     expect(osceStations.length).toBeGreaterThanOrEqual(4);
     expect(osceStations.some((s) => s.id === 'osce-diabetes-foot')).toBe(true);
