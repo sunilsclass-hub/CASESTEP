@@ -83,7 +83,7 @@ export function FacultyDashboard() {
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
         {/* Case-wise completion */}
-        <div className="card p-6">
+        <div className="card min-w-0 p-6">
           <h2 className="text-lg font-bold">Case-wise completion &amp; decision accuracy</h2>
           <div className="mt-5 space-y-5">
             {caseStats.map((c) => (
@@ -102,7 +102,7 @@ export function FacultyDashboard() {
         </div>
 
         {/* SCT scores */}
-        <div className="card p-6">
+        <div className="card min-w-0 p-6">
           <h2 className="flex items-center gap-2 text-lg font-bold">
             <IconBrain width={18} height={18} className="text-brand-600" /> Mean SCT scores
           </h2>
@@ -121,7 +121,7 @@ export function FacultyDashboard() {
         </div>
 
         {/* OSCE performance */}
-        <div className="card p-6">
+        <div className="card min-w-0 p-6">
           <h2 className="flex items-center gap-2 text-lg font-bold">
             <IconClipboard width={18} height={18} className="text-brand-600" /> OSCE / OSPE checklist performance
           </h2>
@@ -146,7 +146,7 @@ export function FacultyDashboard() {
         </div>
 
         {/* Common reasoning errors */}
-        <div className="card p-6">
+        <div className="card min-w-0 p-6">
           <h2 className="text-lg font-bold">Common reasoning errors</h2>
           <p className="mt-1 text-sm text-ink-500">Frequency across the cohort — targets for teaching.</p>
           <div className="mt-4 space-y-3">
@@ -166,7 +166,7 @@ export function FacultyDashboard() {
         </div>
 
         {/* Topic-weakness heatmap */}
-        <div className="card p-6 lg:col-span-2">
+        <div className="card min-w-0 p-6 lg:col-span-2">
           <h2 className="text-lg font-bold">Topic-wise performance heatmap</h2>
           <p className="mt-1 text-sm text-ink-500">
             Illustrative cell colouring (green ≥75%, amber 50–74%, rose &lt;50%) — a quick scan for
