@@ -164,12 +164,15 @@ export function OSCEStationCard({ station }: { station: OSCEStation }) {
         <div className="space-y-3">
           {station.studentFeedbackPrompts.map((prompt, i) => (
             <div key={i}>
-              <label className="mb-1 block text-sm text-ink-600">{prompt}</label>
+              <label htmlFor={`osce-feedback-${station.id}-${i}`} className="mb-1 block text-sm text-ink-600">
+                {prompt}
+              </label>
               <input
+                id={`osce-feedback-${station.id}-${i}`}
                 type="text"
                 value={feedback[`f${i}`] ?? ''}
                 onChange={(e) => setFeedback((f) => ({ ...f, [`f${i}`]: e.target.value }))}
-                className="w-full rounded-lg border border-ink-200 px-3 py-2 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
+                className="input"
                 placeholder="Type here…"
               />
             </div>

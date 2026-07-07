@@ -135,7 +135,7 @@ export function FacultyDashboard() {
             </thead>
             <tbody className="divide-y divide-ink-100">
               {osceStats.map((o) => (
-                <tr key={o.station}>
+                <tr key={o.station} className="tr-hover">
                   <td className="py-2.5 pr-2 font-medium text-ink-700">{o.station}</td>
                   <td className="py-2.5 text-right text-ink-600">{o.meanScore}%</td>
                   <td className="py-2.5 pl-3 text-ink-500">{o.weakestStep}</td>

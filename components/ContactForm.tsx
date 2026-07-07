@@ -25,23 +25,24 @@ export function ContactForm() {
             setSent(true);
           }}
         >
-          <input
-            required
-            className="w-full rounded-lg border border-ink-200 px-3 py-2 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
-            placeholder="Your name"
-          />
-          <input
-            type="email"
-            required
-            className="w-full rounded-lg border border-ink-200 px-3 py-2 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
-            placeholder="Email address"
-          />
-          <textarea
-            required
-            rows={4}
-            className="w-full rounded-lg border border-ink-200 px-3 py-2 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
-            placeholder="Message"
-          />
+          <div>
+            <label htmlFor="contact-name" className="sr-only">
+              Your name
+            </label>
+            <input id="contact-name" required className="input" placeholder="Your name" />
+          </div>
+          <div>
+            <label htmlFor="contact-email" className="sr-only">
+              Email address
+            </label>
+            <input id="contact-email" type="email" required className="input" placeholder="Email address" />
+          </div>
+          <div>
+            <label htmlFor="contact-message" className="sr-only">
+              Message
+            </label>
+            <textarea id="contact-message" required rows={4} className="input" placeholder="Message" />
+          </div>
           <button className="btn-primary w-full" type="submit">
             Send message
           </button>

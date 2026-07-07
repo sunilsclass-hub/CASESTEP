@@ -86,22 +86,30 @@ export function AuthWidget() {
               </button>
             </div>
             <form onSubmit={submit} className="space-y-2">
+              <label htmlFor="auth-email" className="sr-only">
+                Email
+              </label>
               <input
+                id="auth-email"
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
-                className="w-full rounded-lg border border-ink-200 px-3 py-2 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
+                className="input"
               />
+              <label htmlFor="auth-password" className="sr-only">
+                Password
+              </label>
               <input
+                id="auth-password"
                 type="password"
                 required
                 minLength={6}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password (min 6 chars)"
-                className="w-full rounded-lg border border-ink-200 px-3 py-2 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
+                className="input"
               />
               <button type="submit" disabled={busy} className="btn-primary w-full text-sm">
                 {busy ? 'Please wait…' : mode === 'in' ? 'Sign in' : 'Sign up'}

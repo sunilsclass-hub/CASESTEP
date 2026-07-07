@@ -262,7 +262,7 @@ export default function AboutPage() {
             </thead>
             <tbody className="divide-y divide-ink-100">
               {cbmeDomains.map(([domain, text]) => (
-                <tr key={domain}>
+                <tr key={domain} className="tr-hover">
                   <td className="py-3 pr-4 align-top font-semibold text-ink-900">{domain}</td>
                   <td className="py-3 align-top text-ink-700">{text}</td>
                 </tr>
@@ -326,7 +326,7 @@ export default function AboutPage() {
             </thead>
             <tbody className="divide-y divide-ink-100">
               {constructiveAlignment.map((row) => (
-                <tr key={row.competency}>
+                <tr key={row.competency} className="tr-hover">
                   <td className="py-3 pr-4 align-top font-medium text-ink-900">{row.competency}</td>
                   <td className="py-3 pr-4 align-top text-ink-700">{row.activity}</td>
                   <td className="py-3 pr-4 align-top text-ink-700">{row.assessment}</td>
