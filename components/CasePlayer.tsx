@@ -306,7 +306,7 @@ export function CasePlayer({ case: c }: { case: Case }) {
               onBlur={() => persist({ lastStepIndex: index })}
               rows={5}
               placeholder="Write your reflection here — it is saved to this device."
-              className="w-full rounded-xl border border-ink-200 p-3 text-sm text-ink-800 focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
+              className="input rounded-xl p-3"
             />
             <p className="mt-1 text-xs text-ink-500">Saved locally. Reflections appear on your Student Dashboard.</p>
           </div>

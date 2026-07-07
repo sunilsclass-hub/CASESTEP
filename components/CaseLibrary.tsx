@@ -66,7 +66,7 @@ export function CaseLibrary({ cases }: { cases: Case[] }) {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search cases by condition, title, or focus…"
             aria-label="Search cases"
-            className="w-full rounded-xl border border-ink-200 py-2.5 pl-10 pr-4 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className="input rounded-xl py-2.5 pl-10 pr-4"
           />
         </div>
 
@@ -79,7 +79,7 @@ export function CaseLibrary({ cases }: { cases: Case[] }) {
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value as Difficulty | 'all')}
             aria-label="Filter by difficulty"
-            className="rounded-lg border border-ink-200 px-2.5 py-1.5 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className="input w-auto px-2.5 py-1.5"
           >
             <option value="all">All difficulties</option>
             {difficulties.map((d) => (
@@ -93,7 +93,7 @@ export function CaseLibrary({ cases }: { cases: Case[] }) {
             value={tag}
             onChange={(e) => setTag(e.target.value)}
             aria-label="Filter by topic"
-            className="rounded-lg border border-ink-200 px-2.5 py-1.5 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className="input w-auto px-2.5 py-1.5"
           >
             <option value="all">All topics</option>
             {allTags.map((t) => (
@@ -107,7 +107,7 @@ export function CaseLibrary({ cases }: { cases: Case[] }) {
             value={competency}
             onChange={(e) => setCompetency(e.target.value)}
             aria-label="Filter by competency"
-            className="rounded-lg border border-ink-200 px-2.5 py-1.5 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className="input w-auto px-2.5 py-1.5"
           >
             <option value="all">All competencies</option>
             {allCompetencies.map((code) => (
@@ -121,7 +121,7 @@ export function CaseLibrary({ cases }: { cases: Case[] }) {
             value={status}
             onChange={(e) => setStatus(e.target.value as 'all' | 'ready' | 'coming-soon')}
             aria-label="Filter by status"
-            className="rounded-lg border border-ink-200 px-2.5 py-1.5 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className="input w-auto px-2.5 py-1.5"
           >
             <option value="all">All statuses</option>
             <option value="ready">Ready to play</option>

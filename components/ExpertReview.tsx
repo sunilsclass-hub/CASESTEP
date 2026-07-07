@@ -159,11 +159,15 @@ export function ExpertReview() {
             “Reviewer B”). Submit under different labels to build up an illustrative multi-expert
             consensus.
           </p>
+          <label htmlFor="reviewer-label" className="sr-only">
+            Reviewer label
+          </label>
           <input
+            id="reviewer-label"
             value={reviewerLabel}
             onChange={(e) => setReviewerLabel(e.target.value)}
             placeholder="Reviewer A"
-            className="mt-3 w-full rounded-lg border border-ink-200 px-3 py-2 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className="input mt-3"
           />
           {enabled && (
             <p className="mt-3 text-xs text-ink-500">
@@ -217,14 +221,17 @@ export function ExpertReview() {
       {/* Review form */}
       <div className="lg:col-span-2">
         <div className="card p-6">
-          <label className="mb-2 block text-sm font-medium text-ink-700">Case under review</label>
+          <label htmlFor="expert-review-case" className="mb-2 block text-sm font-medium text-ink-700">
+            Case under review
+          </label>
           <select
+            id="expert-review-case"
             value={selected}
             onChange={(e) => {
               setSelected(e.target.value);
               resetForm();
             }}
-            className="w-full rounded-lg border border-ink-200 px-3 py-2 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className="input"
           >
             {cases.map((c) => (
               <option key={c.slug} value={c.slug}>
@@ -291,13 +298,16 @@ export function ExpertReview() {
 
           {/* Suggestions */}
           <div className="mt-6">
-            <label className="mb-2 block font-medium text-ink-800">Suggestions / comments</label>
+            <label htmlFor="expert-review-suggestion" className="mb-2 block font-medium text-ink-800">
+              Suggestions / comments
+            </label>
             <textarea
+              id="expert-review-suggestion"
               rows={4}
               value={suggestion}
               onChange={(e) => setSuggestion(e.target.value)}
               placeholder="Provide specific, actionable feedback to improve this case…"
-              className="w-full rounded-lg border border-ink-200 p-3 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
+              className="input p-3"
             />
           </div>
 

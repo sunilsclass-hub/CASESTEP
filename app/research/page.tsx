@@ -168,7 +168,7 @@ export default function ResearchPage() {
             </thead>
             <tbody className="divide-y divide-ink-100">
               {kirkpatrick.map((row) => (
-                <tr key={row.level}>
+                <tr key={row.level} className="tr-hover">
                   <td className="py-3 pr-4 align-top font-semibold text-ink-900">{row.level}</td>
                   <td className="py-3 pr-4 align-top text-ink-700">{row.measure}</td>
                   <td className="py-3 align-top text-ink-700">{row.tool}</td>
@@ -231,7 +231,7 @@ export default function ResearchPage() {
             </thead>
             <tbody className="divide-y divide-ink-100">
               {evaluationMatrix.map((row) => (
-                <tr key={row.objective}>
+                <tr key={row.objective} className="tr-hover">
                   <td className="py-3 pr-4 align-top font-medium text-ink-900">{row.objective}</td>
                   <td className="py-3 pr-4 align-top text-ink-700">{row.dataSource}</td>
                   <td className="py-3 pr-4 align-top text-ink-700">{row.method}</td>
