@@ -12,7 +12,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-optional-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Release](https://img.shields.io/badge/release-v1.3.1-0d9488)](CHANGELOG.md)
+[![Release](https://img.shields.io/badge/release-v1.3.2-0d9488)](CHANGELOG.md)
 
 **🔗 Live demo: [casestep.vercel.app](https://casestep.vercel.app/)**
 
@@ -124,18 +124,11 @@ media anywhere on the platform.** Every visual is one of two things:
    video. **No video file is embedded anywhere in this repository or deployment.** Real footage can
    only be added after institutional review and consent processes are complete.
 
-A site-wide banner (`components/media.tsx` → `LaunchBanner`, mounted in `app/layout.tsx`) makes the
-demonstration status explicit on every page: *"FAIMER demonstration mode. All learner, expert, and
-analytics data shown on this platform are illustrative. No real patient data is used anywhere."*
-This mirrors the existing `DemoDataBanner` treatment already used on the dashboards and Expert
-Review page.
+Every page — SCT, both dashboards, Research & Evaluation, About, and Contact & Team — shares this
+same illustration/disclaimer visual language, not just the Case Library and OSCE stations from the
+initial multimedia pass.
 
-Every page — SCT, both dashboards, Research & Evaluation, About, and Contact & Team — now shares
-this same illustration/`DemoDataBanner`/disclaimer visual language, not just the Case Library and
-OSCE stations from the initial multimedia pass.
-
-**Current version:** v1.3.1 — Multimedia Launch Preview + Launch Completion Pass (see
-[CHANGELOG.md](CHANGELOG.md)).
+**Current version:** v1.3.2 (see [CHANGELOG.md](CHANGELOG.md)).
 
 ## Technology stack
 
