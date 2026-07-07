@@ -117,14 +117,3 @@ export function VideoPlaceholder({
     </div>
   );
 }
-
-/** Site-wide disclaimer strip used once in the layout — the launch-mode notice. */
-export function LaunchBanner() {
-  return (
-    <div className="border-b border-accent-400/40 bg-accent-400/10 px-4 py-2 text-center text-xs text-ink-700">
-      <span className="font-semibold text-accent-700">FAIMER demonstration mode.</span>{' '}
-      All learner, expert, and analytics data shown on this platform are illustrative. No real
-      patient data is used anywhere.
-    </div>
-  );
-}

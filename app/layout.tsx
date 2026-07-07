@@ -4,7 +4,6 @@ import './globals.css';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { Providers } from '@/components/Providers';
-import { LaunchBanner } from '@/components/media';
 import { site } from '@/data/site';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
@@ -55,7 +54,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <Providers>
-          <LaunchBanner />
           <Navbar />
           <main id="main" className="flex-1">
             {children}

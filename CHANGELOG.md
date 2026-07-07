@@ -4,6 +4,20 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.2] — 2026-07-07
+
+### Remove the site-wide "FAIMER demonstration mode" banner
+
+Removed the `LaunchBanner` component (previously mounted once in
+`app/layout.tsx`, showing "FAIMER demonstration mode. All learner, expert,
+and analytics data shown on this platform are illustrative. No real patient
+data is used anywhere." on every page) ahead of launch with a production
+domain and backend storage. The narrower, page-specific illustrative-data
+notices (Faculty Dashboard cohort analytics, Student Dashboard local-data
+note, SCT expert-panel scoring caveat, Contact form notice) are unchanged —
+each describes a specific dataset that remains illustrative independent of
+domain/hosting.
+
 ## [1.3.1] — 2026-07-06
 
 ### Launch Completion Pass — multimedia and visual completion across SCT, dashboards, research, about, and contact pages
