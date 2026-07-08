@@ -4,6 +4,23 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.3] — 2026-07-08
+
+### Point site metadata at casestep.in; add sitemap and robots.txt
+
+- `app/layout.tsx`: `metadataBase` now resolves to `https://casestep.in` (was
+  `https://casestep.vercel.app`), which every relative OpenGraph/Twitter URL
+  in the app's metadata is built from.
+- `README.md`: the live-site link now points to `casestep.in`.
+- New `app/sitemap.ts` and `app/robots.ts` — both statically generated at
+  build time (compatible with `output: 'export'`), listing all 10 static
+  routes and all 11 case pages, and pointing search engines at
+  `https://casestep.in/sitemap.xml`. Neither file existed before this
+  release.
+- No other hardcoded `casestep.vercel.app` references were found anywhere in
+  the codebase (footer, contact page, etc. link internally via Next's
+  `Link`, never a hardcoded absolute URL).
+
 ## [1.3.2] — 2026-07-07
 
 ### Remove the site-wide "FAIMER demonstration mode" banner

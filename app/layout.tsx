@@ -12,7 +12,7 @@ const description =
   'CaseStep delivers digital case-based learning modules in Community Medicine to enhance clinical reasoning in MBBS students, aligned with NMC CBME and the FAIMER project framework.';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://casestep.vercel.app'),
+  metadataBase: new URL('https://casestep.in'),
   title: {
     default: `${site.name} — ${site.tagline}`,
     template: `%s · ${site.name}`,
