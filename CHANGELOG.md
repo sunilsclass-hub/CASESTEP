@@ -4,6 +4,23 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.4] — 2026-07-08
+
+### Add per-page og:url and canonical link tags to complete the casestep.in migration
+
+- `app/layout.tsx`: added `alternates: { canonical: '/' }` and
+  `openGraph.url: '/'`, resolved against `metadataBase` to
+  `https://casestep.in/`.
+- Every route's `metadata` export (`/about`, `/cases`, `/sct`, `/osce`,
+  `/research`, `/contact`, `/dashboard/student`, `/dashboard/faculty`,
+  `/expert-review`) and the dynamic `generateMetadata` in
+  `app/cases/[slug]/page.tsx` now set its own `alternates.canonical` and
+  `openGraph.url`, so every page emits a distinct, correct
+  `<link rel="canonical">` and `og:url` rather than relying on
+  `metadataBase` alone (which does not by itself emit either tag).
+- Verified against the built static output for all page types, including a
+  case-detail page — each renders its own correct absolute URL.
+
 ## [1.3.3] — 2026-07-08
 
 ### Point site metadata at casestep.in; add sitemap and robots.txt

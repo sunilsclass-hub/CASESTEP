@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   title: 'Faculty Dashboard',
   description:
     'Cohort analytics: case-wise completion, mean SCT scores, OSCE checklist performance, common reasoning errors, data export, and feedback management.',
+  alternates: { canonical: '/dashboard/faculty/' },
+  openGraph: { url: '/dashboard/faculty/' },
 };
 
 export default function FacultyDashboardPage() {

@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   title: 'Contact & Team',
   description:
     'Meet the CaseStep project team led by Dr. D. Sunil Kumar, and get in touch about the FAIMER project on digital case-based learning in Community Medicine.',
+  alternates: { canonical: '/contact/' },
+  openGraph: { url: '/contact/' },
 };
 
 export default function ContactPage() {

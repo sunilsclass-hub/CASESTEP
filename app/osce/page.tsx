@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   title: 'OSCE / OSPE Module',
   description:
     'OSCE and OSPE preparation stations with weighted checklists, global rating scales, examiner notes, student feedback, and printable rubrics.',
+  alternates: { canonical: '/osce/' },
+  openGraph: { url: '/osce/' },
 };
 
 export default function OSCEPage() {

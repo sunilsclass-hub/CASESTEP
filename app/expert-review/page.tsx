@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   title: 'Expert Review / Delphi',
   description:
     'Expert review and Delphi consensus module: rate case relevance, content validity and feasibility, add suggestions, and track consensus.',
+  alternates: { canonical: '/expert-review/' },
+  openGraph: { url: '/expert-review/' },
 };
 
 export default function ExpertReviewPage() {

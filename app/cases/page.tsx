@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   title: 'Digital Case Library',
   description:
     'A structured, searchable library of digital, case-based learning modules across NCDs, maternal & child health, communicable disease, and public-health scenarios in Community Medicine.',
+  alternates: { canonical: '/cases/' },
+  openGraph: { url: '/cases/' },
 };
 
 export default function CasesPage() {
