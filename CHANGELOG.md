@@ -4,6 +4,37 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.5] — 2026-07-08
+
+### Wire the Contact page form to Web3Forms
+
+`components/ContactForm.tsx` — the contact form was previously a UI-only
+placeholder (`e.preventDefault()` and a static "thanks" message, explicitly
+labelled as a demo). It now submits directly to Web3Forms
+(`https://api.web3forms.com/submit`) via `fetch`, entirely client-side — no
+backend code needed, consistent with this project's static-export
+architecture.
+
+- Adds `name`/`email`/`message` field names so `FormData` captures them, and
+  a hidden `botcheck` honeypot field (standard Web3Forms spam-prevention
+  pattern) — a non-empty value is treated as a bot and the request is never
+  sent.
+- Submit button reads "Sending…" and is disabled for the duration of the
+  request, preventing double-submission.
+- Success shows a "Thank you — your message has been sent" panel; failure
+  shows an inline error panel — both styled with the existing design system
+  (no `alert()`).
+- Removed the now-inaccurate "Demo contact form" `DemoDataBanner` from
+  `app/contact/page.tsx`, since the form is functional.
+- Verified end-to-end with a mocked Web3Forms response (success and failure
+  paths) via a headless-browser test: correct JSON payload, loading state,
+  and both outcome messages all behave as expected.
+
+The Web3Forms access key is intentionally embedded client-side — per
+Web3Forms' own integration model there is no server-only/secret variant of
+this key; it identifies a delivery destination, not an authentication
+credential.
+
 ## [1.3.4] — 2026-07-08
 
 ### Add per-page og:url and canonical link tags to complete the casestep.in migration
