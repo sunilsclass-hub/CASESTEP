@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   title: 'Script Concordance Test',
   description:
     'Script Concordance Test module: probe clinical reasoning under uncertainty using a −2 to +2 scale scored against an expert panel.',
+  alternates: { canonical: '/sct/' },
+  openGraph: { url: '/sct/' },
 };
 
 export default function SCTPage() {

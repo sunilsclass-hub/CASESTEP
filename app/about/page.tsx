@@ -15,6 +15,8 @@ export const metadata: Metadata = {
   title: 'About the Project',
   description:
     'Background, rationale, objectives and framework alignment of the CaseStep FAIMER project on digital case-based learning in Community Medicine.',
+  alternates: { canonical: '/about/' },
+  openGraph: { url: '/about/' },
 };
 
 const objectives = [

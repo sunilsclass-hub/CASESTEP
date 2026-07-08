@@ -20,7 +20,13 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Params): Metadata {
   const c = getCase(params.slug);
   if (!c) return { title: 'Case not found' };
-  return { title: c.title, description: c.summary };
+  const canonical = `/cases/${c.slug}/`;
+  return {
+    title: c.title,
+    description: c.summary,
+    alternates: { canonical },
+    openGraph: { url: canonical },
+  };
 }
 
 export default function CaseDetailPage({ params }: Params) {

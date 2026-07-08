@@ -17,6 +17,8 @@ export const metadata: Metadata = {
   title: 'Research & Evaluation',
   description:
     'Study design, aims, participants, outcome measures, Kirkpatrick evaluation, logic model, ethics, limitations, and scale-up plan for the CaseStep FAIMER project.',
+  alternates: { canonical: '/research/' },
+  openGraph: { url: '/research/' },
 };
 
 const phases = [

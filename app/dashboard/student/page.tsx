@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   title: 'Student Dashboard',
   description:
     'Track cases completed, SCT and OSCE scores, time invested, reflections, strengths and areas for improvement.',
+  alternates: { canonical: '/dashboard/student/' },
+  openGraph: { url: '/dashboard/student/' },
 };
 
 export default function StudentDashboardPage() {
