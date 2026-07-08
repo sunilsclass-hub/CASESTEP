@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { PageHeader, Section, Badge, PlaceholderNote } from '@/components/ui';
-import { DemoDataBanner } from '@/components/premium';
 import { principalInvestigator, team, site } from '@/data/site';
 import { ContactForm } from '@/components/ContactForm';
 import { IconUsers, IconTarget, IconClock, IconGlobe } from '@/components/icons';
@@ -148,13 +147,9 @@ export default function ContactPage() {
                 <dd className="text-ink-700">{site.institution}</dd>
               </div>
             </dl>
-            <DemoDataBanner title="Demo contact form">
-              The form alongside this card is a front-end demo — it is not yet wired to an email or
-              form-processing service, so submissions are not delivered anywhere.
-            </DemoDataBanner>
           </div>
 
-          {/* Contact form (client component; placeholder backend) */}
+          {/* Contact form (client component; submits directly to Web3Forms) */}
           <ContactForm />
         </div>
       </Section>
