@@ -4,6 +4,38 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.6] — 2026-07-09
+
+### Add "Forgot password?" flow
+
+Completes the email+password auth flow with password recovery.
+
+- `lib/auth.tsx`: adds `resetPassword(email)` (calls Supabase
+  `resetPasswordForEmail`, redirecting to `/reset-password/` on the current
+  origin) and `updatePassword(newPassword)` (calls `auth.updateUser`).
+- `components/AuthWidget.tsx`: adds a "Forgot password?" link on the sign-in
+  form, a third form mode (email-only, no password field) that sends the
+  reset email, and a "Check your email…" confirmation panel. Error/info
+  messages now use consistent brand/rose card styling instead of the old
+  single-tone text (matching the Contact form's error-panel treatment).
+- New route `app/reset-password/page.tsx` + `components/ResetPasswordForm.tsx`
+  — the page a user lands on after clicking the emailed link. Supabase's
+  client automatically establishes a recovery session from the URL; the
+  form then sets a new password via `updateUser`, with a success screen and
+  a clear error panel if the link was invalid/expired or the request
+  otherwise fails. `noindex, nofollow` — this is a utility page, not
+  content.
+- Verified locally with a full mocked-response headless-browser pass
+  (Supabase's real project credentials are not available in this sandbox):
+  forgot-password success and rate-limited-error paths from the navbar
+  widget; the reset-password page's invalid-session error path, client-side
+  password-mismatch validation, and a full successful password update via a
+  seeded recovery session + mocked `updateUser` response.
+- `README.md`: documents the required Supabase dashboard step (adding
+  `/reset-password/` to the Redirect URLs allow-list) and corrects an
+  outdated "not connected to the public live demo" limitations bullet — the
+  Supabase backend is in fact configured on the production deployment.
+
 ## [1.3.5] — 2026-07-08
 
 ### Wire the Contact page form to Web3Forms

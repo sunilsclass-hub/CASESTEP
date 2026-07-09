@@ -12,7 +12,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-optional-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Release](https://img.shields.io/badge/release-v1.3.5-0d9488)](CHANGELOG.md)
+[![Release](https://img.shields.io/badge/release-v1.3.6-0d9488)](CHANGELOG.md)
 
 **🔗 Live site: [casestep.in](https://casestep.in/)**
 
@@ -128,7 +128,7 @@ Every page — SCT, both dashboards, Research & Evaluation, About, and Contact &
 same illustration/disclaimer visual language, not just the Case Library and OSCE stations from the
 initial multimedia pass.
 
-**Current version:** v1.3.5 (see [CHANGELOG.md](CHANGELOG.md)).
+**Current version:** v1.3.6 (see [CHANGELOG.md](CHANGELOG.md)).
 
 ## Technology stack
 
@@ -228,9 +228,15 @@ By default, learner progress is stored in the browser. To enable **accounts** an
 5. Rebuild/redeploy. A **Sign in** control appears; signing in reconciles local and cloud progress
    (newest-wins) and keeps devices in sync. On Netlify/Vercel, set the same two `NEXT_PUBLIC_*`
    variables in the site's environment settings.
+6. **For "Forgot password?" to work**, add your deployed origin's `/reset-password/` path (e.g.
+   `https://casestep.in/reset-password/`) to **Authentication → URL Configuration → Redirect URLs**
+   in the Supabase dashboard. Without this, Supabase rejects the redirect and the emailed reset
+   link will not return the user to the app correctly.
 
 The anon key is a public, browser-safe value; data is protected by RLS. **Never** commit the
-`service_role` key.
+`service_role` key. Password-reset emails share Supabase's built-in sender's rate limit (a few per
+hour on the free tier without custom SMTP) — acceptable for infrequent, individual reset requests,
+but not for bulk/simultaneous sign-ins (see the Known limitations section).
 
 ## Project structure
 
@@ -239,7 +245,7 @@ casestep/
 ├── app/                      # Next.js App Router pages
 │   ├── layout.tsx  page.tsx  not-found.tsx  globals.css
 │   ├── about/  cases/  cases/[slug]/  sct/  osce/
-│   ├── dashboard/student/  dashboard/faculty/
+│   ├── dashboard/student/  dashboard/faculty/  reset-password/
 │   └── expert-review/  research/  contact/
 ├── components/               # Reusable UI + interactive players
 │   ├── Navbar  Footer  ui  icons  Providers  AuthWidget
@@ -325,9 +331,15 @@ Stated plainly, for FAIMER mentors and reviewers:
   are illustrative until a real expert panel and a real, ethics-approved pilot cohort exist.
 - **No ethics-approval number, real expert name, or real student record appears anywhere** in this
   codebase or the live demo — by design, until formal approval and recruitment are complete.
-- The optional Supabase backend is fully scaffolded (auth, sync, Expert Review persistence, a
-  consensus RPC) but **is not connected to the public live demo** — the demo intentionally runs in
-  pure local/offline mode so it never depends on a backend being configured correctly.
+- The optional Supabase backend (auth, sync, Expert Review persistence, a consensus RPC, and
+  password reset) is configured on the production deployment — signing in enables real cloud
+  accounts and multi-device sync. The app is still designed to degrade gracefully to pure
+  local/offline mode if the backend is ever unreachable or unconfigured, so a Supabase outage never
+  breaks the core learning experience.
+- Password-reset emails (and any other Supabase auth email) share the project's built-in email
+  sender rate limit — a few per hour on the free tier without custom SMTP configured. Acceptable
+  for infrequent, individual password resets; would need a custom SMTP provider before relying on
+  email-based auth (e.g. magic links) at classroom scale.
 - **Deliberately deferred design-system scope** (v1.2): dark mode, a JS animation library (Framer
   Motion), a full shadcn/ui migration, and a command palette were not implemented in this pass —
   each is a real, non-trivial addition, and doing any of them halfway would have added risk without

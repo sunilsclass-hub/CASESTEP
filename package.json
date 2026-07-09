@@ -1,6 +1,6 @@
 {
   "name": "casestep",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "private": true,
   "description": "CaseStep — Digital Case-Based Learning to Enhance Clinical Reasoning in Community Medicine",
   "scripts": {
