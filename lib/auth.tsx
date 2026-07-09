@@ -22,6 +22,8 @@ interface AuthState {
   signUp: (email: string, password: string) => Promise<{ error?: string; needsConfirm?: boolean }>;
   signIn: (email: string, password: string) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
+  resetPassword: (email: string) => Promise<{ error?: string }>;
+  updatePassword: (newPassword: string) => Promise<{ error?: string }>;
 }
 
 const AuthContext = createContext<AuthState | null>(null);
@@ -122,6 +124,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return {};
   }, []);
 
+  const resetPassword = useCallback(async (email: string) => {
+    const supabase = getSupabase();
+    if (!supabase) return { error: 'Backend not configured.' };
+    const redirectTo =
+      typeof window !== 'undefined' ? `${window.location.origin}/reset-password/` : undefined;
+    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+    if (error) return { error: error.message };
+    return {};
+  }, []);
+
+  const updatePassword = useCallback(async (newPassword: string) => {
+    const supabase = getSupabase();
+    if (!supabase) return { error: 'Backend not configured.' };
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (error) return { error: error.message };
+    return {};
+  }, []);
+
   const signOut = useCallback(async () => {
     const supabase = getSupabase();
     setSyncHandler(null);
@@ -133,7 +153,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ enabled: isSupabaseConfigured, loading, user, syncing, signUp, signIn, signOut }}
+      value={{
+        enabled: isSupabaseConfigured,
+        loading,
+        user,
+        syncing,
+        signUp,
+        signIn,
+        signOut,
+        resetPassword,
+        updatePassword,
+      }}
     >
       {children}
     </AuthContext.Provider>
@@ -152,6 +182,8 @@ export function useAuth(): AuthState {
       signUp: async () => ({ error: 'Auth unavailable' }),
       signIn: async () => ({ error: 'Auth unavailable' }),
       signOut: async () => {},
+      resetPassword: async () => ({ error: 'Auth unavailable' }),
+      updatePassword: async () => ({ error: 'Auth unavailable' }),
     };
   }
   return ctx;
