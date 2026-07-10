@@ -48,7 +48,12 @@ export interface CaseStep {
   /** Bullet list content (history prompts, findings, results, key points). */
   bullets?: string[];
   /** Media placeholder caption (image/video to be added later). */
-  media?: { type: 'image' | 'video'; caption: string };
+  media?: {
+    type: 'image' | 'video';
+    caption: string;
+    /** Overrides the case's shared illustration with a specific image for this step. */
+    src?: string;
+  };
   /** Red-flag callouts for this step. */
   redFlags?: string[];
   /** Branching decision — when present the learner must choose to proceed. */

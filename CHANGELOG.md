@@ -4,6 +4,38 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.4.4] — 2026-07-10
+
+### First real per-step image: Type 2 Diabetes scenario
+
+Adds the first non-SVG, per-case-step image on the platform — an
+AI-generated (Gemini) illustrative photo for the Type 2 Diabetes
+Mellitus case's opening "Patient scenario" step, replacing that one
+step's shared topic SVG with a dedicated image.
+
+- `lib/types.ts`: `CaseStep.media` gains an optional `src` field, letting
+  a step override the case's shared illustration with a specific image.
+  Every other step in every other case is unaffected (falls back to the
+  existing shared-SVG behaviour when `src` is absent).
+- `components/CasePlayer.tsx`: image-type steps now render `step.media.src`
+  when present, falling back to `caseIllustration[slug]` otherwise.
+- `data/cases.ts`: the T2DM scenario step's media now points at
+  `/media/cases/type-2-diabetes-mellitus/opd-scenario.jpg` with the
+  caption "AI-generated illustrative image — not real patient
+  photography. OPD photograph of the patient."
+- `public/media/cases/type-2-diabetes-mellitus/opd-scenario.jpg`: new
+  asset, optimized from a 2.17 MB PNG source down to a 277 KB JPEG
+  (quality 82) at its original 1448×1086 resolution.
+- No other step, image, or clinical content in this or any other case
+  was changed.
+- Verified locally: `typecheck`, `lint`, `build`, `vitest` (17/17), and
+  `scripts/verify.mjs` (11/11) all pass; a targeted headless-browser
+  check confirmed the new photo actually loads (200 response) and
+  renders on the scenario step, the new caption text is present and the
+  old caption is gone, and every other case's images are unaffected.
+
+Pushed to a review branch, not merged to main — held pending review.
+
 ## [1.4.3] — 2026-07-10
 
 ### Extend the site-copy sweep to OSCE/OSPE video placeholders

@@ -188,9 +188,9 @@ export function CasePlayer({ case: c }: { case: Case }) {
         {/* Media: a real topic illustration for images, a proper placeholder card for video */}
         {step.media && step.media.type === 'image' && (
           <div className="mt-5">
-            {caseIllustration[c.slug] ? (
+            {(step.media.src ?? caseIllustration[c.slug]) ? (
               <Illustration
-                src={caseIllustration[c.slug]}
+                src={step.media.src ?? caseIllustration[c.slug]}
                 alt={`Educational illustration for ${c.condition}`}
                 caption={step.media.caption}
               />
