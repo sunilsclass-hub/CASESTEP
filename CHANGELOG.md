@@ -4,6 +4,30 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.4.5] — 2026-07-10
+
+### Second real per-step image: Type 2 Diabetes exam photo
+
+Adds a per-step image to the Type 2 Diabetes Mellitus case's "Physical
+examination" step, replacing that step's shared topic SVG — the same
+mechanism added in 1.4.4 for the scenario step.
+
+- `data/cases.ts`: the exam step's media now points at
+  `/media/cases/type-2-diabetes-mellitus/foot-examination.jpg` with
+  caption "AI-generated illustrative image — not real patient
+  photography. Foot examination in progress."
+- `public/media/cases/type-2-diabetes-mellitus/foot-examination.jpg`:
+  new asset, optimized from a 2.1 MB PNG source to a 267 KB JPEG
+  (quality 82) at its original 1448×1086 resolution.
+- No other step, image, or clinical content changed in this or any
+  other case. The scenario step's image (1.4.4) is unaffected.
+- Verified locally: `typecheck`, `lint`, `build`, `vitest` (17/17), and
+  `scripts/verify.mjs` (11/11) all pass; a targeted headless-browser
+  check confirmed both images independently load (200 responses) and
+  render on their respective steps with the correct captions.
+
+Pushed to a review branch, not merged to main — held pending review.
+
 ## [1.4.4] — 2026-07-10
 
 ### First real per-step image: Type 2 Diabetes scenario

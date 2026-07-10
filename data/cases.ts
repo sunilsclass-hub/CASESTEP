@@ -89,7 +89,11 @@ const t2dm: Case = {
         'Feet: reduced 10-g monofilament sensation over both great toes.',
         'Systemic exam (CVS/RS/abdomen): unremarkable.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Monofilament foot-sensation testing technique.' },
+      media: {
+        type: 'image',
+        src: '/media/cases/type-2-diabetes-mellitus/foot-examination.jpg',
+        caption: 'AI-generated illustrative image — not real patient photography. Foot examination in progress.',
+      },
     },
     {
       id: 'decision-invest',
