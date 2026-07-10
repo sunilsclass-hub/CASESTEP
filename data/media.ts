@@ -37,6 +37,13 @@ export const sctIllustration: Record<string, string> = {
   'sct-anc': '/media/cases/antenatal-care.svg',
   'sct-diarrhoea': '/media/cases/acute-diarrhoea.svg',
   'sct-tb-outbreak': '/media/cases/vector-borne-outbreak.svg',
+  'sct-urti': '/media/cases/upper-respiratory-tract-infection.svg',
+  'sct-uti': '/media/cases/urinary-tract-infection.svg',
+  'sct-postnatal': '/media/cases/postnatal-care.svg',
+  'sct-outbreak': '/media/cases/vector-borne-outbreak.svg',
+  'sct-chest-pain': '/media/cases/chest-pain.svg',
+  'sct-growth': '/media/cases/paediatric-growth-nutrition.svg',
+  'sct-environmental': '/media/cases/environmental-occupational-health.svg',
 };
 
 /** Video placeholders keyed by an id referenced from case-step data or OSCE stations. */
