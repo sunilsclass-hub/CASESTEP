@@ -4,6 +4,34 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.4.3] — 2026-07-10
+
+### Extend the site-copy sweep to OSCE/OSPE video placeholders
+
+Found during the OSCE/OSPE coverage audit: the `VideoPlaceholder`
+component's hardcoded text and the 4 `osceVideos` titles were missed by
+the earlier site-copy sweep (1.4.2), since that round only touched
+case-step media captions and the two dashboard/Expert-Review banners.
+
+- `components/media.tsx`: `VideoPlaceholder`'s rendered text changed from
+  "Video placeholder — institution-approved demonstration video to be
+  uploaded after review." to "Illustrative figure — clinical video to
+  follow institutional approval." — matching the exact phrase already
+  used for case-step video captions.
+- `data/media.ts`: the 4 `osceVideos` titles reworded to drop
+  "demonstration": "BP measurement station demonstration" → "BP
+  measurement technique", "Antenatal counseling station demonstration" →
+  "Antenatal danger-sign counseling", "Growth chart interpretation
+  demonstration" → "Growth chart interpretation", "Diabetic foot
+  screening station demonstration" → "Diabetic foot screening
+  technique".
+- Verified locally: `typecheck`, `lint`, `build`, `vitest` (17/17), and
+  `scripts/verify.mjs` (11/11) all pass; a targeted headless-browser pass
+  on `/osce` confirmed the new copy renders and every old string is
+  actually gone.
+
+Pushed to a review branch, not merged to main — held pending review.
+
 ## [1.4.2] — 2026-07-10
 
 ### "Not fully real" language sweep — 5 fixes from the site-copy audit
