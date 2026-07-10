@@ -49,7 +49,11 @@ const t2dm: Case = {
       title: 'Patient scenario',
       body:
         'Mr. Rajanna, a 48-year-old shopkeeper, presents to the Urban Health & Training Centre with three months of tiredness and passing urine more often, especially at night. He mentions his clothes feel looser. He runs a busy provision store, eats out often, and rarely walks.',
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. OPD photograph of the patient (to be added).' },
+      media: {
+        type: 'image',
+        src: '/media/cases/type-2-diabetes-mellitus/opd-scenario.jpg',
+        caption: 'AI-generated illustrative image — not real patient photography. OPD photograph of the patient.',
+      },
       bullets: [
         'Age 48, male, urban, sedentary occupation.',
         'Father had "sugar problem"; elder brother on tablets for diabetes.',
@@ -85,7 +89,11 @@ const t2dm: Case = {
         'Feet: reduced 10-g monofilament sensation over both great toes.',
         'Systemic exam (CVS/RS/abdomen): unremarkable.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Monofilament foot-sensation testing technique.' },
+      media: {
+        type: 'image',
+        src: '/media/cases/type-2-diabetes-mellitus/foot-examination.jpg',
+        caption: 'AI-generated illustrative image — not real patient photography. Foot examination in progress.',
+      },
     },
     {
       id: 'decision-invest',
