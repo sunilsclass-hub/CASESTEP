@@ -42,7 +42,7 @@ const postnatal: Case = {
         'First baby; lives in a joint family; breastfeeding attempted but "not enough milk".',
         'No prior medical illness.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval.' },
+      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Postnatal home visit / sub-centre assessment.' },
     },
     {
       id: 'history',
@@ -67,7 +67,7 @@ const postnatal: Case = {
         'Baby: alert, warm, RR 44, no chest indrawing, weight 2.5 kg (physiological early loss), mild jaundice to face only.',
         'Baby latch observed: poor attachment — not taking areola, chin away from breast.',
       ],
-      media: { type: 'video', caption: 'Illustrative figure — clinical video to follow institutional approval.' },
+      media: { type: 'video', caption: 'Illustrative figure — clinical video to follow institutional approval. Breastfeeding attachment assessment video.' },
     },
     {
       id: 'decision',
@@ -201,7 +201,7 @@ const diarrhoea: Case = {
         'No blood in stool; no high fever reported.',
         'Mother stopped feeds "to rest the stomach".',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval.' },
+      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Child being assessed at the OPD.' },
     },
     {
       id: 'history',
@@ -390,7 +390,7 @@ const urti: Case = {
         'Chest clear; no stridor; no unilateral tonsillar swelling or uvular deviation.',
       ],
       redFlags: ['Drooling, muffled "hot-potato" voice, trismus, or unilateral swelling would suggest peritonsillar abscess/epiglottitis — refer urgently.'],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval.' },
+      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Pharyngeal examination — inspecting for tonsillar exudate and erythema.' },
     },
     {
       id: 'decision',
@@ -547,7 +547,7 @@ const uti: Case = {
         'Abdomen: mild suprapubic tenderness; NO renal-angle (flank) tenderness.',
         'No signs of systemic sepsis.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval.' },
+      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Renal-angle (flank) tenderness examination technique.' },
     },
     {
       id: 'decision',
@@ -839,7 +839,7 @@ const growth: Case = {
         'Breastfed; complementary feeding started late and is mostly diluted gruel.',
         'Recurrent minor illnesses over the last few months.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval.' },
+      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Growth chart / MCP card with plotted points.' },
     },
     {
       id: 'history',
@@ -998,7 +998,7 @@ const outbreak: Case = {
         'A few patients have a low platelet count on initial testing.',
         'No deaths yet; some clustering around a few streets.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval.' },
+      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Field investigation / larval survey.' },
     },
     {
       id: 'reasoning',
@@ -1052,7 +1052,7 @@ const outbreak: Case = {
         'Person: tabulate age, sex, occupation; note who is most affected.',
         'Line-list every case with the standard variables for analysis.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval.' },
+      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Epidemic curve and spot map.' },
     },
     {
       id: 'community',
@@ -1200,7 +1200,7 @@ const environmental: Case = {
         'TB screening: sputum for AFB/CBNAAT given the silicosis–TB association.',
         'Document exposure details for certification and workplace action.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval.' },
+      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Chest radiograph with silicotic nodules.' },
     },
     {
       id: 'reasoning',

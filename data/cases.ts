@@ -49,7 +49,7 @@ const t2dm: Case = {
       title: 'Patient scenario',
       body:
         'Mr. Rajanna, a 48-year-old shopkeeper, presents to the Urban Health & Training Centre with three months of tiredness and passing urine more often, especially at night. He mentions his clothes feel looser. He runs a busy provision store, eats out often, and rarely walks.',
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval.' },
+      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. OPD photograph of the patient (to be added).' },
       bullets: [
         'Age 48, male, urban, sedentary occupation.',
         'Father had "sugar problem"; elder brother on tablets for diabetes.',
@@ -85,7 +85,7 @@ const t2dm: Case = {
         'Feet: reduced 10-g monofilament sensation over both great toes.',
         'Systemic exam (CVS/RS/abdomen): unremarkable.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval.' },
+      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Monofilament foot-sensation testing technique.' },
     },
     {
       id: 'decision-invest',
@@ -203,7 +203,7 @@ const t2dm: Case = {
         'Complication surveillance: annual fundus exam, foot exam each visit, renal function and ACR review.',
         'Counseling: teach self-monitoring, hypoglycaemia recognition, sick-day rules; set a shared HbA1c target (~7%).',
       ],
-      media: { type: 'video', caption: 'Illustrative figure — clinical video to follow institutional approval.' },
+      media: { type: 'video', caption: 'Illustrative figure — clinical video to follow institutional approval. Short counseling demonstration video (to be added).' },
     },
     {
       id: 'reflection',
@@ -263,7 +263,7 @@ const htn: Case = {
         'Mother hypertensive; adds extra salt/pickle to meals.',
         'BMI 27.4 kg/m²; non-smoker; minimal physical activity.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval.' },
+      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Correct BP measurement setup at a health camp.' },
     },
     {
       id: 'decision-confirm',
@@ -456,7 +456,7 @@ const anc: Case = {
         'Vegetarian diet; lives in a joint family in a rural area.',
         'No medications; immunisation history uncertain.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval.' },
+      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Sub-centre antenatal registration.' },
     },
     {
       id: 'history',
@@ -563,7 +563,7 @@ const anc: Case = {
         'Schedule next contacts and tests (e.g., glucose screening, repeat Hb, growth monitoring).',
         'Emotional support and partner/family involvement in birth planning.',
       ],
-      media: { type: 'video', caption: 'Illustrative figure — clinical video to follow institutional approval.' },
+      media: { type: 'video', caption: 'Illustrative figure — clinical video to follow institutional approval. Danger-sign counseling demonstration video.' },
     },
     {
       id: 'reflection',

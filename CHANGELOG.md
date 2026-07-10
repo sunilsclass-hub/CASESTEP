@@ -17,10 +17,12 @@ Dr. Kumar. Legitimate honesty disclosures (homepage "Honest by design",
 - **Media captions**: all 15 step-level media captions across
   `data/cases.ts` and `data/cases-extra.ts` reworded from
   `"Placeholder: [description]"` to `"Illustrative figure — clinical
-  photography to follow institutional approval."` (image) or `"...
-  clinical video to follow institutional approval."` (video) — same
-  underlying meaning, drops the word "Placeholder" which read as
-  unfinished web development rather than an intentional ethics choice.
+  photography to follow institutional approval. [Description]"` (image)
+  or `"... clinical video to follow institutional approval.
+  [Description]"` (video) — keeps the original per-case description
+  (e.g. "Monofilament foot-sensation testing technique."), drops only the
+  word "Placeholder," which read as unfinished web development rather
+  than an intentional ethics choice.
 - **Expert Review** (`components/ExpertReview.tsx`): consolidated ~15
   scattered "demo"/"illustrative" mentions into one banner near the top
   of the page ("Illustrative Expert Review status") stating the panel's
