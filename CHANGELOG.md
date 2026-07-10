@@ -4,6 +4,51 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.4.1] — 2026-07-10
+
+### Content-quality fixes from the non-flagship case review
+
+Addresses findings from a full content-quality review of the 8 non-flagship
+cases (data/cases-extra.ts), consolidating the URTI/Postnatal/UTI feedback
+with 5 additional fixes:
+
+- **URTI**: reordered so `reasoning` now follows the decision point (was
+  before it, the only case in the library with this inversion); added an
+  explicit `investigation` step ("no investigations routinely needed" is
+  correct clinical content, not an omission); the reasoning step now states
+  the actual Centor/McIsaac score (0/4, ~1–2.5% strep probability) instead
+  of only narrative criteria; added a step-level image placeholder on the
+  examination step (URTI previously had zero media entries).
+- **Postnatal Care**: the newborn danger-sign bullet now states explicit
+  numeric thresholds — fever (axillary ≥37.5°C) and fast breathing (RR
+  ≥60/min, per IMNCI) — instead of the qualitative "fever"/"fast breathing"
+  it previously used.
+- **UTI**: the examination step now states numeric vitals (BP, PR, RR,
+  temperature) instead of only "afebrile, comfortable, not toxic"; added a
+  step-level image placeholder (UTI previously had zero media entries).
+- **Environmental/Occupational Health**: the examination step now states
+  numeric BP and PR alongside the existing numeric SpO₂.
+- **Vector-borne Outbreak**: one internal-consistency fix — the
+  investigation step's `id` is now `invest`, matching the convention used
+  by every other case (it was uniquely `investigation`). Its missing
+  history/exam steps and numbered "Step 1–2" / "Step 3" / etc. step-title
+  convention are unchanged — kept as a deliberate, pedagogically justified
+  exception for outbreak-investigation cases.
+- **No change**: Acute Diarrhoea, Paediatric Growth & Nutrition (reviewed
+  as strong as-is); Chest Pain and Environmental/Occupational Health's
+  red-flag-on-scenario placement (kept as an intentional pattern for
+  high-acuity, immediately-apparent-danger cases).
+- Verified locally: `typecheck`, `lint`, `build`, `vitest` (17/17), and
+  `scripts/verify.mjs` (11/11) all pass; additionally, all 5 edited cases
+  (URTI, UTI, Postnatal Care, Environmental/Occupational Health,
+  Vector-borne Outbreak) were driven end-to-end in a headless browser to
+  confirm correct step order and zero console/runtime errors — URTI's new
+  step sequence was explicitly confirmed as scenario → history → exam →
+  decision → **Investigations** → reasoning → community → management →
+  reflection → summary.
+
+Pushed to a review branch, not merged to main — held pending final review.
+
 ## [1.4.0] — 2026-07-10
 
 ### Complete SCT coverage for all remaining case topics
