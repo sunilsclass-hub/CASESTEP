@@ -98,7 +98,7 @@ export function VideoPlaceholder({
         </span>
         <p className="text-sm font-semibold text-ink-700">{title}</p>
         <p className="max-w-xs text-xs text-ink-500">
-          Video placeholder — institution-approved demonstration video to be uploaded after review.
+          Illustrative figure — clinical video to follow institutional approval.
         </p>
       </div>
       <div className="border-t border-ink-200 bg-white px-4 py-3 text-xs text-ink-600">

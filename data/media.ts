@@ -86,8 +86,8 @@ export const caseVideos: Record<string, VideoPlaceholderSpec[]> = {
 };
 
 export const osceVideos: Record<string, VideoPlaceholderSpec> = {
-  'osce-bp': { title: 'BP measurement station demonstration', objective: 'Model the full candidate walkthrough for this OSCE station.' },
-  'osce-anc': { title: 'Antenatal counseling station demonstration', objective: 'Model the full candidate walkthrough for this OSCE station.' },
-  'ospe-growth': { title: 'Growth chart interpretation demonstration', objective: 'Model plotting and interpreting a growth trajectory.' },
-  'osce-diabetes-foot': { title: 'Diabetic foot screening station demonstration', objective: 'Model the full candidate walkthrough for this OSCE station.' },
+  'osce-bp': { title: 'BP measurement technique', objective: 'Model the full candidate walkthrough for this OSCE station.' },
+  'osce-anc': { title: 'Antenatal danger-sign counseling', objective: 'Model the full candidate walkthrough for this OSCE station.' },
+  'ospe-growth': { title: 'Growth chart interpretation', objective: 'Model plotting and interpreting a growth trajectory.' },
+  'osce-diabetes-foot': { title: 'Diabetic foot screening technique', objective: 'Model the full candidate walkthrough for this OSCE station.' },
 };
