@@ -18,7 +18,6 @@ export function CaseLibrary({ cases }: { cases: Case[] }) {
   const [difficulty, setDifficulty] = useState<Difficulty | 'all'>('all');
   const [tag, setTag] = useState<string | 'all'>('all');
   const [competency, setCompetency] = useState<string | 'all'>('all');
-  const [status, setStatus] = useState<'all' | 'ready' | 'coming-soon'>('all');
 
   const allTags = useMemo(
     () => Array.from(new Set(cases.flatMap((c) => c.tags))).sort(),
@@ -40,18 +39,16 @@ export function CaseLibrary({ cases }: { cases: Case[] }) {
     const matchesDifficulty = difficulty === 'all' || c.difficulty === difficulty;
     const matchesTag = tag === 'all' || c.tags.includes(tag);
     const matchesCompetency = competency === 'all' || c.competency.code === competency;
-    const matchesStatus = status === 'all' || c.status === status;
-    return matchesQuery && matchesDifficulty && matchesTag && matchesCompetency && matchesStatus;
+    return matchesQuery && matchesDifficulty && matchesTag && matchesCompetency;
   });
 
-  const activeFilterCount = [difficulty, tag, competency, status].filter((v) => v !== 'all').length;
+  const activeFilterCount = [difficulty, tag, competency].filter((v) => v !== 'all').length;
 
   function resetFilters() {
     setQuery('');
     setDifficulty('all');
     setTag('all');
     setCompetency('all');
-    setStatus('all');
   }
 
   return (
@@ -115,17 +112,6 @@ export function CaseLibrary({ cases }: { cases: Case[] }) {
                 {code}
               </option>
             ))}
-          </select>
-
-          <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value as 'all' | 'ready' | 'coming-soon')}
-            aria-label="Filter by status"
-            className="input w-auto px-2.5 py-1.5"
-          >
-            <option value="all">All statuses</option>
-            <option value="ready">Ready to play</option>
-            <option value="coming-soon">Coming soon</option>
           </select>
 
           {(activeFilterCount > 0 || query) && (

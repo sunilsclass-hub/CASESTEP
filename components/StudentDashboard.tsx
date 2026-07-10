@@ -128,11 +128,19 @@ export function StudentDashboard() {
 
   return (
     <div className="container-page py-8">
-      <DemoDataBanner title="Your dashboard">
-        This view reflects activity stored only in this browser (or your signed-in account, if
-        enabled). Demo-seeded progress is clearly labelled and illustrative — it is never presented
-        as real learner data.
-      </DemoDataBanner>
+      {/* Signed-in users are viewing their own account-synced progress — a
+          plain confirmation (already repeated in the footer status line
+          below) is all that's warranted, not an illustrative-data notice.
+          Local-only visitors get a lighter note, since local storage may
+          hold either genuine self-recorded progress or the optional
+          "Load illustrative demo progress" seed — see lib/demoSeed.ts. */}
+      {!(enabled && user) && (
+        <DemoDataBanner title="Local progress">
+          This view reflects activity stored only in this browser. Progress you complete yourself is
+          genuine; if you used “Load illustrative demo progress” to preview the dashboard, that
+          seeded content is clearly separate and can be cleared at any time below.
+        </DemoDataBanner>
+      )}
 
       {/* Empty-state onboarding — only shown before any real progress exists */}
       {!hasAnyProgress && (

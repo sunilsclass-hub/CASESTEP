@@ -89,7 +89,7 @@ export function ExpertReview() {
       return;
     }
     if (!reviewerLabel.trim()) {
-      setErrorMsg('Please enter a reviewer label (e.g. "Reviewer A") — no real names needed for this demo.');
+      setErrorMsg('Please enter a reviewer label (e.g. "Reviewer A").');
       return;
     }
 
@@ -121,13 +121,13 @@ export function ExpertReview() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'casestep-expert-reviews-demo.csv';
+    a.download = 'casestep-expert-reviews.csv';
     a.click();
     URL.revokeObjectURL(url);
   }
 
   function clearDemoData() {
-    if (!confirm('Clear all locally stored demo expert reviews on this device? This cannot be undone.')) return;
+    if (!confirm('Clear all locally stored expert reviews on this device? This cannot be undone.')) return;
     clearLocalExpertReviews();
     refreshLocal();
   }
@@ -136,15 +136,14 @@ export function ExpertReview() {
     <div className="grid gap-8 lg:grid-cols-3">
       {/* Instructions + status */}
       <aside className="space-y-5">
-        <DemoDataBanner title="Demo Expert Review Mode">
+        <DemoDataBanner title="Illustrative Expert Review status">
           <p>
-            No sign-in is required — this module runs entirely on <strong>illustrative demo
-            data</strong> stored on this device, so it is fully usable during a FAIMER
-            demonstration with no backend configured. No real expert names, ethics approval, or
-            institutional Delphi data are used anywhere here.
+            Ratings and consensus below are <strong>single-author illustrative judgments</strong>{' '}
+            captured locally on this device — not yet a validated Delphi panel. No sign-in or real
+            expert identities are required to use this mode.
           </p>
           <p className="mt-2 text-xs text-ink-500">
-            The secure, sign-in-based workflow (Supabase-backed submissions + cross-device
+            A secure, sign-in-based workflow (Supabase-backed submissions and cross-device
             consensus) remains available as an optional research-deployment mode — see the
             reviewer-identity panel below.
           </p>
@@ -152,12 +151,11 @@ export function ExpertReview() {
 
         <div className="card p-5">
           <h3 className="flex items-center gap-2 font-bold">
-            <IconLock width={18} height={18} className="text-brand-600" /> Reviewer identity (demo)
+            <IconLock width={18} height={18} className="text-brand-600" /> Reviewer identity
           </h3>
           <p className="mt-2 text-sm text-ink-600">
-            Enter a self-chosen label to simulate a panel member on this device (e.g. “Reviewer A”,
-            “Reviewer B”). Submit under different labels to build up an illustrative multi-expert
-            consensus.
+            Enter a label to identify your review on this device (e.g. “Reviewer A”, “Reviewer B”).
+            Submitting under multiple labels builds up a multi-reviewer consensus view.
           </p>
           <label htmlFor="reviewer-label" className="sr-only">
             Reviewer label
@@ -195,7 +193,7 @@ export function ExpertReview() {
 
         <div className="card p-5">
           <div className="mb-2 flex items-center justify-between">
-            <h3 className="font-bold">Demo submissions</h3>
+            <h3 className="font-bold">Submissions</h3>
             <Badge tone="brand">{allLocalReviews.length}</Badge>
           </div>
           <p className="text-sm text-ink-600">Stored locally on this device across all cases.</p>
@@ -212,7 +210,7 @@ export function ExpertReview() {
               disabled={allLocalReviews.length === 0}
               className="btn-ghost text-xs text-rose-600 hover:bg-rose-50"
             >
-              <IconRefresh width={14} height={14} /> Clear demo data
+              <IconRefresh width={14} height={14} /> Clear data
             </button>
           </div>
         </div>
@@ -336,8 +334,8 @@ export function ExpertReview() {
 
           {state === 'saved' && (
             <div className="mt-4 rounded-xl border border-brand-200 bg-brand-50 p-4 text-sm text-brand-800">
-              Recorded as <strong>{reviewerLabel}</strong> for <strong>{active.title}</strong> (demo
-              submission, saved on this device).{' '}
+              Recorded as <strong>{reviewerLabel}</strong> for <strong>{active.title}</strong> (saved
+              on this device).{' '}
               {cloudSaved && 'Also synced to the database.'}
             </div>
           )}
@@ -346,12 +344,12 @@ export function ExpertReview() {
         {/* Consensus summary — computed live from local demo submissions */}
         <div className="mt-6 card p-6">
           <div className="mb-1 flex items-center justify-between">
-            <h3 className="text-lg font-bold">Consensus summary (illustrative)</h3>
+            <h3 className="text-lg font-bold">Consensus summary</h3>
             <Badge tone="muted">Delphi Round 1</Badge>
           </div>
           <p className="mb-3 text-sm text-ink-500">
             {active.title} · consensus threshold ≥ {CONSENSUS_THRESHOLD}% rating 4–5 · computed from{' '}
-            {reviewsForCase.length} demo submission{reviewsForCase.length === 1 ? '' : 's'} on this device
+            {reviewsForCase.length} submission{reviewsForCase.length === 1 ? '' : 's'} on this device
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -394,15 +392,14 @@ export function ExpertReview() {
 
           {reviewsForCase.length === 0 ? (
             <PlaceholderNote>
-              No demo reviews submitted for this case yet. Submit one above — you can submit several
-              times under different reviewer labels to see an illustrative multi-expert consensus
-              build up.
+              No reviews submitted for this case yet. Submit one above — you can submit several times
+              under different reviewer labels to see a multi-reviewer consensus build up.
             </PlaceholderNote>
           ) : (
             <p className="mt-4 text-xs text-ink-500">
-              Illustrative only — dimensions below the threshold are flagged for a Round-2 re-rating.
-              Real consensus will be computed once an authenticated expert panel completes Round 1
-              after ethics approval.
+              Dimensions below the threshold are flagged for a Round-2 re-rating. A validated panel
+              consensus will be computed once a real Delphi panel completes Round 1 after ethics
+              approval.
             </p>
           )}
         </div>
