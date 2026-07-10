@@ -259,9 +259,34 @@ export default function ResearchPage() {
               </li>
             ))}
           </ul>
+          <div className="mt-4 rounded-lg border border-ink-200 bg-ink-50 p-4 text-sm">
+            <p className="font-semibold text-ink-900">Institutional Ethics Committee</p>
+            <p className="mt-1 text-ink-700">
+              Approval will be sought from the{' '}
+              <a
+                href="https://jssuni.edu.in/jssaher/medical-college/mc-iec-home.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link"
+              >
+                Institutional Ethics Committee, JSS Medical College (IEC, JSSMC)
+              </a>
+              , which is:
+            </p>
+            <ul className="mt-2 space-y-1 text-ink-600">
+              <li>
+                Re-Registered vide No. ECR/387/Inst/KA/2013/RR-22 under Rule 122DD of the Drugs &amp;
+                Cosmetics Rules 1945, CDSCO
+              </li>
+              <li>NECRBHR-registered: EC/NEW/INST/2021/2254</li>
+              <li>NABH-accredited: Certificate No. E-CT-2018-0018 (re-accredited April 2024–April 2027)</li>
+            </ul>
+          </div>
           <PlaceholderNote>
-            No ethics-approval number is quoted anywhere on this platform. One will be obtained, and
-            cited here, before any real participant data are collected.
+            The registration/accreditation numbers above identify the committee itself, not a
+            study-specific approval. No study-specific ethics-approval number is quoted anywhere on
+            this platform; one will be obtained from the IEC, and cited here, before any real
+            participant data are collected.
           </PlaceholderNote>
         </div>
       </Section>
