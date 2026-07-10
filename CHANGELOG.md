@@ -4,6 +4,27 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.8] — 2026-07-10
+
+### Name the Institutional Ethics Committee on the Research page
+
+The "Ethical considerations & data privacy" section on `/research` previously
+described ethics approval only in generic terms ("an ethics committee").
+It now names and links to the specific committee whose approval will be
+sought, without claiming approval has already been granted:
+
+- `app/research/page.tsx`: adds an "Institutional Ethics Committee" block
+  naming the Institutional Ethics Committee, JSS Medical College (IEC,
+  JSSMC), linking to its page on jssuni.edu.in, and listing the committee's
+  own identifying registrations — CDSCO Re-Registration No.
+  ECR/387/Inst/KA/2013/RR-22 (Rule 122DD, Drugs & Cosmetics Rules 1945),
+  NECRBHR registration EC/NEW/INST/2021/2254, and NABH accreditation
+  Certificate No. E-CT-2018-0018 (re-accredited April 2024–April 2027).
+  The existing placeholder note is updated to clarify these identify the
+  committee, not a study-specific approval, which is still pending.
+- `data/research.ts`: the "Ethics committee approval will be obtained…"
+  commitment bullet now names the same committee for consistency.
+
 ## [1.3.7] — 2026-07-10
 
 ### Fix "Forgot password?" flow actually letting a user set a new password

@@ -132,7 +132,7 @@ export const evaluationMatrix = [
 ];
 
 export const ethics = [
-  'Ethics committee approval will be obtained before any real student or expert data are collected; the current build uses no real participant data.',
+  'Ethics committee approval will be sought from the Institutional Ethics Committee, JSS Medical College (IEC, JSSMC) before any real student or expert data are collected; the current build uses no real participant data.',
   'Participation will be voluntary with informed consent; non-participation will not disadvantage any student academically.',
   'No patient-identifiable data are used anywhere in the platform — all clinical cases are synthetic/composite teaching scenarios.',
   'Student performance data collected during a real pilot will be de-identified for analysis and reported only in aggregate.',
