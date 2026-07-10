@@ -4,6 +4,46 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.7] — 2026-07-10
+
+### Fix "Forgot password?" flow actually letting a user set a new password
+
+The previous recovery flow silently signed the user in with their OLD
+password still active — Supabase establishes a session as soon as the
+recovery link's tokens land in the URL, and nothing distinguished that from
+a normal sign-in, so the user was dropped straight onto the homepage with
+no way to change their password.
+
+- `lib/auth.tsx`: `onAuthStateChange` now checks for the `PASSWORD_RECOVERY`
+  event specifically and holds the user in a new `passwordRecovery` gated
+  state instead of treating it as a normal login (no store reconciliation,
+  no "signed in" UI) until the password has actually been changed. A
+  `recoveryRef` guard ignores the other session-carrying events Supabase
+  fires while recovery is active (`INITIAL_SESSION` on load, `USER_UPDATED`
+  once `updateUser()` succeeds, occasional `TOKEN_REFRESHED`) so they can't
+  silently close the gate; only the new `completePasswordRecovery()` call or
+  a session-less event (sign-out) can end it. `getSession()` no longer
+  triggers login directly — `onAuthStateChange` is now the single source of
+  truth, since only it knows a session came from a recovery link.
+- New `components/PasswordRecoveryModal.tsx`: a full-screen, non-dismissable
+  modal mounted once at the app root (`app/layout.tsx`) that appears
+  whenever `passwordRecovery` is true, regardless of which page the
+  recovery link actually lands on. Reuses `ResetPasswordForm`, plus a
+  "Sign out and try again" escape hatch for an invalid/expired link.
+- `components/ResetPasswordForm.tsx`: accepts an optional `onSuccess`
+  callback so the modal's "Continue to CaseStep" button can end recovery
+  mode and proceed into the app; the standalone `/reset-password/` page
+  keeps its original "Return to CaseStep" link behavior when used directly.
+- Verified locally with a headless-browser pass against a simulated
+  `PASSWORD_RECOVERY` session (constructed a well-formed fake JWT and mocked
+  the Supabase Auth/REST endpoints, since real project credentials are not
+  available in this sandbox): the modal appears over whatever page the
+  recovery link lands on (reproducing and then fixing the reported bug),
+  a successful password update shows a "Password updated" confirmation
+  that stays up until "Continue" is clicked, a failed update shows the
+  error and the sign-out escape hatch works, and normal (non-recovery)
+  sign-in is unaffected.
+
 ## [1.3.6] — 2026-07-09
 
 ### Add "Forgot password?" flow

@@ -6,7 +6,7 @@ import { useAuth } from '@/lib/auth';
 
 type Status = 'idle' | 'saving' | 'saved' | 'error';
 
-export function ResetPasswordForm() {
+export function ResetPasswordForm({ onSuccess }: { onSuccess?: () => void } = {}) {
   const { enabled, updatePassword } = useAuth();
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
@@ -48,11 +48,17 @@ export function ResetPasswordForm() {
       <div className="card mx-auto max-w-md p-8 text-center">
         <h2 className="text-lg font-bold text-ink-900">Password updated</h2>
         <p className="mt-2 text-sm text-ink-600">
-          Your password has been changed. You can now sign in with your new password.
+          Your password has been changed. You can now continue using this new password.
         </p>
-        <Link href="/" className="btn-primary mt-5 inline-flex">
-          Return to CaseStep
-        </Link>
+        {onSuccess ? (
+          <button onClick={onSuccess} className="btn-primary mt-5">
+            Continue to CaseStep
+          </button>
+        ) : (
+          <Link href="/" className="btn-primary mt-5 inline-flex">
+            Return to CaseStep
+          </Link>
+        )}
       </div>
     );
   }
@@ -72,6 +78,7 @@ export function ResetPasswordForm() {
           <input
             id="new-password"
             type="password"
+            autoComplete="new-password"
             required
             minLength={6}
             value={password}
@@ -88,6 +95,7 @@ export function ResetPasswordForm() {
           <input
             id="confirm-password"
             type="password"
+            autoComplete="new-password"
             required
             minLength={6}
             value={confirm}
