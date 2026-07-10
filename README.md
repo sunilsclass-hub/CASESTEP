@@ -12,7 +12,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-optional-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Release](https://img.shields.io/badge/release-v1.3.8-0d9488)](CHANGELOG.md)
+[![Release](https://img.shields.io/badge/release-v1.3.9-0d9488)](CHANGELOG.md)
 
 **🔗 Live site: [casestep.in](https://casestep.in/)**
 
@@ -128,7 +128,7 @@ Every page — SCT, both dashboards, Research & Evaluation, About, and Contact &
 same illustration/disclaimer visual language, not just the Case Library and OSCE stations from the
 initial multimedia pass.
 
-**Current version:** v1.3.8 (see [CHANGELOG.md](CHANGELOG.md)).
+**Current version:** v1.3.9 (see [CHANGELOG.md](CHANGELOG.md)).
 
 ## Technology stack
 
@@ -324,9 +324,12 @@ Stated plainly, for FAIMER mentors and reviewers:
 - **All cohort/expert/learner data shown by default is illustrative demo data**, clearly labelled
   as such (Faculty Dashboard analytics, Expert Review consensus, and the Student Dashboard's
   optional "Load illustrative demo progress" seed). None of it is real.
-- **SCT modules currently cover 5 of the 11 case topics** (Type 2 Diabetes, Hypertension, Antenatal
-  Care, Acute Diarrhoea, and Tuberculosis/fever-outbreak reasoning); the remaining topics are
-  planned (see Roadmap).
+- **SCT modules currently cover 6 of the 11 case topics with a clean 1:1 match** (Type 2 Diabetes,
+  Hypertension, Antenatal Care, Acute Diarrhoea, Upper Respiratory Tract Infection, and Urinary
+  Tract Infection), plus a 7th module (Tuberculosis/fever-outbreak reasoning) that is thematically
+  adjacent to, but not a clean match for, the Vector-borne Outbreak case; the remaining topics are
+  planned (see Roadmap). All `expertMode` judgments are illustrative single-author reasoning, not a
+  validated Delphi panel — see the SCT module's own in-app disclosure.
 - **OSCE/OSPE covers 4 stations**; expert-panel SCT scoring keys and Faculty Dashboard analytics
   are illustrative until a real expert panel and a real, ethics-approved pilot cohort exist.
 - **No ethics-approval number, real expert name, or real student record appears anywhere** in this

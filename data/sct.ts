@@ -14,9 +14,17 @@ import type { SCTModule } from '@/lib/types';
  * for aggregate scoring. Store panel responses in a table and compute
  * normalised credit per option at runtime.
  *
- * One dedicated module is provided per topic (Type 2 Diabetes, Hypertension,
- * Antenatal Care, Acute Diarrhoea, and Tuberculosis/fever-outbreak reasoning)
- * so each can be attempted, reviewed, and cited independently.
+ * One dedicated module is provided per topic (`condition` names the matching
+ * case) so each can be attempted, reviewed, and cited independently. Coverage
+ * is being extended incrementally to the remaining case topics — see the
+ * Roadmap in README.md.
+ *
+ * `expertMode` throughout this file is an ILLUSTRATIVE SINGLE-AUTHOR
+ * judgment grounded in standard clinical/public-health reasoning for each
+ * condition — not a validated expert-panel consensus. This is disclosed to
+ * learners in the app itself (see the DemoDataBanner in
+ * components/SCTSection.tsx: "not a real Delphi panel"). Do not present
+ * these values as panel-validated without first running a real Delphi round.
  */
 
 export const sctScale = [
@@ -250,6 +258,104 @@ export const sctModules: SCTModule[] = [
         question: 'This new information on the hypothesis (leptospirosis outbreak) has the effect:',
         expertMode: 1,
         rationale: 'Flood-water exposure without typical dengue features raises the relative likelihood of leptospirosis, supporting (not confirming) the hypothesis pending serology.',
+      },
+    ],
+  },
+  {
+    id: 'sct-urti',
+    title: 'SCT — Upper Respiratory Tract Infection',
+    condition: 'URTI',
+    intro:
+      'Reason under uncertainty when a patient presents with a sore throat or upper respiratory infection. Rate how each new finding shifts the stated hypothesis relative to an expert panel.',
+    items: [
+      {
+        id: 'sct-urti-1',
+        scenario: 'A 20-year-old college student has 2 days of sore throat and low-grade fever.',
+        ifThinking: 'you are thinking this is streptococcal (bacterial) pharyngitis requiring antibiotics',
+        andThen: 'you find he also has a runny nose and cough, with no tonsillar exudate and no tender anterior cervical nodes',
+        question: 'This new information on the hypothesis (streptococcal pharyngitis) has the effect:',
+        expertMode: -2,
+        rationale:
+          'Cough and coryza alongside the sore throat, with no exudate and no tender nodes, is a low Centor/McIsaac score — this pattern is most consistent with a viral URTI and argues strongly against a bacterial cause.',
+      },
+      {
+        id: 'sct-urti-2',
+        scenario: 'A 24-year-old woman has 2 days of sore throat with mild anterior neck-node tenderness.',
+        ifThinking: 'you are thinking of streptococcal pharyngitis',
+        andThen: 'you find no tonsillar exudate, but she does have a fever of 37.8°C and no cough',
+        question: 'This new information on the hypothesis (streptococcal pharyngitis) has the effect:',
+        expertMode: 1,
+        rationale:
+          'Tender nodes, fever, and absence of cough (without exudate) give an intermediate Centor score — this raises the probability of streptococcal pharyngitis into a moderate range that favours further testing (rapid antigen/culture) rather than confirming or excluding it outright.',
+      },
+      {
+        id: 'sct-urti-3',
+        scenario: 'A 19-year-old presents with severe sore throat and difficulty swallowing his own saliva.',
+        ifThinking: 'you are thinking this is a routine viral sore throat needing only symptomatic care',
+        andThen: 'you find drooling, trismus, a muffled "hot-potato" voice, and uvular deviation to one side on examination',
+        question: 'This new information on the hypothesis (routine viral sore throat, symptomatic care only) has the effect:',
+        expertMode: -2,
+        rationale:
+          'Drooling, trismus, a muffled voice and uvular deviation are red flags for a peritonsillar abscess or other deep-space infection — this argues strongly against a routine viral picture and mandates urgent same-day referral, not symptomatic care.',
+      },
+      {
+        id: 'sct-urti-4',
+        scenario: 'A patient with a clearly viral picture (cough, coryza, no fever, no exudate) insists on antibiotics "because they always work for me."',
+        ifThinking: 'you are thinking a short course of amoxicillin is a reasonable way to satisfy the patient and end the consultation',
+        andThen: 'you confirm the patient has no penicillin allergy and no other drug contraindication',
+        question: 'This new information on the hypothesis (prescribing amoxicillin to satisfy the patient) has the effect:',
+        expertMode: 0,
+        rationale:
+          'The absence of a contraindication is irrelevant here — antibiotics remain clinically inappropriate for a clearly viral illness regardless of whether the drug would be safe to give; prescribing to satisfy the patient is poor stewardship either way.',
+      },
+    ],
+  },
+  {
+    id: 'sct-uti',
+    title: 'SCT — Urinary Tract Infection',
+    condition: 'UTI',
+    intro:
+      'Reason under uncertainty when assessing a woman with urinary symptoms. Rate how each new finding shifts the stated hypothesis relative to an expert panel.',
+    items: [
+      {
+        id: 'sct-uti-1',
+        scenario: 'A 26-year-old woman has 2 days of dysuria, frequency, and urgency. She is not pregnant.',
+        ifThinking: 'you are thinking of pyelonephritis (upper urinary tract infection)',
+        andThen: 'you find no fever, no flank/renal-angle tenderness, no vomiting, and she is otherwise well',
+        question: 'This new information on the hypothesis (pyelonephritis) has the effect:',
+        expertMode: -2,
+        rationale:
+          'Classic lower-urinary-tract symptoms without fever, flank pain, or vomiting argue strongly against upper-tract (pyelonephritis) involvement and support uncomplicated cystitis instead.',
+      },
+      {
+        id: 'sct-uti-2',
+        scenario: 'A healthy 30-year-old non-pregnant woman has classic dysuria and frequency with no vaginal symptoms.',
+        ifThinking: 'you are thinking a urine culture is required before starting any treatment',
+        andThen: 'you find no risk factors for a complicated or resistant infection — first episode, no recent catheterisation, no diabetes, no recurrent UTIs',
+        question: 'This new information on the hypothesis (culture required before treatment) has the effect:',
+        expertMode: -2,
+        rationale:
+          'In a healthy non-pregnant woman with typical symptoms and no complicating features, empirical short-course treatment is appropriate — routine culture adds little and is not required before starting therapy.',
+      },
+      {
+        id: 'sct-uti-3',
+        scenario: 'A pregnant woman at 14 weeks has no urinary symptoms, but a routine antenatal urine culture grows a significant colony count of E. coli.',
+        ifThinking: 'you are thinking she needs antibiotic treatment despite having no symptoms',
+        andThen: 'you confirm the pregnancy and the significant bacterial count on culture',
+        question: 'This new information on the hypothesis (treat despite no symptoms) has the effect:',
+        expertMode: 2,
+        rationale:
+          'Asymptomatic bacteriuria in pregnancy is treated regardless of symptoms, because it is linked to pyelonephritis and adverse pregnancy outcomes if left untreated — pregnancy is one of the accepted exceptions to the usual "do not treat asymptomatic bacteriuria" rule.',
+      },
+      {
+        id: 'sct-uti-4',
+        scenario: 'A 29-year-old woman with 2 days of dysuria and frequency also develops fever of 38.9°C, right flank pain, and nausea.',
+        ifThinking: 'you are thinking this remains simple uncomplicated cystitis, manageable with a short oral course and no further work-up',
+        andThen: 'you find renal-angle tenderness on examination and she looks systemically unwell',
+        question: 'This new information on the hypothesis (simple uncomplicated cystitis, no further work-up) has the effect:',
+        expertMode: -2,
+        rationale:
+          'Fever, flank pain, and renal-angle tenderness signal pyelonephritis (complicated, upper-tract infection), not simple cystitis — this needs further evaluation and a different management pathway, arguing strongly against the uncomplicated-cystitis hypothesis.',
       },
     ],
   },
