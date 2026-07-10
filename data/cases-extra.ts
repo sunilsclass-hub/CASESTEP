@@ -139,7 +139,7 @@ const postnatal: Case = {
         'Demonstrate correct positioning and attachment; treat sore nipple with hindmilk and air-drying.',
         'Advise frequent, on-demand exclusive breastfeeding; reassure about supply.',
         'Maternal danger signs to return immediately: high fever, foul-smelling lochia, heavy bleeding, severe headache, calf pain/breathlessness, breast becoming red and painful.',
-        'Newborn danger signs: poor feeding, lethargy, fever/hypothermia, fast breathing/chest indrawing, deepening or palms-and-soles jaundice, convulsions.',
+        'Newborn danger signs: poor feeding, lethargy, fever (axillary ≥37.5°C) or hypothermia, fast breathing (RR ≥60/min, per IMNCI) or chest indrawing, deepening or palms-and-soles jaundice, convulsions.',
         'Confirm schedule for the next HBNC visit and immunisation.',
       ],
     },
@@ -390,18 +390,7 @@ const urti: Case = {
         'Chest clear; no stridor; no unilateral tonsillar swelling or uvular deviation.',
       ],
       redFlags: ['Drooling, muffled "hot-potato" voice, trismus, or unilateral swelling would suggest peritonsillar abscess/epiglottitis — refer urgently.'],
-    },
-    {
-      id: 'reasoning',
-      kind: 'reasoning',
-      title: 'Clinical reasoning — Centor/McIsaac',
-      body:
-        'Score the streptococcal likelihood: absence of fever ≥38°C, absence of tonsillar exudate, absence of tender anterior nodes, presence of cough, and age 15–44 all lower the probability. He scores low (cough present, no exudate, no nodes, no high fever) — a bacterial (Group A strep) throat is unlikely and this is most consistent with a viral URTI.',
-      bullets: [
-        'Cough + coryza + no exudate + no tender nodes → low strep probability.',
-        'Diagnosis: viral upper respiratory tract infection.',
-        'No red flags for a deep-space infection.',
-      ],
+      media: { type: 'image', caption: 'Placeholder: pharyngeal examination — inspecting for tonsillar exudate and erythema.' },
     },
     {
       id: 'decision',
@@ -432,6 +421,28 @@ const urti: Case = {
           },
         ],
       },
+    },
+    {
+      id: 'invest',
+      kind: 'investigation',
+      title: 'Investigations',
+      bullets: [
+        'No investigations are routinely needed for a classic, low-probability viral sore throat.',
+        'A rapid antigen detection test (RADT) or throat culture is reserved for an intermediate/high Centor–McIsaac score (typically ≥2–3), where the result would actually change management.',
+        'Routine blood tests, imaging, or throat swabs add no value here and would only delay reassurance.',
+      ],
+    },
+    {
+      id: 'reasoning',
+      kind: 'reasoning',
+      title: 'Clinical reasoning — Centor/McIsaac',
+      body:
+        'Apply the Centor/McIsaac criteria: fever ≥38°C (absent, 0), tonsillar exudate (absent, 0), tender anterior cervical nodes (absent, 0), and absence of cough (cough is present, so 0) — a Centor score of 0 out of 4. His age (22, in the 15–44 bracket) adds no McIsaac adjustment, so the total McIsaac score is 0, corresponding to a low (~1–2.5%) probability of streptococcal pharyngitis. A bacterial (Group A strep) throat is unlikely and this is most consistent with a viral URTI.',
+      bullets: [
+        'Centor/McIsaac score: 0/4 (no fever ≥38°C, no exudate, no tender nodes, cough present) → low (~1–2.5%) strep probability.',
+        'Diagnosis: viral upper respiratory tract infection.',
+        'No red flags for a deep-space infection.',
+      ],
     },
     {
       id: 'community',
@@ -532,10 +543,11 @@ const uti: Case = {
       kind: 'examination',
       title: 'Examination',
       bullets: [
-        'Afebrile, comfortable, not toxic.',
+        'Vitals: T 37.0°C (afebrile), BP 118/74 mmHg, PR 78/min, RR 14/min — comfortable, not toxic.',
         'Abdomen: mild suprapubic tenderness; NO renal-angle (flank) tenderness.',
         'No signs of systemic sepsis.',
       ],
+      media: { type: 'image', caption: 'Placeholder: renal-angle (flank) tenderness examination technique.' },
     },
     {
       id: 'decision',
@@ -1031,7 +1043,7 @@ const outbreak: Case = {
       },
     },
     {
-      id: 'investigation',
+      id: 'invest',
       kind: 'investigation',
       title: 'Step 3 — Describe by time, place, person',
       bullets: [
@@ -1143,7 +1155,7 @@ const environmental: Case = {
       kind: 'examination',
       title: 'Examination',
       bullets: [
-        'Mild tachypnoea on exertion; SpO₂ 95% at rest.',
+        'Vitals: BP 124/80 mmHg, PR 92/min; mild tachypnoea on exertion; SpO₂ 95% at rest.',
         'Chest: fine crackles; no gross wheeze; no clubbing.',
         'No signs of heart failure; no lymphadenopathy.',
       ],

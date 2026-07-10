@@ -12,7 +12,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-optional-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Release](https://img.shields.io/badge/release-v1.4.0-0d9488)](CHANGELOG.md)
+[![Release](https://img.shields.io/badge/release-v1.4.1-0d9488)](CHANGELOG.md)
 
 **🔗 Live site: [casestep.in](https://casestep.in/)**
 
@@ -128,7 +128,7 @@ Every page — SCT, both dashboards, Research & Evaluation, About, and Contact &
 same illustration/disclaimer visual language, not just the Case Library and OSCE stations from the
 initial multimedia pass.
 
-**Current version:** v1.4.0 (see [CHANGELOG.md](CHANGELOG.md)).
+**Current version:** v1.4.1 (see [CHANGELOG.md](CHANGELOG.md)).
 
 ## Technology stack
 
