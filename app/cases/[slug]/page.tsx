@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { cases, getCase } from '@/data/cases';
 import { CasePlayer } from '@/components/CasePlayer';
-import { DifficultyBadge, Badge, PageHeader, CTALink } from '@/components/ui';
+import { DifficultyBadge, Badge } from '@/components/ui';
 import { IconArrowLeft, IconClock, IconTarget } from '@/components/icons';
 import { Illustration } from '@/components/media';
 import { caseIllustration } from '@/data/media';
@@ -33,47 +33,6 @@ export default function CaseDetailPage({ params }: Params) {
   const c = getCase(params.slug);
   if (!c) notFound();
   const illustration = caseIllustration[c.slug];
-
-  // Placeholder cases show a structured "coming soon" view.
-  if (c.status !== 'ready' || !c.steps) {
-    return (
-      <>
-        <PageHeader eyebrow="Case in development" title={c.title} description={c.summary}>
-          <Link href="/cases" className="btn-secondary">
-            <IconArrowLeft width={16} height={16} /> Back to library
-          </Link>
-        </PageHeader>
-        <div className="container-page py-12">
-          <div className="card mx-auto max-w-2xl p-8 text-center">
-            <p className="text-ink-600">
-              This case is part of the CaseStep pipeline and follows the same interactive model as
-              the published cases (scenario → history → examination → investigations → decisions →
-              community diagnosis → management → reflection → summary).
-            </p>
-            <dl className="mt-6 grid grid-cols-2 gap-4 text-left sm:grid-cols-3">
-              <div>
-                <dt className="text-xs text-ink-500">Competency</dt>
-                <dd className="font-medium">{c.competency.code}</dd>
-              </div>
-              <div>
-                <dt className="text-xs text-ink-500">Difficulty</dt>
-                <dd className="font-medium">{c.difficulty}</dd>
-              </div>
-              <div>
-                <dt className="text-xs text-ink-500">Est. time</dt>
-                <dd className="font-medium">{c.minutes} min</dd>
-              </div>
-            </dl>
-            <div className="mt-8">
-              <CTALink href="/cases" variant="secondary">
-                Explore ready cases
-              </CTALink>
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  }
 
   return (
     <>

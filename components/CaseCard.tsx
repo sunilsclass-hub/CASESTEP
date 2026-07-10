@@ -11,15 +11,10 @@ import { caseIllustration } from '@/data/media';
 export function CaseCard({ case: c }: { case: Case }) {
   const store = useStore();
   const done = store?.cases[c.slug]?.completed;
-  const ready = c.status === 'ready';
   const illustration = caseIllustration[c.slug];
 
   return (
-    <article
-      className={`card flex flex-col overflow-hidden transition hover:-translate-y-0.5 hover:shadow-cardhover ${
-        ready ? '' : 'opacity-90'
-      }`}
-    >
+    <article className="card flex flex-col overflow-hidden transition hover:-translate-y-0.5 hover:shadow-cardhover">
       {illustration && (
         <div className="relative h-28 w-full bg-gradient-to-br from-brand-50 to-indigo-50">
           <Image
@@ -35,7 +30,6 @@ export function CaseCard({ case: c }: { case: Case }) {
       <div className="mb-3 flex items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">
           <DifficultyBadge level={c.difficulty} />
-          {!ready && <Badge tone="muted">Coming soon</Badge>}
           {done && (
             <span className="badge bg-brand-100 text-brand-800">
               <IconCheck width={12} height={12} className="mr-1" /> Completed
@@ -76,15 +70,9 @@ export function CaseCard({ case: c }: { case: Case }) {
       </div>
 
       <div className="mt-5 pt-1">
-        {ready ? (
-          <Link href={`/cases/${c.slug}`} className="btn-primary w-full">
-            Start case <IconArrowRight width={16} height={16} />
-          </Link>
-        ) : (
-          <button className="btn-secondary w-full" disabled>
-            In development
-          </button>
-        )}
+        <Link href={`/cases/${c.slug}`} className="btn-primary w-full">
+          Start case <IconArrowRight width={16} height={16} />
+        </Link>
       </div>
       </div>
     </article>

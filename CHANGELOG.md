@@ -4,6 +4,62 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.4.2] — 2026-07-10
+
+### "Not fully real" language sweep — 5 fixes from the site-copy audit
+
+Follow-up to a full-site sweep for language signalling "this isn't
+finished" (demo/illustrative/placeholder/coming-soon), reviewed by
+Dr. Kumar. Legitimate honesty disclosures (homepage "Honest by design",
+/research and /about "illustrative" mentions, the `Figure` component's
+"no real patient data used" caption) were explicitly left untouched.
+
+- **Media captions**: all 15 step-level media captions across
+  `data/cases.ts` and `data/cases-extra.ts` reworded from
+  `"Placeholder: [description]"` to `"Illustrative figure — clinical
+  photography to follow institutional approval. [Description]"` (image)
+  or `"... clinical video to follow institutional approval.
+  [Description]"` (video) — keeps the original per-case description
+  (e.g. "Monofilament foot-sensation testing technique."), drops only the
+  word "Placeholder," which read as unfinished web development rather
+  than an intentional ethics choice.
+- **Expert Review** (`components/ExpertReview.tsx`): consolidated ~15
+  scattered "demo"/"illustrative" mentions into one banner near the top
+  of the page ("Illustrative Expert Review status") stating the panel's
+  actual status — single-author illustrative judgments, not yet a
+  validated Delphi panel. Removed the repeated flagging from headings
+  ("Reviewer identity (demo)" → "Reviewer identity", "Demo submissions"
+  → "Submissions", "Consensus summary (illustrative)" → "Consensus
+  summary"), buttons ("Clear demo data" → "Clear data"), the exported
+  CSV filename (`casestep-expert-reviews-demo.csv` →
+  `casestep-expert-reviews.csv`), and inline copy — the rest of the page
+  now reads as ordinary confident academic content.
+- **Student Dashboard** (`components/StudentDashboard.tsx`): the top
+  banner is now conditional on `enabled && user` (a real Supabase-backed
+  signed-in account) — hidden entirely in that case, since the existing
+  footer status line already confirms cloud sync. Local-only visitors
+  (not signed in, or no backend configured) see a lighter "Local
+  progress" note instead of the previous blanket "illustrative" framing,
+  which incorrectly labelled genuine self-recorded local progress the
+  same as demo-seeded data.
+- **Case library**: removed the dormant "Coming soon" / "In development"
+  case-status UI (`CaseCard.tsx`'s badge/button, the case-detail page's
+  alternate view in `app/cases/[slug]/page.tsx`, and the status filter
+  dropdown in `CaseLibrary.tsx`) — unreachable today since all 11 cases
+  are `status: 'ready'`. Can be re-added if a future case ships as a
+  stub.
+- Faculty Dashboard's illustrative-cohort-analytics banner is
+  **unchanged** — cohort/aggregate data is genuinely not yet populated
+  with real pilot data, which is exactly the case the disclosure exists
+  for.
+- Verified locally: `typecheck`, `lint`, `build`, `vitest` (17/17), and
+  `scripts/verify.mjs` (11/11) all pass; additionally, a targeted
+  headless-browser pass confirmed the new copy renders correctly and all
+  removed strings are actually gone from each affected page (Expert
+  Review, a case detail page, the case library, Student Dashboard).
+
+Pushed to a review branch, not merged to main — held pending review.
+
 ## [1.4.1] — 2026-07-10
 
 ### Content-quality fixes from the non-flagship case review
