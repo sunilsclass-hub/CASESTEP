@@ -359,6 +359,251 @@ export const sctModules: SCTModule[] = [
       },
     ],
   },
+  {
+    id: 'sct-postnatal',
+    title: 'SCT — Postnatal Care',
+    condition: 'Postnatal Care',
+    intro:
+      'Reason under uncertainty when assessing a mother and newborn in the first postnatal week. Rate how each new finding shifts the stated hypothesis relative to an expert panel.',
+    items: [
+      {
+        id: 'sct-postnatal-1',
+        scenario: 'A woman 4 days postpartum has a mild fever of 37.9°C and mild lower abdominal discomfort.',
+        ifThinking: 'you are thinking of puerperal sepsis requiring urgent IV antibiotics and referral',
+        andThen: 'you find lochia that is not foul-smelling, only mild uterine tenderness with appropriate involution, and otherwise stable vitals',
+        question: 'This new information on the hypothesis (puerperal sepsis needing urgent IV antibiotics) has the effect:',
+        expertMode: -1,
+        rationale:
+          'The absence of offensive lochia, significant uterine tenderness, or haemodynamic instability makes established sepsis less likely and argues against urgent IV antibiotics on this picture alone — but a mild early puerperal fever still needs close review and clear safety-netting rather than outright dismissal.',
+      },
+      {
+        id: 'sct-postnatal-2',
+        scenario: 'A mother 4 days postpartum has a sore, cracked right nipple and says her baby "isn\'t getting enough milk."',
+        ifThinking: 'you are thinking of true low milk supply and recommend starting formula top-ups',
+        andThen: 'you observe a feed and find poor attachment — the baby\'s chin is away from the breast and it is not taking the areola',
+        question: 'This new information on the hypothesis (true low milk supply, needs formula top-up) has the effect:',
+        expertMode: -2,
+        rationale:
+          'Poor attachment causes both the sore nipple and the ineffective feeding that is misread as "low supply" — correcting the latch addresses both problems, and true insufficiency is uncommon, arguing strongly against introducing formula.',
+      },
+      {
+        id: 'sct-postnatal-3',
+        scenario: 'A well-looking 4-day-old has mild jaundice limited to the face, is alert, feeding, and passing urine and stool normally.',
+        ifThinking: 'you are thinking this is pathological jaundice needing urgent referral for phototherapy',
+        andThen: 'you confirm the jaundice does not extend beyond the face and the baby remains active, feeding well, and passing urine/stool normally',
+        question: 'This new information on the hypothesis (pathological jaundice needing urgent referral) has the effect:',
+        expertMode: -2,
+        rationale:
+          'Jaundice confined to the face in an otherwise well, feeding newborn is consistent with physiological jaundice — this argues strongly against urgent referral, though routine monitoring for progression is still appropriate.',
+      },
+      {
+        id: 'sct-postnatal-4',
+        scenario: 'On day 6, the family reports by phone that the newborn is breathing fast, feeding poorly, and feels unusually cold.',
+        ifThinking: 'you are thinking it is safe to wait until the scheduled day-7 home visit to assess the baby',
+        andThen: 'you confirm these symptoms started today and the baby feels cold to touch on repeated checks',
+        question: 'This new information on the hypothesis (safe to wait until the scheduled day-7 visit) has the effect:',
+        expertMode: -2,
+        rationale:
+          'Fast breathing, poor feeding, and a cold newborn are classic neonatal danger signs requiring immediate assessment and likely referral — this argues strongly against watchful waiting until a routinely scheduled visit.',
+      },
+    ],
+  },
+  {
+    id: 'sct-outbreak',
+    title: 'SCT — Vector-borne Outbreak',
+    condition: 'Vector-borne disease/outbreak',
+    intro:
+      'Reason under uncertainty while investigating a suspected vector-borne disease outbreak. Rate how each new finding shifts the stated hypothesis relative to an expert panel.',
+    items: [
+      {
+        id: 'sct-outbreak-1',
+        scenario: 'Fourteen cases of acute febrile illness are reported from one urban ward in a week during the monsoon.',
+        ifThinking: 'you are thinking this represents a genuine outbreak requiring formal investigation',
+        andThen: 'you compare the count against the ward\'s expected baseline for this season and confirm it is well above normal',
+        question: 'This new information on the hypothesis (genuine outbreak requiring investigation) has the effect:',
+        expertMode: 2,
+        rationale:
+          'Confirming a true excess over the expected seasonal baseline is the first step of outbreak investigation and strongly supports proceeding with a formal response.',
+      },
+      {
+        id: 'sct-outbreak-2',
+        scenario: 'While investigating the fever cluster, dengue is considered as the likely cause.',
+        ifThinking: 'you are thinking of dengue as the cause of the cluster',
+        andThen: 'several patients have retro-orbital pain, myalgia, and a falling platelet count, and construction sites with stagnant water are nearby',
+        question: 'This new information on the hypothesis (dengue) has the effect:',
+        expertMode: 2,
+        rationale:
+          'The syndrome (fever, retro-orbital pain, myalgia, thrombocytopenia) together with Aedes-friendly breeding sites nearby strongly supports dengue as the working diagnosis, pending confirmatory testing.',
+      },
+      {
+        id: 'sct-outbreak-3',
+        scenario: 'The team is defining a working case definition for the descriptive phase of the investigation.',
+        ifThinking: 'you are thinking "any person in the city who feels unwell" is a workable case definition',
+        andThen: 'you recall that a useful case definition must specify clinical criteria plus person/place/time to support counting and comparison',
+        question: 'This new information on the hypothesis (any unwell person in the city as the case definition) has the effect:',
+        expertMode: -2,
+        rationale:
+          'A definition this broad and non-specific captures unrelated illness and destroys the epidemiological signal — this argues strongly against it as a usable case definition.',
+      },
+      {
+        id: 'sct-outbreak-4',
+        scenario: 'Some team members suggest holding off on any vector-control measures until the full analytic study is complete.',
+        ifThinking: 'you are thinking control measures should wait until the analytic investigation is fully complete',
+        andThen: 'you recall that standard outbreak-investigation practice is to begin source-reduction and control measures in parallel with the ongoing investigation once a plausible hypothesis exists',
+        question: 'This new information on the hypothesis (wait for full analytic completion before acting) has the effect:',
+        expertMode: -2,
+        rationale:
+          'Control action should begin in parallel with investigation, not be delayed until analytic certainty — waiting costs time against an ongoing outbreak and argues strongly against this hypothesis.',
+      },
+    ],
+  },
+  {
+    id: 'sct-chest-pain',
+    title: 'SCT — Chest Pain',
+    condition: 'Chest Pain',
+    intro:
+      'Reason under time pressure when triaging acute chest pain. Rate how each new finding shifts the stated hypothesis relative to an expert panel.',
+    items: [
+      {
+        id: 'sct-chest-pain-1',
+        scenario: 'A 58-year-old smoker with hypertension has 40 minutes of central crushing chest pain radiating to the left arm and jaw, with sweating.',
+        ifThinking: 'you are thinking of acute coronary syndrome',
+        andThen: 'you confirm his risk factors (smoking, hypertension, family history) alongside the typical pressing, radiating pain and diaphoresis',
+        question: 'This new information on the hypothesis (acute coronary syndrome) has the effect:',
+        expertMode: 2,
+        rationale:
+          'A typical ischaemic pain pattern with diaphoresis in a high cardiovascular-risk patient strongly supports acute coronary syndrome as the leading diagnosis.',
+      },
+      {
+        id: 'sct-chest-pain-2',
+        scenario: 'The same patient is also being assessed for other cannot-miss causes of chest pain.',
+        ifThinking: 'you are thinking of aortic dissection',
+        andThen: 'you find equal blood pressure in both arms and no tearing interscapular pain',
+        question: 'This new information on the hypothesis (aortic dissection) has the effect:',
+        expertMode: -2,
+        rationale:
+          'Symmetrical arm blood pressures and the absence of tearing interscapular pain make aortic dissection much less likely and argue strongly against it.',
+      },
+      {
+        id: 'sct-chest-pain-3',
+        scenario: 'The same patient is also assessed for tension pneumothorax.',
+        ifThinking: 'you are thinking of tension pneumothorax',
+        andThen: 'you find bilateral equal air entry, no tracheal shift, and no unilateral hyper-resonance on chest examination',
+        question: 'This new information on the hypothesis (tension pneumothorax) has the effect:',
+        expertMode: -2,
+        rationale:
+          'A symmetrical, clear chest with no tracheal shift or hyper-resonance argues strongly against tension pneumothorax.',
+      },
+      {
+        id: 'sct-chest-pain-4',
+        scenario: 'A colleague suggests observing the patient for an hour to see if the pain settles before doing an ECG or giving aspirin, since he is not currently in shock.',
+        ifThinking: 'you are thinking it is safe to observe for an hour before acting',
+        andThen: 'you recall that in suspected ACS, an ECG within about 10 minutes and aspirin (if not contraindicated) should not be delayed even in a currently stable-looking patient',
+        question: 'This new information on the hypothesis (safe to observe for an hour before acting) has the effect:',
+        expertMode: -2,
+        rationale:
+          'Time-critical first response in suspected ACS should not wait for the patient to look unwell — delaying ECG and aspirin risks losing myocardium, arguing strongly against watchful waiting.',
+      },
+    ],
+  },
+  {
+    id: 'sct-growth',
+    title: 'SCT — Paediatric Growth & Nutrition',
+    condition: 'Paediatric Growth/Nutrition',
+    intro:
+      'Reason under uncertainty when interpreting a child\'s growth and nutritional status. Rate how each new finding shifts the stated hypothesis relative to an expert panel.',
+    items: [
+      {
+        id: 'sct-growth-1',
+        scenario: 'A 14-month-old\'s growth card shows serial weights flattening and crossing centiles downward over three months; her mother says she is "just small."',
+        ifThinking: 'you are thinking this is normal constitutional smallness needing no action',
+        andThen: 'you review the serial growth points and see a clear downward crossing of centiles over time, not just one low reading',
+        question: 'This new information on the hypothesis (normal constitutional smallness, no action needed) has the effect:',
+        expertMode: -2,
+        rationale:
+          'A downward-crossing trajectory across serial measurements is growth faltering, an early warning sign — this argues strongly against dismissing it as normal constitutional smallness.',
+      },
+      {
+        id: 'sct-growth-2',
+        scenario: 'The same child is assessed for severe acute malnutrition (SAM).',
+        ifThinking: 'you are thinking of severe acute malnutrition requiring facility admission',
+        andThen: 'you find MUAC 12.0 cm, no bilateral pedal oedema, and the child is alert, feeding, and free of danger signs',
+        question: 'This new information on the hypothesis (SAM requiring facility admission) has the effect:',
+        expertMode: -2,
+        rationale:
+          'A MUAC at or above 11.5 cm, no oedema, and no danger signs do not meet SAM criteria — this argues strongly against needing facility admission, favouring community-based management instead.',
+      },
+      {
+        id: 'sct-growth-3',
+        scenario: 'A different 16-month-old is found to have bilateral pedal swelling on examination.',
+        ifThinking: 'you are thinking this child can be safely managed in the community with feeding advice alone',
+        andThen: 'you confirm bilateral pitting pedal oedema is present on repeated examination',
+        question: 'This new information on the hypothesis (safe to manage in the community with feeding advice alone) has the effect:',
+        expertMode: -2,
+        rationale:
+          'Bilateral pitting oedema is a SAM danger sign requiring facility-level care — this argues strongly against community-only management with feeding advice.',
+      },
+      {
+        id: 'sct-growth-4',
+        scenario: 'Baby Meena has had recurrent minor diarrhoeal and respiratory illnesses alongside her growth faltering.',
+        ifThinking: 'you are thinking these recurrent infections are contributing to her growth faltering',
+        andThen: 'you recall the well-established infection–malnutrition cycle, where repeated infections worsen nutritional status and undernutrition in turn increases susceptibility to infection',
+        question: 'This new information on the hypothesis (recurrent infections contributing to growth faltering) has the effect:',
+        expertMode: 2,
+        rationale:
+          'The infection–malnutrition cycle is well established — recurrent illness plausibly compounds her faltering growth, strongly supporting this as a contributing driver alongside feeding practices.',
+      },
+    ],
+  },
+  {
+    id: 'sct-environmental',
+    title: 'SCT — Environmental/Occupational Health',
+    condition: 'Environmental/occupational health',
+    intro:
+      'Reason under uncertainty when linking a workplace exposure to disease and planning prevention. Rate how each new finding shifts the stated hypothesis relative to an expert panel.',
+    items: [
+      {
+        id: 'sct-environmental-1',
+        scenario: 'A 45-year-old stone-quarry worker of 15 years presents with 8 months of progressive breathlessness and dry cough.',
+        ifThinking: 'you are thinking of silicosis (occupational lung disease)',
+        andThen: 'you find 15 years of dry-cutting granite with visible dust and no respirator use, and several co-workers report similar symptoms',
+        question: 'This new information on the hypothesis (silicosis) has the effect:',
+        expertMode: 2,
+        rationale:
+          'A compatible high-silica exposure of appropriate duration, plus clustering of similar symptoms among co-workers, strongly supports an occupational cause such as silicosis.',
+      },
+      {
+        id: 'sct-environmental-2',
+        scenario: 'The same patient is also being considered for asthma as an alternative diagnosis.',
+        ifThinking: 'you are thinking this is asthma and plan to treat empirically with inhalers alone',
+        andThen: 'you find no wheeze, a chest X-ray with small rounded upper-zone opacities, and a restrictive pattern on spirometry',
+        question: 'This new information on the hypothesis (asthma, treat empirically with inhalers alone) has the effect:',
+        expertMode: -2,
+        rationale:
+          'The absence of wheeze together with a restrictive spirometry pattern and silicotic-type opacities on imaging is inconsistent with asthma — this argues strongly against empirical inhaler treatment alone and points to occupational lung disease.',
+      },
+      {
+        id: 'sct-environmental-3',
+        scenario: 'Given the silicosis diagnosis, the team considers whether tuberculosis needs to be actively excluded.',
+        ifThinking: 'you are thinking TB can safely be assumed absent without testing, since he has no fever, weight loss, or haemoptysis today',
+        andThen: 'you recall that silicosis substantially raises TB risk regardless of current symptoms, so active screening is recommended',
+        question: 'This new information on the hypothesis (TB can safely be assumed absent without testing) has the effect:',
+        expertMode: -2,
+        rationale:
+          'The strong, well-established silicosis–tuberculosis association means TB must be actively screened for even without classic symptoms — this argues strongly against assuming its absence untested.',
+      },
+      {
+        id: 'sct-environmental-4',
+        scenario: 'The team is planning workplace prevention measures after identifying this sentinel case.',
+        ifThinking: 'you are thinking that providing respirators (PPE) to workers is the single best and sufficient control measure',
+        andThen: 'you review the hierarchy of controls, which places elimination/substitution (e.g. wet-cutting) and engineering controls (ventilation, dust suppression) above PPE, with PPE as the last line of defence',
+        question: 'This new information on the hypothesis (PPE alone is the best and sufficient control measure) has the effect:',
+        expertMode: -2,
+        rationale:
+          'The hierarchy of controls places elimination, substitution, and engineering controls above PPE — relying on PPE alone as sufficient argues strongly against established occupational-hygiene practice.',
+      },
+    ],
+  },
 ];
 
 export function getSCTModule(id: string): SCTModule | undefined {

@@ -4,6 +4,46 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.4.0] — 2026-07-10
+
+### Complete SCT coverage for all remaining case topics
+
+Second and final installment extending Script Concordance Test coverage
+(started in 1.3.9) — adds the last 5 modules so every one of the 11 case
+topics now has a matching SCT module, following the existing structure
+exactly (`title`, `condition`, `intro`, 4 items each with
+`scenario`/`ifThinking`/`andThen`/`question`/`expertMode`/`rationale`):
+
+- `data/sct.ts`: new `sct-postnatal`, `sct-outbreak` (Vector-borne Outbreak
+  — the topic previously covered only by the thematically-adjacent
+  Tuberculosis/outbreak module), `sct-chest-pain`, `sct-growth`, and
+  `sct-environmental` modules. Content is grounded in the same standard
+  reasoning already used in each matching case: puerperal-fever red flags
+  and the latch-vs-supply distinction for Postnatal Care; outbreak-
+  investigation steps (baseline confirmation, case definition, parallel
+  control) for Vector-borne Outbreak; cannot-miss triage (ACS, dissection,
+  tension pneumothorax) and time-critical first response for Chest Pain;
+  growth-trajectory interpretation and SAM criteria for Paediatric Growth
+  & Nutrition; and the exposure–disease link, silicosis–TB association, and
+  hierarchy of controls for Environmental/Occupational Health. No invented
+  statistics or fabricated guideline citations.
+- `data/media.ts`: `sctIllustration` entries for all 5 new modules reuse
+  the matching case's existing SVG — no new artwork.
+- All 12 `expertMode` values across these 5 modules remain illustrative
+  single-author judgments, not a validated Delphi panel, per the file-level
+  disclosure added in 1.3.9 and the app's existing `DemoDataBanner`.
+- Verified locally: `typecheck`, `lint`, `build`, `vitest` (17/17), and
+  `scripts/verify.mjs` (11/11) all pass; all 5 new module tabs were driven
+  end-to-end in a headless browser (every item answered, submit/score
+  screen and per-item rationale rendering correctly for each) before the
+  temporary test script was deleted.
+
+SCT now covers all 11 case topics with a clean 1:1 match (12 modules total,
+counting the original Tuberculosis/fever-outbreak module as a 12th,
+freestanding topic not tied to any single case). Version bumped to 1.4.0 to
+mark this feature-completion milestone. Not merged to main — held for
+review per instruction.
+
 ## [1.3.9] — 2026-07-10
 
 ### Extend SCT coverage: Upper Respiratory Tract Infection, Urinary Tract Infection
