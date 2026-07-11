@@ -12,7 +12,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-optional-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Release](https://img.shields.io/badge/release-v1.4.5-0d9488)](CHANGELOG.md)
+[![Release](https://img.shields.io/badge/release-v1.5.0-0d9488)](CHANGELOG.md)
 
 **🔗 Live site: [casestep.in](https://casestep.in/)**
 
@@ -64,7 +64,7 @@ The live site runs with **no backend required**: every page — including the St
 - 🔎 **Searchable, filterable Case Library** — filter by topic, difficulty, competency, or status.
 - 🎨 **Premium academic design system** — a cohesive token set (indigo/teal/slate palette, refined shadows, subtle mesh gradients), shared components (`FeatureCard`, `ProgressRing`, `Stepper`, `EmptyState`, `DemoDataBanner`), and tasteful, reduced-motion-aware micro-interactions throughout.
 - ♿ **Accessible, responsive, academic UI**; ⚡ static export deploys anywhere with no server runtime.
-- 🖼️ **Original illustration system** — every case, OSCE station, and the homepage carries a hand-authored, abstract SVG illustration and, where relevant, a clearly-labelled video placeholder. See [Media & academic integrity](#media--academic-integrity) below.
+- 🖼️ **Original illustration system** — every case, OSCE station, and the homepage carries a hand-authored, abstract SVG illustration, plus a clearly-labelled video placeholder or, where a real video exists, an embedded YouTube video. See [Media & academic integrity](#media--academic-integrity) below.
 
 ## Screenshots
 
@@ -119,16 +119,20 @@ media anywhere on the platform.** Every visual is one of two things:
    case topic and OSCE station. They are deliberately abstract/iconographic so they can never be
    mistaken for a real clinical photograph, and they carry zero licensing risk and near-zero
    network weight.
-2. **Video placeholders** — a labelled card (title, learning objective, planned duration,
-   transcript/captions "to be added") describing a planned institution-approved demonstration
-   video. **No video file is embedded anywhere in this repository or deployment.** Real footage can
-   only be added after institutional review and consent processes are complete.
+2. **Video** — where a real video exists, it is hosted externally (YouTube, unlisted) and embedded
+   via iframe; **no video file is ever stored directly in this repository or deployment.**
+   AI-narrated videos are explicitly labelled as such ("AI-narrated educational video — for
+   illustrative teaching purposes") and never presented as unscripted real clinical footage. Where
+   no video exists yet, a labelled placeholder card (title, learning objective, planned duration,
+   transcript/captions "to be added") stands in its place. Real, institution-approved clinical video
+   will follow the same ethics-approval and consent process as any other real participant data
+   before replacing an AI-narrated video or a placeholder.
 
 Every page — SCT, both dashboards, Research & Evaluation, About, and Contact & Team — shares this
 same illustration/disclaimer visual language, not just the Case Library and OSCE stations from the
 initial multimedia pass.
 
-**Current version:** v1.4.5 (see [CHANGELOG.md](CHANGELOG.md)).
+**Current version:** v1.5.0 (see [CHANGELOG.md](CHANGELOG.md)).
 
 ## Technology stack
 

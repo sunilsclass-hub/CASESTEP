@@ -216,7 +216,7 @@ export function CasePlayer({ case: c }: { case: Case }) {
         {step.kind === 'management' && caseVideos[c.slug] && (
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             {caseVideos[c.slug].map((v) => (
-              <VideoPlaceholder key={v.title} title={v.title} objective={v.objective} />
+              <VideoPlaceholder key={v.title} title={v.title} objective={v.objective} youtubeId={v.youtubeId} />
             ))}
           </div>
         )}

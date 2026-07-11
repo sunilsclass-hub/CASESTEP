@@ -50,6 +50,13 @@ export const sctIllustration: Record<string, string> = {
 export interface VideoPlaceholderSpec {
   title: string;
   objective: string;
+  /**
+   * YouTube video id (the part after `youtu.be/` or `?v=`) for a real,
+   * externally-hosted video. When present, the gallery renders an embedded
+   * player instead of the static "to follow institutional approval"
+   * placeholder card. Omit for every case/station that has no real video yet.
+   */
+  youtubeId?: string;
 }
 
 export const caseVideos: Record<string, VideoPlaceholderSpec[]> = {
@@ -57,10 +64,12 @@ export const caseVideos: Record<string, VideoPlaceholderSpec[]> = {
     {
       title: 'How to perform diabetic foot screening',
       objective: 'Demonstrate 10-g monofilament technique and visual inspection for foot-risk stratification.',
+      youtubeId: '31D3PFN16nc',
     },
     {
       title: 'Lifestyle counseling for diabetes in primary care',
       objective: 'Model a brief, structured counseling conversation on diet, activity, and adherence.',
+      youtubeId: 'xYAPzraMN64',
     },
   ],
   hypertension: [

@@ -4,6 +4,57 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.5.0] — 2026-07-10
+
+### First real embedded video: T2DM management-step gallery
+
+Adds the platform's first real, playable video content — two
+AI-narrated YouTube (unlisted) videos in the Type 2 Diabetes Mellitus
+case's management-step video gallery, reviewed and approved by
+Dr. Kumar. Every other case/OSCE station's video gallery is unaffected
+and keeps rendering the existing static placeholder card unchanged.
+
+- `data/media.ts`: `VideoPlaceholderSpec` gains an optional `youtubeId`
+  field. The T2DM `caseVideos` entries now carry
+  `youtubeId: '31D3PFN16nc'` ("How to perform diabetic foot screening")
+  and `youtubeId: 'xYAPzraMN64'` ("Lifestyle counseling for diabetes in
+  primary care") — `title`/`objective` unchanged.
+- `components/media.tsx`: `VideoPlaceholder` now renders a real
+  `youtube-nocookie.com` iframe embed when `youtubeId` is present,
+  labelled "AI-narrated educational video — for illustrative teaching
+  purposes."; falls back to the existing static placeholder card,
+  unchanged, when it's absent (every other case and every OSCE
+  station today). The file's doc comment updated to reflect the new
+  three-way media model (SVG illustration / video placeholder / real
+  externally-hosted video).
+- `components/CasePlayer.tsx` and `components/OSCEStationCard.tsx`:
+  thread `youtubeId` through to `VideoPlaceholder` at both call sites.
+- `README.md`: "Media & academic integrity" section reworded — the
+  video paragraph no longer claims "no video file is embedded," since
+  that's no longer accurate. It now explains real video is always
+  hosted externally (YouTube, unlisted) and embedded via iframe, never
+  stored in the repository/deployment; that AI-narrated video is
+  explicitly labelled as such; and that real institution-approved
+  clinical video will follow the same ethics/consent process as any
+  other real participant data. The "Highlights" bullet on illustrations
+  updated to match.
+- Confirmed the embed doesn't affect the static export
+  (`output: 'export'`): `npm run build` still prerenders every route
+  with no server route introduced; the iframe is plain static markup.
+- Verified locally: `typecheck`, `lint`, `build`, `vitest` (17/17), and
+  `scripts/verify.mjs` (11/11) all pass. A headless-browser check
+  confirmed the management step renders both iframes with the exact
+  expected `src` (`youtube-nocookie.com/embed/<id>`) and title, the new
+  caption is present, and the old placeholder text is gone. **Actual
+  video playback could not be verified from this sandbox** —
+  `youtube-nocookie.com` is blocked by this environment's outbound
+  network policy (confirmed via `ERR_TUNNEL_CONNECTION_FAILED`, the
+  same class of restriction that blocked other external hosts earlier
+  in this project's history); only the markup's structural correctness
+  was verified. Live playback needs confirming in a real browser.
+
+Pushed to a review branch, not merged to main — held pending review.
+
 ## [1.4.5] — 2026-07-10
 
 ### Second real per-step image: Type 2 Diabetes exam photo
