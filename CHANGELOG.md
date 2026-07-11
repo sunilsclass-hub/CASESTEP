@@ -4,6 +4,48 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.5.1] — 2026-07-11
+
+### Replace the T2DM lifestyle-counseling video with an own-produced version
+
+The "Lifestyle counseling for diabetes in primary care" entry in the
+Type 2 Diabetes Mellitus management-step video gallery now points to a
+better-quality, own-produced video with a human-written, clinically
+reviewed script (AI-generated visuals and voice). It replaces the
+earlier placeholder-quality video rather than adding a third entry —
+the gallery still shows exactly two videos. The foot-screening video
+is unchanged.
+
+- `data/media.ts`: T2DM `caseVideos` entry 2 now carries
+  `youtubeId: 'TpJrlJiJmR4'` (was `'xYAPzraMN64'`, fully removed — no
+  remaining references anywhere in the repo). `title` kept as-is;
+  `objective` expanded to name the Indian Plate Method, physical
+  activity, medication adherence, and foot care, matching the new
+  video's fuller content.
+- `VideoPlaceholderSpec` gains an optional `productionNote` field so
+  each embedded video can carry its own, honest description of how it
+  was made instead of a single generic caption. The T2DM lifestyle
+  video's caption now reads "AI-assisted illustrative video — script
+  reviewed for clinical accuracy, images AI-generated — for
+  illustrative teaching purposes," distinct from the foot-screening
+  video's "AI-narrated educational video" caption, which is unchanged.
+- `components/media.tsx`, `CasePlayer.tsx`, `OSCEStationCard.tsx`:
+  thread `productionNote` through to `VideoPlaceholder`, defaulting to
+  the original generic caption when omitted — every video/station
+  without an explicit note is unaffected.
+- Verified locally via headless browser: the management step renders
+  exactly 2 iframes, with `src` and `title` matching the two YouTube
+  IDs, each showing its own distinct caption, and no trace of the old
+  video ID anywhere in the rendered DOM. `typecheck`, `lint`, `build`
+  (static export intact), `vitest` (17/17), and `verify.mjs` (11/11)
+  all pass.
+- As with the previous video-embedding round, actual playback of the
+  new embed could not be verified from this sandbox — outbound
+  requests to `youtube-nocookie.com` are blocked by this environment's
+  egress policy (`net::ERR_TUNNEL_CONNECTION_FAILED`), consistent with
+  every other external host tested this session. Only the markup was
+  confirmed correct; playback should be confirmed in a real browser.
+
 ## [1.5.0] — 2026-07-10
 
 ### First real embedded video: T2DM management-step gallery

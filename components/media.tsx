@@ -87,11 +87,13 @@ export function VideoPlaceholder({
   objective,
   duration = '3–5 min (planned)',
   youtubeId,
+  productionNote = 'AI-narrated educational video — for illustrative teaching purposes.',
 }: {
   title: string;
   objective: string;
   duration?: string;
   youtubeId?: string;
+  productionNote?: string;
 }) {
   if (youtubeId) {
     return (
@@ -108,9 +110,7 @@ export function VideoPlaceholder({
         </div>
         <div className="border-t border-ink-200 bg-white px-4 py-3 text-xs text-ink-600">
           <p className="font-semibold text-ink-700">{title}</p>
-          <p className="mt-1 italic text-ink-500">
-            AI-narrated educational video — for illustrative teaching purposes.
-          </p>
+          <p className="mt-1 italic text-ink-500">{productionNote}</p>
           <p className="mt-2">
             <span className="font-medium text-ink-700">Learning objective: </span>
             {objective}

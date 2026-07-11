@@ -57,6 +57,13 @@ export interface VideoPlaceholderSpec {
    * placeholder card. Omit for every case/station that has no real video yet.
    */
   youtubeId?: string;
+  /**
+   * How this specific video was produced, shown as a caption under the
+   * embed so it is never mistaken for unscripted real clinical footage.
+   * Only meaningful when `youtubeId` is set; defaults to a generic
+   * AI-narrated disclosure if omitted.
+   */
+  productionNote?: string;
 }
 
 export const caseVideos: Record<string, VideoPlaceholderSpec[]> = {
@@ -68,8 +75,11 @@ export const caseVideos: Record<string, VideoPlaceholderSpec[]> = {
     },
     {
       title: 'Lifestyle counseling for diabetes in primary care',
-      objective: 'Model a brief, structured counseling conversation on diet, activity, and adherence.',
-      youtubeId: 'xYAPzraMN64',
+      objective:
+        'Model a structured counseling conversation on the Indian Plate Method, physical activity, medication adherence, and foot care for a shopkeeper with newly diagnosed T2DM.',
+      youtubeId: 'TpJrlJiJmR4',
+      productionNote:
+        'AI-assisted illustrative video — script reviewed for clinical accuracy, images AI-generated — for illustrative teaching purposes.',
     },
   ],
   hypertension: [
