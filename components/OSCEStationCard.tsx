@@ -90,7 +90,14 @@ export function OSCEStationCard({ station }: { station: OSCEStation }) {
               aspect="aspect-[4/3]"
             />
           )}
-          {video && <VideoPlaceholder title={video.title} objective={video.objective} />}
+          {video && (
+            <VideoPlaceholder
+              title={video.title}
+              objective={video.objective}
+              youtubeId={video.youtubeId}
+              productionNote={video.productionNote}
+            />
+          )}
         </div>
       )}
 

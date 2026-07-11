@@ -4,6 +4,99 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.5.1] — 2026-07-11
+
+### Replace the T2DM lifestyle-counseling video with an own-produced version
+
+The "Lifestyle counseling for diabetes in primary care" entry in the
+Type 2 Diabetes Mellitus management-step video gallery now points to a
+better-quality, own-produced video with a human-written, clinically
+reviewed script (AI-generated visuals and voice). It replaces the
+earlier placeholder-quality video rather than adding a third entry —
+the gallery still shows exactly two videos. The foot-screening video
+is unchanged.
+
+- `data/media.ts`: T2DM `caseVideos` entry 2 now carries
+  `youtubeId: 'TpJrlJiJmR4'` (was `'xYAPzraMN64'`, fully removed — no
+  remaining references anywhere in the repo). `title` kept as-is;
+  `objective` expanded to name the Indian Plate Method, physical
+  activity, medication adherence, and foot care, matching the new
+  video's fuller content.
+- `VideoPlaceholderSpec` gains an optional `productionNote` field so
+  each embedded video can carry its own, honest description of how it
+  was made instead of a single generic caption. The T2DM lifestyle
+  video's caption now reads "AI-assisted illustrative video — script
+  reviewed for clinical accuracy, images AI-generated — for
+  illustrative teaching purposes," distinct from the foot-screening
+  video's "AI-narrated educational video" caption, which is unchanged.
+- `components/media.tsx`, `CasePlayer.tsx`, `OSCEStationCard.tsx`:
+  thread `productionNote` through to `VideoPlaceholder`, defaulting to
+  the original generic caption when omitted — every video/station
+  without an explicit note is unaffected.
+- Verified locally via headless browser: the management step renders
+  exactly 2 iframes, with `src` and `title` matching the two YouTube
+  IDs, each showing its own distinct caption, and no trace of the old
+  video ID anywhere in the rendered DOM. `typecheck`, `lint`, `build`
+  (static export intact), `vitest` (17/17), and `verify.mjs` (11/11)
+  all pass.
+- As with the previous video-embedding round, actual playback of the
+  new embed could not be verified from this sandbox — outbound
+  requests to `youtube-nocookie.com` are blocked by this environment's
+  egress policy (`net::ERR_TUNNEL_CONNECTION_FAILED`), consistent with
+  every other external host tested this session. Only the markup was
+  confirmed correct; playback should be confirmed in a real browser.
+
+## [1.5.0] — 2026-07-10
+
+### First real embedded video: T2DM management-step gallery
+
+Adds the platform's first real, playable video content — two
+AI-narrated YouTube (unlisted) videos in the Type 2 Diabetes Mellitus
+case's management-step video gallery, reviewed and approved by
+Dr. Kumar. Every other case/OSCE station's video gallery is unaffected
+and keeps rendering the existing static placeholder card unchanged.
+
+- `data/media.ts`: `VideoPlaceholderSpec` gains an optional `youtubeId`
+  field. The T2DM `caseVideos` entries now carry
+  `youtubeId: '31D3PFN16nc'` ("How to perform diabetic foot screening")
+  and `youtubeId: 'xYAPzraMN64'` ("Lifestyle counseling for diabetes in
+  primary care") — `title`/`objective` unchanged.
+- `components/media.tsx`: `VideoPlaceholder` now renders a real
+  `youtube-nocookie.com` iframe embed when `youtubeId` is present,
+  labelled "AI-narrated educational video — for illustrative teaching
+  purposes."; falls back to the existing static placeholder card,
+  unchanged, when it's absent (every other case and every OSCE
+  station today). The file's doc comment updated to reflect the new
+  three-way media model (SVG illustration / video placeholder / real
+  externally-hosted video).
+- `components/CasePlayer.tsx` and `components/OSCEStationCard.tsx`:
+  thread `youtubeId` through to `VideoPlaceholder` at both call sites.
+- `README.md`: "Media & academic integrity" section reworded — the
+  video paragraph no longer claims "no video file is embedded," since
+  that's no longer accurate. It now explains real video is always
+  hosted externally (YouTube, unlisted) and embedded via iframe, never
+  stored in the repository/deployment; that AI-narrated video is
+  explicitly labelled as such; and that real institution-approved
+  clinical video will follow the same ethics/consent process as any
+  other real participant data. The "Highlights" bullet on illustrations
+  updated to match.
+- Confirmed the embed doesn't affect the static export
+  (`output: 'export'`): `npm run build` still prerenders every route
+  with no server route introduced; the iframe is plain static markup.
+- Verified locally: `typecheck`, `lint`, `build`, `vitest` (17/17), and
+  `scripts/verify.mjs` (11/11) all pass. A headless-browser check
+  confirmed the management step renders both iframes with the exact
+  expected `src` (`youtube-nocookie.com/embed/<id>`) and title, the new
+  caption is present, and the old placeholder text is gone. **Actual
+  video playback could not be verified from this sandbox** —
+  `youtube-nocookie.com` is blocked by this environment's outbound
+  network policy (confirmed via `ERR_TUNNEL_CONNECTION_FAILED`, the
+  same class of restriction that blocked other external hosts earlier
+  in this project's history); only the markup's structural correctness
+  was verified. Live playback needs confirming in a real browser.
+
+Pushed to a review branch, not merged to main — held pending review.
+
 ## [1.4.5] — 2026-07-10
 
 ### Second real per-step image: Type 2 Diabetes exam photo
