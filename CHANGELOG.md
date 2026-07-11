@@ -4,6 +4,25 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.6.1] — 2026-07-11
+
+### Branding reposition follow-up: two loose ends
+
+- `app/contact/page.tsx`: reworded the generic "please contact the
+  principal investigator…" enquiries sentence — directly under the new
+  "Founder & Academic Lead" card, it read oddly against that framing —
+  to "please contact Dr. Kumar through the Department of Community
+  Medicine, …, or use the form below."
+- `data/site.ts`: `principalInvestigator.role` updated from "Principal
+  Investigator" to "Founder & Academic Lead" — the field is unrendered
+  today, but leaving a stale value inconsistent with the site-wide
+  reframing risked confusing whoever wires it up next.
+- Verified locally: `typecheck`, `lint`, `build`, `vitest` (17/17),
+  `verify.mjs` (11/11), and confirmed via the static export that "please
+  contact the principal investigator" no longer appears anywhere and
+  "Principal Investigator" now appears exactly once, scoped to the
+  Research page's study description.
+
 ## [1.6.0] — 2026-07-11
 
 ### Branding reposition: Dr. Kumar as founder/academic lead, FAIMER moved to supporting context
