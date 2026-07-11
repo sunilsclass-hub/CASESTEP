@@ -14,7 +14,7 @@ import {
 } from '@/data/research';
 
 export const metadata: Metadata = {
-  title: 'Research & Evaluation',
+  title: { absolute: 'Research & Evaluation — CaseStep' },
   description:
     'Study design, aims, participants, outcome measures, Kirkpatrick evaluation, logic model, ethics, limitations, and scale-up plan for the CaseStep FAIMER project.',
   alternates: { canonical: '/research/' },
@@ -93,6 +93,9 @@ export default function ResearchPage() {
             </ul>
           </div>
         </div>
+        <p className="mt-4 text-sm text-ink-500">
+          Principal Investigator (DCBL evaluation study): Dr. D. Sunil Kumar.
+        </p>
       </Section>
 
       {/* Design, participants, intervention, comparator, outcome measures */}

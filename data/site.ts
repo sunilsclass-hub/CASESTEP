@@ -6,7 +6,7 @@ export const site = {
   projectTitle:
     'Integrating Digital Case-Based Learning to Enhance Clinical Reasoning in Community Medicine',
   institution: 'JSS Academy of Higher Education & Research, Mysuru',
-  program: 'International FAIMER Fellowship Project',
+  program: 'Digital Case-Based Learning · Community Medicine',
 };
 
 export const nav = [
