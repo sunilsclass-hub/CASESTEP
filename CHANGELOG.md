@@ -4,6 +4,17 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.6.2] — 2026-07-11
+
+### Simplify the Contact page enquiries sentence
+
+- `app/contact/page.tsx`: the "Enquiries" card's sentence no longer names
+  a contact route that doesn't exist on the page (no email address is
+  listed) — it now reads "For collaboration, review, or research
+  enquiries about CaseStep, please use the form below."
+- Verified locally: `typecheck`, `lint`, `build`, `vitest` (17/17),
+  `verify.mjs` (11/11).
+
 ## [1.6.1] — 2026-07-11
 
 ### Branding reposition follow-up: two loose ends

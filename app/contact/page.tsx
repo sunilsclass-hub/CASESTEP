@@ -133,9 +133,8 @@ export default function ContactPage() {
               <IconTarget width={18} height={18} className="text-brand-600" /> Enquiries
             </h3>
             <p className="mt-2 text-sm text-ink-600">
-              For collaboration, review, or research enquiries about {site.name}, please contact
-              Dr. Kumar through the Department of Community Medicine, {site.institution}, or use
-              the form below.
+              For collaboration, review, or research enquiries about {site.name}, please use the
+              form below.
             </p>
             <dl className="mt-4 space-y-2 text-sm">
               <div className="flex gap-2">
