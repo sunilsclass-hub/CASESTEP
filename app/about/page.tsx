@@ -12,7 +12,7 @@ const faimerLogic = [
 ];
 
 export const metadata: Metadata = {
-  title: 'About the Project',
+  title: { absolute: 'About CaseStep — Founder, Frameworks & Development Story' },
   description:
     'Background, rationale, objectives and framework alignment of the CaseStep FAIMER project on digital case-based learning in Community Medicine.',
   alternates: { canonical: '/about/' },
@@ -100,6 +100,52 @@ export default function AboutPage() {
         title="Integrating Digital Case-Based Learning to Enhance Clinical Reasoning in Community Medicine"
         description="A FAIMER fellowship project that reimagines how MBBS students build applied clinical reasoning — connecting the individual patient to the health of the community."
       />
+
+      {/* About CaseStep / Founder / How it was built / Scholarly context */}
+      <Section title="About CaseStep">
+        <p className="max-w-3xl leading-relaxed text-ink-700">
+          CaseStep is a digital case-based learning platform that strengthens clinical reasoning in
+          undergraduate Community Medicine. Through branching patient journeys, Script Concordance
+          Testing, and OSCE/OSPE practice, it teaches students to reason the way clinicians actually
+          do — under uncertainty, with incomplete information, and with the health of the community
+          in view.
+        </p>
+      </Section>
+
+      <Section title="Founder & Academic Lead" className="border-t border-ink-200">
+        <p className="max-w-3xl leading-relaxed text-ink-700">
+          Dr. D. Sunil Kumar — MBBS, MD (Community Medicine), PhD, MBA (Healthcare Management) — is
+          Professor of Community Medicine at JSS Medical College and Dean (Students’ Welfare) at
+          JSS Academy of Higher Education &amp; Research, Mysuru. A medical educator, public health
+          academic, and digital health innovator, he conceived, designed, and developed CaseStep,
+          and leads its academic direction, case authorship, and research programme.
+        </p>
+      </Section>
+
+      <Section title="How CaseStep was built" className="border-t border-ink-200">
+        <p className="max-w-3xl leading-relaxed text-ink-700">
+          CaseStep was conceived, designed, and developed by Dr. Kumar as an independent academic
+          initiative, built from the ground up on established curriculum-design and assessment
+          frameworks — Kern’s six-step approach, ADDIE, TPACK, Script Concordance methodology, and
+          constructive alignment with India’s NMC CBME competencies.
+        </p>
+        <p className="mt-4 max-w-3xl leading-relaxed text-ink-700">
+          The platform was developed during Dr. Kumar’s International FAIMER Fellowship in Health
+          Professions Education, whose mentorship, scholarly community, and structured reflection
+          shaped its educational design. The fellowship provided professional-development context;
+          the platform itself is independently created and maintained.
+        </p>
+        <p className="mt-6 max-w-3xl text-sm italic text-ink-500">
+          Institutional names on this site indicate the creator’s professional affiliations and the
+          ethical-review context of associated research; CaseStep is an independent academic
+          platform and does not represent an official product of any institution.
+        </p>
+        <p className="mt-4 max-w-3xl rounded-xl border border-ink-200 bg-ink-50 p-4 text-sm text-ink-600">
+          <span className="font-semibold text-ink-700">Cite this platform: </span>
+          Kumar DS. CaseStep: a digital case-based learning platform for clinical reasoning in
+          Community Medicine [Internet]. Mysuru; 2026. Available from: https://casestep.in
+        </p>
+      </Section>
 
       <Section>
         <div className="grid gap-10 lg:grid-cols-3">

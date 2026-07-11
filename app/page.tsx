@@ -37,7 +37,6 @@ const features = [
 
 const frameworks = [
   'NMC CBME Curriculum',
-  'FAIMER Project Framework',
   'Kern’s 6-Step Model',
   'ADDIE Model',
   'TPACK Framework',
@@ -107,6 +106,10 @@ export default function HomePage() {
                 View Research Framework
               </CTALink>
             </div>
+            <p className="mt-4 text-sm text-ink-500">
+              Created and academically led by Dr. D. Sunil Kumar, Professor of Community Medicine,
+              JSS Medical College, Mysuru.
+            </p>
             <dl className="mt-10 grid max-w-lg grid-cols-3 gap-4">
               <div>
                 <dt className="text-3xl font-bold text-ink-900">{ready.length}</dt>

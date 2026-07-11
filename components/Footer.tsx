@@ -17,7 +17,11 @@ export function Footer() {
             {site.projectTitle}.
           </p>
           <p className="mt-3 text-sm text-ink-500">
-            {site.program} · {site.institution}
+            Created by Dr. D. Sunil Kumar · Professor of Community Medicine &amp; Dean (Students’
+            Welfare), JSS Medical College · JSS AHER, Mysuru.
+          </p>
+          <p className="mt-1.5 text-sm text-ink-500">
+            Developed during the International FAIMER Fellowship in Health Professions Education.
           </p>
         </div>
 
@@ -47,9 +51,11 @@ export function Footer() {
       </div>
 
       <div className="border-t border-ink-200">
-        <div className="container-page flex flex-col items-center justify-between gap-2 py-5 text-xs text-ink-500 sm:flex-row">
-          <p>© {new Date().getFullYear()} {site.name}. For educational and research use.</p>
-          <p>Principal Investigator: Dr. D. Sunil Kumar · JSS AHER, Mysuru</p>
+        <div className="container-page py-5 text-center text-xs text-ink-500">
+          <p>
+            © {new Date().getFullYear()} Dr. D. Sunil Kumar · {site.name}. For educational and
+            research use. Not a substitute for clinical judgment or medical advice.
+          </p>
         </div>
       </div>
     </footer>

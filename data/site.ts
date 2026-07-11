@@ -6,7 +6,7 @@ export const site = {
   projectTitle:
     'Integrating Digital Case-Based Learning to Enhance Clinical Reasoning in Community Medicine',
   institution: 'JSS Academy of Higher Education & Research, Mysuru',
-  program: 'International FAIMER Fellowship Project',
+  program: 'Digital Case-Based Learning · Community Medicine',
 };
 
 export const nav = [
@@ -32,7 +32,7 @@ export interface TeamMember {
 
 export const principalInvestigator: TeamMember = {
   name: 'Dr. D. Sunil Kumar',
-  role: 'Principal Investigator',
+  role: 'Founder & Academic Lead',
   detail:
     'MBBS, MD (Community Medicine), PhD, MBA (Healthcare Management). Dean (Student’s Welfare) · Professor of Community Medicine · International FAIMER Fellow.',
   affiliation: 'JSS Academy of Higher Education & Research, Mysuru',

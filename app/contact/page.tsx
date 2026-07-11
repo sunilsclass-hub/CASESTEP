@@ -39,11 +39,15 @@ export default function ContactPage() {
               SK
             </div>
             <div>
-              <Badge tone="brand">{principalInvestigator.role}</Badge>
+              <Badge tone="brand">Founder &amp; Academic Lead, CaseStep</Badge>
               <h2 className="mt-2 text-2xl font-bold text-ink-900">{principalInvestigator.name}</h2>
-              <p className="mt-2 leading-relaxed text-ink-600">{principalInvestigator.detail}</p>
+              <p className="mt-2 leading-relaxed text-ink-600">
+                Professor of Community Medicine, JSS Medical College · Dean (Students’ Welfare),
+                JSS AHER, Mysuru.
+              </p>
               <p className="mt-2 text-sm font-medium text-ink-700">
-                {principalInvestigator.affiliation}
+                For collaboration, faculty adoption, research partnerships, or feedback, use the
+                form below.
               </p>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {piCredentials.map((c) => (
@@ -129,9 +133,8 @@ export default function ContactPage() {
               <IconTarget width={18} height={18} className="text-brand-600" /> Enquiries
             </h3>
             <p className="mt-2 text-sm text-ink-600">
-              For collaboration, review, or research enquiries about {site.name}, please contact the
-              principal investigator through the Department of Community Medicine,{' '}
-              {site.institution}.
+              For collaboration, review, or research enquiries about {site.name}, please use the
+              form below.
             </p>
             <dl className="mt-4 space-y-2 text-sm">
               <div className="flex gap-2">

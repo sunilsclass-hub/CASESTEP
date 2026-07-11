@@ -4,6 +4,106 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.6.2] — 2026-07-11
+
+### Simplify the Contact page enquiries sentence
+
+- `app/contact/page.tsx`: the "Enquiries" card's sentence no longer names
+  a contact route that doesn't exist on the page (no email address is
+  listed) — it now reads "For collaboration, review, or research
+  enquiries about CaseStep, please use the form below."
+- Verified locally: `typecheck`, `lint`, `build`, `vitest` (17/17),
+  `verify.mjs` (11/11).
+
+## [1.6.1] — 2026-07-11
+
+### Branding reposition follow-up: two loose ends
+
+- `app/contact/page.tsx`: reworded the generic "please contact the
+  principal investigator…" enquiries sentence — directly under the new
+  "Founder & Academic Lead" card, it read oddly against that framing —
+  to "please contact Dr. Kumar through the Department of Community
+  Medicine, …, or use the form below."
+- `data/site.ts`: `principalInvestigator.role` updated from "Principal
+  Investigator" to "Founder & Academic Lead" — the field is unrendered
+  today, but leaving a stale value inconsistent with the site-wide
+  reframing risked confusing whoever wires it up next.
+- Verified locally: `typecheck`, `lint`, `build`, `vitest` (17/17),
+  `verify.mjs` (11/11), and confirmed via the static export that "please
+  contact the principal investigator" no longer appears anywhere and
+  "Principal Investigator" now appears exactly once, scoped to the
+  Research page's study description.
+
+## [1.6.0] — 2026-07-11
+
+### Branding reposition: Dr. Kumar as founder/academic lead, FAIMER moved to supporting context
+
+Repositions the site's framing from "a FAIMER fellowship project" to "an
+independent academic platform created and led by Dr. D. Sunil Kumar,"
+consistent with how the platform is actually owned and maintained. FAIMER
+remains visible as accurate scholarly provenance (the fellowship shaped the
+platform's development) but is no longer the primary framing, and the
+"Principal Investigator" title is now scoped only to the Research page's
+study description.
+
+- `data/site.ts`: `site.program` (hero badge, footer, contact "Programme"
+  field) changed from "International FAIMER Fellowship Project" to
+  "Digital Case-Based Learning · Community Medicine". `VideoPlaceholderSpec`
+  unaffected.
+- `app/page.tsx`: hero gains a muted attribution line — "Created and
+  academically led by Dr. D. Sunil Kumar, Professor of Community Medicine,
+  JSS Medical College, Mysuru." — below the CTA row. The "FAIMER Project
+  Framework" pill removed from "Grounded in established frameworks" (it's a
+  fellowship, not an instructional-design framework, unlike Kern's/ADDIE/
+  TPACK alongside it).
+- `components/Footer.tsx`: affiliation line split into two — a "Created by
+  Dr. D. Sunil Kumar…" line and a separate "Developed during the
+  International FAIMER Fellowship…" line — and the copyright line now
+  reads "© 2026 Dr. D. Sunil Kumar · CaseStep… Not a substitute for
+  clinical judgment or medical advice." The standalone "Principal
+  Investigator: Dr. D. Sunil Kumar · JSS AHER, Mysuru" line is removed
+  (that title now lives only on the Research page, scoped to the study).
+- `app/about/page.tsx`: five new blocks — "About CaseStep," "Founder &
+  Academic Lead," "How CaseStep was built" (folded the "Scholarly context"
+  paragraph in as its closing paragraph, plus a "Cite this platform" box),
+  and a muted one-line ownership/affiliation disclaimer — inserted right
+  after the page header and before the existing framework/constructive-
+  alignment content, which is untouched. Page title changed to "About
+  CaseStep — Founder, Frameworks & Development Story" (set via
+  `title.absolute` to avoid a duplicated "· CaseStep" suffix from the
+  layout's title template).
+- `app/research/page.tsx`: added "Principal Investigator (DCBL evaluation
+  study): Dr. D. Sunil Kumar." under Study overview. Every other section
+  (design, Kirkpatrick evaluation, logic model, ethics/IEC, limitations,
+  scale-up plan, timeline) is untouched. Title changed to "Research &
+  Evaluation — CaseStep" (also via `title.absolute`).
+- `app/contact/page.tsx`: the PI card's badge now reads "Founder &
+  Academic Lead, CaseStep" instead of "Principal Investigator"; the detail
+  line reads "Professor of Community Medicine, JSS Medical College · Dean
+  (Students' Welfare), JSS AHER, Mysuru"; a new line invites collaboration/
+  faculty-adoption/research-partnership/feedback enquiries via the form
+  below. The Web3Forms contact form itself is untouched.
+- `app/layout.tsx`: homepage meta/OG/Twitter description reworded to lead
+  with what the platform does and who created it, rather than naming
+  FAIMER first; meta title, author, and keywords unchanged (FAIMER stays
+  in keywords — harmless for discoverability). Added `Person` and
+  `WebSite` JSON-LD structured data (author/copyrightHolder/publisher all
+  set to the same Person entity), with a `TODO` left for `sameAs`
+  (ORCID/Google Scholar/LinkedIn) pending Dr. Kumar supplying them.
+- Every other FAIMER/"Principal Investigator" mention (research-page
+  scholarly prose, the About page's FAIMER-alignment/project-logic
+  sections, the footer's small Frameworks list, contact-page team-group
+  labels and collaboration copy, `data/research.ts`, `FacultyDashboard.tsx`
+  demo-data note, README/CHANGELOG/CITATION.cff) is left exactly as-is —
+  those are either accurate provenance records or out of the requested
+  scope.
+- Verified locally: `typecheck`, `lint`, `build` (static export intact),
+  `vitest` (17/17), `verify.mjs` (11/11), and a headless-browser visual
+  check of the hero, footer, About, and Contact pages at both desktop
+  (1440px) and mobile (390px) widths — no layout breaks, both JSON-LD
+  blocks present exactly once in the static HTML with the correct field
+  values.
+
 ## [1.5.1] — 2026-07-11
 
 ### Replace the T2DM lifestyle-counseling video with an own-produced version
