@@ -57,6 +57,14 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Dr. D. Sunil Kumar' }],
   alternates: { canonical: '/' },
+  icons: {
+    icon: [
+      { url: '/media/logo/casestep-favicon.svg', type: 'image/svg+xml' },
+      { url: '/media/logo/favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/media/logo/favicon.ico', sizes: 'any' },
+    ],
+    apple: [{ url: '/media/logo/app-icon-180.png', sizes: '180x180', type: 'image/png' }],
+  },
   openGraph: {
     type: 'website',
     siteName: site.name,

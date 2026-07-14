@@ -4,6 +4,64 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.7.0] — 2026-07-14
+
+### New logo and favicon assets
+
+Integrates the new navy/gold CaseStep logo and icon set (11 files,
+supplied by Dr. Kumar) into `public/media/logo/`. Strictly a visual
+asset swap — no colors, typography, copy, taglines, or component
+structure were changed.
+
+- `components/Navbar.tsx`, `components/Footer.tsx`: the gradient
+  icon-box + stethoscope-icon mark (the only two places the site
+  actually renders a logo) is replaced with `casestep-icon.svg`, at the
+  same footprint it occupied before (36px header / 32px footer). The
+  adjacent "CaseStep" text and tagline are untouched — the current
+  header/footer layout is an icon-plus-separate-HTML-wordmark, not a
+  space sized for a full lockup, so `casestep-logo-primary.svg` (which
+  bakes "CaseStep" into the graphic) was not used, per the brief's
+  guidance not to force a wordmark into an icon-sized slot.
+  `casestep-logo-reverse.svg` was not used anywhere: the one dark
+  (navy) background section on the site — "Grounded in established
+  frameworks" — does not currently show a logo, and none was added
+  there (asset swap only, no new placements).
+- `app/layout.tsx`: `metadata.icons` now serves `casestep-favicon.svg`
+  as the primary favicon, with `favicon-32.png` and `favicon.ico` as
+  fallbacks, plus `app-icon-180.png` as the `apple-touch-icon`.
+- `app/manifest.ts` (new): a static web-app manifest — following the
+  same `MetadataRoute` pattern as the existing `robots.ts`/`sitemap.ts`
+  — referencing `app-icon-192.png` and `app-icon-512.png`. No manifest
+  existed before; one is needed for the two PWA-sized icons supplied to
+  mean anything. `theme_color`/`background_color` are set to the site's
+  existing teal brand token (`#0d9488`) rather than the logo's navy,
+  since this controls browser/OS chrome around the still-teal-themed
+  UI, not the logo itself.
+- `favicon.ico`, `favicon-32.png`, `app-icon-180/192/512/1024.png`,
+  `social-avatar-1000.png`, `casestep-favicon.svg`,
+  `casestep-logo-primary.svg`, `casestep-logo-reverse.svg` are all
+  present in `public/media/logo/` for future use but not yet wired up
+  anywhere beyond what's listed above (`social-avatar-1000.png` in
+  particular isn't referenced — no `openGraph.images`/Twitter card
+  image was requested, so none was added).
+- `CASESTEP-BUILD-PROMPT.md` was not present on the `image-upload`
+  branch — nothing to discard.
+- **Flagged for follow-up, per the brief's request**: the new logo's
+  navy/gold palette doesn't match the site's existing teal-based brand
+  tokens (CTA buttons, links, hero gradient). At the current icon size
+  (32–36px) in the header/footer this reads as a minor, not jarring,
+  accent difference — but it's a genuine palette mismatch that will be
+  more visible if the icon or wordmark is used larger elsewhere (e.g. a
+  future social-card image). No recoloring was attempted, per
+  instruction.
+- Verified locally: `typecheck`, `lint`, `build` (static export intact,
+  `/manifest.webmanifest` builds as a static route), `vitest` (17/17),
+  `verify.mjs` (11/11), and a headless-browser check confirming both
+  logo `<img>` elements load successfully (non-zero `naturalWidth`) and
+  render correctly at desktop (1440px) and mobile (390px) widths, plus
+  confirmed the favicon/apple-touch-icon/manifest `<link>` tags and the
+  manifest JSON content are all correct in the static HTML output.
+
 ## [1.6.2] — 2026-07-11
 
 ### Simplify the Contact page enquiries sentence
