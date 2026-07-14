@@ -1,6 +1,6 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { site, nav } from '@/data/site';
-import { IconStethoscope } from './icons';
 
 export function Footer() {
   return (
@@ -8,9 +8,7 @@ export function Footer() {
       <div className="container-page grid gap-8 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div className="sm:col-span-2 lg:col-span-2">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-indigo-600 text-white">
-              <IconStethoscope width={16} height={16} />
-            </span>
+            <Image src="/media/logo/casestep-icon.svg" alt="" width={32} height={32} className="h-8 w-8" />
             <p className="text-lg font-bold text-ink-900">{site.name}</p>
           </div>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-600">

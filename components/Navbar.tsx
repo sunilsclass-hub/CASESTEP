@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { nav, site } from '@/data/site';
 import { AuthWidget } from './AuthWidget';
-import { IconMenu, IconX, IconStethoscope } from './icons';
+import { IconMenu, IconX } from './icons';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -18,9 +19,13 @@ export function Navbar() {
     <header className="sticky top-0 z-40 border-b border-ink-200/80 bg-white/80 backdrop-blur-lg">
       <nav className="container-page flex h-16 items-center justify-between" aria-label="Main">
         <Link href="/" className="flex flex-shrink-0 items-center gap-2.5" onClick={() => setOpen(false)}>
-          <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-indigo-600 text-white shadow-sm">
-            <IconStethoscope width={20} height={20} />
-          </span>
+          <Image
+            src="/media/logo/casestep-icon.svg"
+            alt=""
+            width={36}
+            height={36}
+            className="h-9 w-9 flex-shrink-0"
+          />
           <span className="flex flex-col leading-none">
             <span className="whitespace-nowrap text-lg font-bold text-ink-900">{site.name}</span>
             <span className="hidden whitespace-nowrap text-[11px] font-medium text-ink-500 2xl:block">
