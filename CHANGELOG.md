@@ -4,6 +4,50 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.0] — 2026-07-26
+
+### Antenatal Care case: scenario image and two management videos
+
+Adds the Antenatal Care case's first real per-step image and its first
+two embedded YouTube videos, following the same patterns already
+established for T2DM and Hypertension. No other case, image, or video
+was touched.
+
+- `public/media/cases/antenatal-care/scenario.jpg` (new): uploaded
+  scenario image, renamed from its raw ChatGPT export filename and
+  converted from PNG to JPEG at quality 82 in the same step (matching
+  the T2DM/Hypertension optimization pattern) — 2,248,335 bytes
+  (~2.14 MB) → 303,867 bytes (~297 KB), a ~86.5% reduction, with no
+  visible quality loss on inspection.
+- `data/cases.ts`: the `scenario` step's `media` now has
+  `src: '/media/cases/antenatal-care/scenario.jpg'` and caption
+  "AI-generated illustrative image — not real patient photography. Mrs.
+  Anjali's first antenatal visit at a sub-centre, accompanied by her
+  ASHA worker, alongside a patient-history summary infographic." — the
+  image is a signs/history infographic (13-point patient-history
+  summary) built around a health-worker consultation photo, and its
+  details (age 24, primigravida, LMP 12 weeks, ASHA-accompanied, married
+  1 year, planned pregnancy, vegetarian diet, joint family, rural,
+  immunisation uncertain) match the case's existing scenario text and
+  bullets exactly.
+- `data/media.ts`: `caseVideos['antenatal-care']` — "Antenatal counseling
+  and danger signs" → `youtubeId: 'VCZ41eeV8Hk'`; "Birth preparedness and
+  complication readiness counseling" → `youtubeId: 'noShsys-pg8'`. Both
+  use the "AI-narrated educational video — for illustrative teaching
+  purposes" caption, matching the other two cases' videos. Titles/
+  objectives unchanged.
+- Verified locally: `typecheck`, `lint`, `build` (static export intact),
+  `vitest` (17/17), `verify.mjs` (11/11), and a headless-browser check
+  confirming the scenario image loads at full resolution with the new
+  caption and no trace of the old placeholder text, and that the
+  management step renders exactly 2 iframes with `src`/`title` matching
+  the two YouTube IDs to the correct slots.
+- As with every YouTube embed added this session, actual playback
+  couldn't be verified from this sandbox — `youtube-nocookie.com` is
+  blocked by the environment's egress policy
+  (`CONNECT tunnel failed, response 403`). Only markup correctness was
+  confirmed; playback should be confirmed in a real browser.
+
 ## [1.7.2] — 2026-07-26
 
 ### Convert the Hypertension scenario image to JPEG

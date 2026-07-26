@@ -100,10 +100,14 @@ export const caseVideos: Record<string, VideoPlaceholderSpec[]> = {
     {
       title: 'Antenatal counseling and danger signs',
       objective: 'Demonstrate structured counseling on pregnancy danger signs at a routine ANC visit.',
+      youtubeId: 'VCZ41eeV8Hk',
+      productionNote: 'AI-narrated educational video — for illustrative teaching purposes.',
     },
     {
       title: 'Birth preparedness and complication readiness counseling',
       objective: 'Model a birth-preparedness planning conversation with an antenatal woman and her family.',
+      youtubeId: 'noShsys-pg8',
+      productionNote: 'AI-narrated educational video — for illustrative teaching purposes.',
     },
   ],
 };
