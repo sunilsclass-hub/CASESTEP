@@ -4,6 +4,24 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.7.2] — 2026-07-26
+
+### Convert the Hypertension scenario image to JPEG
+
+- `public/media/cases/hypertension/scenario.jpg` (was `scenario.png`,
+  removed): re-encoded as JPEG at quality 82, matching the T2DM
+  optimization settings. File size dropped from 2,087,399 bytes
+  (~2.09 MB) to 258,104 bytes (~258 KB) — a ~87.6% reduction, now in
+  line with T2DM's ~270 KB images. Visual quality holds up: the
+  infographic's text and photo detail remain fully crisp at this
+  quality setting, no visible compression artefacts.
+- `data/cases.ts`: the scenario step's `media.src` updated to the new
+  `.jpg` path.
+- Verified locally: `typecheck`, `lint`, `build`, `vitest` (17/17),
+  `verify.mjs` (11/11), and confirmed via the static export that the new
+  `.jpg` serves (200) and loads at full resolution on the case page,
+  while the old `.png` path now 404s.
+
 ## [1.7.1] — 2026-07-26
 
 ### Hypertension case: scenario image and two management videos

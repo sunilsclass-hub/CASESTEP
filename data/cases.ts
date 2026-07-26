@@ -273,7 +273,7 @@ const htn: Case = {
       ],
       media: {
         type: 'image',
-        src: '/media/cases/hypertension/scenario.png',
+        src: '/media/cases/hypertension/scenario.jpg',
         caption:
           'AI-generated illustrative image — not real patient photography. A patient having her blood pressure measured at a community health camp, alongside a signs-and-symptoms and lifestyle-prevention summary.',
       },
