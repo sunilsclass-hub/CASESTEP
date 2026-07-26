@@ -86,10 +86,14 @@ export const caseVideos: Record<string, VideoPlaceholderSpec[]> = {
     {
       title: 'Correct BP measurement technique',
       objective: 'Demonstrate patient positioning, cuff size selection, and auscultatory technique.',
+      youtubeId: 'nVnNm_3OJhA',
+      productionNote: 'AI-narrated educational video — for illustrative teaching purposes.',
     },
     {
       title: 'Counseling for hypertension lifestyle modification',
       objective: 'Model salt-reduction and adherence counseling for a newly diagnosed hypertensive patient.',
+      youtubeId: 'MXdis08UUa8',
+      productionNote: 'AI-narrated educational video — for illustrative teaching purposes.',
     },
   ],
   'antenatal-care': [

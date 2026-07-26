@@ -271,7 +271,12 @@ const htn: Case = {
         'Mother hypertensive; adds extra salt/pickle to meals.',
         'BMI 27.4 kg/m²; non-smoker; minimal physical activity.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Correct BP measurement setup at a health camp.' },
+      media: {
+        type: 'image',
+        src: '/media/cases/hypertension/scenario.jpg',
+        caption:
+          'AI-generated illustrative image — not real patient photography. A patient having her blood pressure measured at a community health camp, alongside a signs-and-symptoms and lifestyle-prevention summary.',
+      },
     },
     {
       id: 'decision-confirm',
