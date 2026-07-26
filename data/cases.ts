@@ -469,7 +469,12 @@ const anc: Case = {
         'Vegetarian diet; lives in a joint family in a rural area.',
         'No medications; immunisation history uncertain.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Sub-centre antenatal registration.' },
+      media: {
+        type: 'image',
+        src: '/media/cases/antenatal-care/scenario.jpg',
+        caption:
+          'AI-generated illustrative image — not real patient photography. Mrs. Anjali’s first antenatal visit at a sub-centre, accompanied by her ASHA worker, alongside a patient-history summary infographic.',
+      },
     },
     {
       id: 'history',
