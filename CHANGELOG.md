@@ -4,6 +4,50 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.7.1] — 2026-07-26
+
+### Hypertension case: scenario image and two management videos
+
+Adds the Hypertension case's first real per-step image and its first two
+embedded YouTube videos, following the same patterns established for
+Type 2 Diabetes Mellitus. No other case, image, or video was touched.
+
+- `public/media/cases/hypertension/scenario.png` (new): the uploaded
+  scenario image, renamed from its raw ChatGPT export filename to match
+  the T2DM naming convention. It's a signs-and-symptoms/lifestyle
+  infographic built around a health-camp BP-measurement photo, not a
+  plain clinical photo like T2DM's — the caption describes it accurately
+  rather than reusing T2DM's wording verbatim.
+- `data/cases.ts`: the `scenario` step's `media` now has
+  `src: '/media/cases/hypertension/scenario.png'` and caption
+  "AI-generated illustrative image — not real patient photography. A
+  patient having her blood pressure measured at a community health
+  camp, alongside a signs-and-symptoms and lifestyle-prevention
+  summary." — replacing the old "clinical photography to follow
+  institutional approval" placeholder text for this step only.
+- `data/media.ts`: `caseVideos['hypertension']` — "Correct BP measurement
+  technique" → `youtubeId: 'nVnNm_3OJhA'`; "Counseling for hypertension
+  lifestyle modification" → `youtubeId: 'MXdis08UUa8'`. Both use the
+  "AI-narrated educational video — for illustrative teaching purposes."
+  caption, confirmed with Dr. Kumar to match how these two videos were
+  actually produced. Titles/objectives unchanged.
+- Verified locally: `typecheck`, `lint`, `build` (static export intact),
+  `vitest` (17/17), `verify.mjs` (11/11), and a headless-browser check
+  confirming the scenario image loads at full resolution with the new
+  caption and no trace of the old placeholder text, and that the
+  management step renders exactly 2 iframes with `src`/`title` matching
+  the two YouTube IDs to the correct slots.
+- As with every YouTube embed added this session, actual playback
+  couldn't be verified from this sandbox — `youtube-nocookie.com` is
+  blocked by the environment's egress policy
+  (`CONNECT tunnel failed, response 403`). Only markup correctness was
+  confirmed; playback should be confirmed in a real browser.
+- Flagged, not acted on: the uploaded PNG is ~2 MB even after
+  lossless-optimize (photographic/infographic content compresses poorly
+  as PNG) — noticeably larger than T2DM's ~270 KB JPEGs. Kept as `.png`
+  per the explicit instructed filename; converting to JPEG would shrink
+  it substantially if that's wanted.
+
 ## [1.7.0] — 2026-07-14
 
 ### New logo and favicon assets
