@@ -4,6 +4,92 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.1] — 2026-07-28
+
+### Postnatal Care scenario image: age-corrected regeneration
+
+Replaces `scenario.jpg` with Dr. Kumar's regenerated version
+(`ChatGPT Image Jul 28, 2026, 12_36_26 PM.png` on `image-upload`), which
+fixes the only discrepancy flagged last round: the mother's stated age
+now reads 26 (both in the infographic's banner text and its "Patient"
+card), matching the case's existing scenario text. Every other detail
+is unchanged and still matches exactly (postpartum day 4, baby boy,
+full-term NVD, 2.6 kg, joint family, "not enough milk", ASHA-escorted,
+mild fever, difficulty feeding) — no other drift from regeneration.
+
+- `public/media/cases/postnatal-care/scenario.jpg`: re-converted from the
+  new PNG at quality 82 — 2,186,931 bytes (~2.09 MB) → 315,738 bytes
+  (~308 KB), ~85.6% reduction, no visible quality loss.
+- `data/cases-extra.ts`: no change needed — the existing caption never
+  referenced age, so it remains accurate against the new image.
+- Re-verified the exam step's "Breastfeeding attachment assessment
+  video" placeholder (the regression caught and fixed last round) is
+  still intact and unaffected.
+- Verified locally: `typecheck`, `lint`, `build`, `vitest` (17/17),
+  `verify.mjs` (11/11), and a headless-browser check confirming the new
+  image loads at full resolution with the caption, the exam step's
+  placeholder renders unchanged, and the management step still shows
+  exactly 1 video with the correct id/title.
+
+## [1.9.0] — 2026-07-28
+
+### Postnatal Care case: first video gallery entry and scenario image
+
+Adds the Postnatal Care case's first `caseVideos` entry (a one-item
+management-step gallery) and its first per-step scenario image,
+following the patterns established for T2DM, Hypertension, and Antenatal
+Care. Also fixes a rendering bug this change exposed. No other case,
+image, or video was touched.
+
+- `data/media.ts`: new `caseVideos['postnatal-care']` — a one-item array:
+  "Systematic postnatal assessment of mother and newborn" →
+  `youtubeId: 'XgbvoJotlu8'`, with the same "AI-narrated educational
+  video — for illustrative teaching purposes" `productionNote` used by
+  the other three cases. This case previously had no `caseVideos` entry
+  at all.
+- `public/media/cases/postnatal-care/scenario.jpg` (new): uploaded
+  scenario image, renamed from its raw ChatGPT export filename and
+  converted PNG → JPEG at quality 82 in the same step — 2,158,017 bytes
+  (~2.06 MB) → 322,659 bytes (~315 KB), a ~85.0% reduction, no visible
+  quality loss.
+- `data/cases-extra.ts`: the `scenario` step's `media` now has
+  `src: '/media/cases/postnatal-care/scenario.jpg'` and caption
+  "AI-generated illustrative image — not real patient photography. Mrs.
+  Kavya and her newborn at a postnatal sub-centre visit with an ASHA
+  worker, alongside a patient-history and postnatal-care summary
+  infographic." Every scenario detail in the image (day 4, baby boy,
+  full-term NVD, 2.6 kg, joint family, "not enough milk", ASHA-escorted,
+  mild fever, difficulty feeding) matches the case's existing scenario
+  text and bullets — except the image states the mother's age as 25
+  where the case text says 26; flagged, not silently changed either way.
+- **Bug fix, `components/CasePlayer.tsx`**: the generic single-video
+  placeholder fallback was gated on `!caseVideos[c.slug]` — a case-wide
+  check, not a step-specific one. Postnatal Care's `examination` step
+  (id `'exam'`) has its own, unrelated `media: { type: 'video', ... }`
+  block (the "Breastfeeding attachment assessment video" placeholder,
+  explicitly required to stay untouched). Adding `caseVideos['postnatal-
+  care']` made that case-wide guard true, which silently suppressed the
+  exam step's placeholder — confirmed via a headless-browser check
+  before the fix (placeholder text absent) and after (restored). The
+  guard now reads `!(step.kind === 'management' && caseVideos[c.slug])`,
+  matching the intent already implied by the dedicated gallery's own
+  condition two lines below it. This doesn't change behavior for T2DM,
+  Hypertension, or Antenatal Care — their only `type: 'video'` media
+  block is on the management step itself, where old and new guards agree.
+- Verified locally: `typecheck`, `lint`, `build` (static export intact),
+  `vitest` (17/17), `verify.mjs` (11/11), and a headless-browser check
+  confirming: the scenario image loads at full resolution with the new
+  caption and no trace of the old placeholder text; the exam step's
+  breastfeeding placeholder renders exactly as before; the management
+  step renders exactly 1 iframe (in the existing `sm:grid-cols-2`
+  gallery container — a single item just occupies one column, nothing
+  breaks) with the correct `src`/`title`/caption.
+- As with every YouTube embed added this session, actual playback
+  couldn't be verified from this sandbox — `youtube-nocookie.com` is
+  blocked by the environment's egress policy
+  (`CONNECT tunnel failed, response 403`). Only markup correctness was
+  confirmed; playback should be confirmed in a real browser.
+
 ## [1.8.0] — 2026-07-26
 
 ### Antenatal Care case: scenario image and two management videos

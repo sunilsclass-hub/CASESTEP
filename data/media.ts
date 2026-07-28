@@ -110,6 +110,15 @@ export const caseVideos: Record<string, VideoPlaceholderSpec[]> = {
       productionNote: 'AI-narrated educational video — for illustrative teaching purposes.',
     },
   ],
+  'postnatal-care': [
+    {
+      title: 'Systematic postnatal assessment of mother and newborn',
+      objective:
+        'Demonstrate structured clinical assessment of the mother (vitals, uterine involution, lochia, breast/breastfeeding) and newborn (general exam, respiratory, weight, jaundice, latch) following delivery.',
+      youtubeId: 'XgbvoJotlu8',
+      productionNote: 'AI-narrated educational video — for illustrative teaching purposes.',
+    },
+  ],
 };
 
 export const osceVideos: Record<string, VideoPlaceholderSpec> = {

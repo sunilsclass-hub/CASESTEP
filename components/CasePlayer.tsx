@@ -206,7 +206,7 @@ export function CasePlayer({ case: c }: { case: Case }) {
             )}
           </div>
         )}
-        {step.media && step.media.type === 'video' && !caseVideos[c.slug] && (
+        {step.media && step.media.type === 'video' && !(step.kind === 'management' && caseVideos[c.slug]) && (
           <div className="mt-5">
             <VideoPlaceholder title={step.media.caption} objective={step.media.caption} />
           </div>

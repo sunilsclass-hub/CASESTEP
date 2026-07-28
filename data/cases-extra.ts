@@ -42,7 +42,12 @@ const postnatal: Case = {
         'First baby; lives in a joint family; breastfeeding attempted but "not enough milk".',
         'No prior medical illness.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Postnatal home visit / sub-centre assessment.' },
+      media: {
+        type: 'image',
+        src: '/media/cases/postnatal-care/scenario.jpg',
+        caption:
+          'AI-generated illustrative image — not real patient photography. Mrs. Kavya and her newborn at a postnatal sub-centre visit with an ASHA worker, alongside a patient-history and postnatal-care summary infographic.',
+      },
     },
     {
       id: 'history',
