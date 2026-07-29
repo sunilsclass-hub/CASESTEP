@@ -400,7 +400,12 @@ const urti: Case = {
         'Chest clear; no stridor; no unilateral tonsillar swelling or uvular deviation.',
       ],
       redFlags: ['Drooling, muffled "hot-potato" voice, trismus, or unilateral swelling would suggest peritonsillar abscess/epiglottitis — refer urgently.'],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Pharyngeal examination — inspecting for tonsillar exudate and erythema.' },
+      media: {
+        type: 'image',
+        src: '/media/cases/upper-respiratory-tract-infection/exam.jpg',
+        caption:
+          'AI-generated illustrative image — not real patient photography. Oropharyngeal examination with a tongue depressor, showing recorded findings: temperature 37.6°C, mild pharyngeal erythema with no exudate, no tender anterior cervical lymphadenopathy, clear chest, and no stridor.',
+      },
     },
     {
       id: 'decision',

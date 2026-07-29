@@ -4,6 +4,48 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.10.1] — 2026-07-29
+
+### URTI case: exam-step image
+
+Adds the URTI case's first real per-step image, on the `exam` step,
+replacing its placeholder caption. No video gallery was created — none
+was requested. No other case, image, or video was touched.
+
+Originally wired into the `scenario` step per the initial instruction,
+but the uploaded image visibly depicts a physical examination in
+progress (tongue-depressor throat exam, thermometer, and objective
+findings), not the patient-presentation scenario — flagged immediately,
+and corrected mid-round to the `exam` step instead, which is what the
+image actually shows. The `scenario` step was reverted to its original
+state (no `media` field) and left alone, per the correction.
+
+- `public/media/cases/upper-respiratory-tract-infection/exam.jpg` (new):
+  uploaded image, renamed from its raw ChatGPT export filename and
+  converted PNG → JPEG at quality 82 — 1,960,807 bytes (~1.87 MB) →
+  175,461 bytes (~171 KB), a ~91.0% reduction, no visible quality loss.
+- `data/cases-extra.ts`: the `exam` step's `media` now has
+  `src: '/media/cases/upper-respiratory-tract-infection/exam.jpg'` and
+  caption "AI-generated illustrative image — not real patient
+  photography. Oropharyngeal examination with a tongue depressor,
+  showing recorded findings: temperature 37.6°C, mild pharyngeal
+  erythema with no exudate, no tender anterior cervical
+  lymphadenopathy, clear chest, and no stridor." — replacing the old
+  "clinical photography to follow institutional approval" placeholder
+  for this step only.
+- Cross-checked the image's findings against the case's exam bullets —
+  temperature 37.6°C, mild pharyngeal redness with **no tonsillar
+  exudate** (the clinically load-bearing finding for this case's
+  low-probability Centor reasoning), no tender anterior cervical
+  lymphadenopathy, clear chest, no stridor, no unilateral swelling — all
+  match exactly, verbatim in places. No discrepancies found.
+- Verified locally: `typecheck`, `lint`, `build` (static export intact),
+  `vitest` (17/17), `verify.mjs` (11/11), and a headless-browser check
+  confirming: the scenario step still shows no inline image (unchanged);
+  the exam step now shows the new image with the new caption and no
+  trace of the old placeholder text; and zero iframes on the management
+  step (no video gallery created).
+
 ## [1.10.0] — 2026-07-29
 
 ### Acute Diarrhoea case: scenario image
