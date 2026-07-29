@@ -1235,7 +1235,12 @@ const environmental: Case = {
         'TB screening: sputum for AFB/CBNAAT given the silicosis–TB association.',
         'Document exposure details for certification and workplace action.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Chest radiograph with silicotic nodules.' },
+      media: {
+        type: 'image',
+        src: '/media/cases/environmental-occupational-health/investigations.jpg',
+        caption:
+          'AI-generated illustrative image — not real patient photography. A four-panel investigations summary: a chest X-ray with upper-zone small rounded opacities, a restrictive-pattern spirometry report and flow-volume loop, a sputum AFB/CBNAAT TB-screening workflow, and an exposure-documentation checklist.',
+      },
     },
     {
       id: 'reasoning',

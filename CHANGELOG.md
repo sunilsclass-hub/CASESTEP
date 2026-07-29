@@ -4,6 +4,51 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.12.0] — 2026-07-29
+
+### Environmental/Occupational Health case: investigations-step image
+
+Adds the case's first real per-step image, on the `invest`/`investigation`
+step ("Investigations"), replacing its placeholder caption. The scenario
+step (which has no `media` field at all, so nothing renders inline
+there today — not even the shared SVG) was left completely untouched,
+per instruction. No video gallery was created; no other case, image, or
+video was touched.
+
+- `public/media/cases/environmental-occupational-health/investigations.jpg`
+  (new): uploaded image, renamed from its raw ChatGPT export filename
+  and converted PNG → JPEG at quality 82 — 1,772,764 bytes (~1.69 MB) →
+  312,067 bytes (~305 KB), a ~82.4% reduction, no visible quality loss
+  (spirometry table numbers and X-ray nodule markers remain fully
+  legible).
+- `data/cases-extra.ts`: the `invest` step's `media` now has
+  `src: '/media/cases/environmental-occupational-health/investigations.jpg'`
+  and caption "AI-generated illustrative image — not real patient
+  photography. A four-panel investigations summary: a chest X-ray with
+  upper-zone small rounded opacities, a restrictive-pattern spirometry
+  report and flow-volume loop, a sputum AFB/CBNAAT TB-screening
+  workflow, and an exposure-documentation checklist." — replacing the
+  old "Chest radiograph with silicotic nodules" placeholder for this
+  step only.
+- Cross-checked carefully, including the physiological plausibility of
+  the spirometry numbers as instructed: FVC 2.60/4.20 L (62%), FEV₁
+  2.10/3.35 L (63%) — both volumes reduced — with FEV₁/FVC ratio
+  81% (observed 2.10/2.60, arithmetically consistent) vs. 80% predicted,
+  i.e. preserved/slightly elevated rather than reduced. This is the
+  physiologically correct signature for a restrictive pattern, not an
+  obstructive pattern mislabelled as restrictive. Chest X-ray (upper-
+  zone opacities, ± PMF), TB screening (sputum AFB/CBNAAT given the
+  silicosis–TB association), and exposure documentation (duration,
+  dry-cutting, dust, ventilation, no PPE, affected co-workers) all match
+  the case's investigation bullets and scenario/history exactly. No
+  discrepancies found.
+- Verified locally: `typecheck`, `lint`, `build` (static export intact),
+  `vitest` (17/17), `verify.mjs` (11/11), and a headless-browser check
+  confirming the scenario step still shows no inline image, the
+  investigations step shows the new image with the new caption and no
+  trace of the old placeholder text, and zero iframes on the management
+  step (no video gallery created).
+
 ## [1.11.3] — 2026-07-29
 
 ### Vector-borne Outbreak investigation image: case-count fix
