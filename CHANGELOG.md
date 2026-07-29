@@ -4,6 +4,39 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.10.2] — 2026-07-29
+
+### UTI case: exam-step image
+
+Adds the case's first real per-step image, on the `exam` step, replacing
+its placeholder caption. No video gallery was created — none was
+requested. No other case, image, or video was touched.
+
+- `public/media/cases/urinary-tract-infection/exam.jpg` (new): uploaded
+  image, renamed from its raw ChatGPT export filename and converted PNG
+  → JPEG at quality 82 — 1,763,013 bytes (~1.68 MB) → 196,654 bytes
+  (~192 KB), a ~88.8% reduction, no visible quality loss.
+- `data/cases-extra.ts`: the `exam` step's `media` now has
+  `src: '/media/cases/urinary-tract-infection/exam.jpg'` and caption
+  "AI-generated illustrative image — not real patient photography.
+  Examination summary showing vitals (T 37.0°C, BP 118/74 mmHg, PR
+  78/min, RR 14/min), mild suprapubic tenderness, no renal-angle
+  (flank) tenderness, and no signs of systemic sepsis." — replacing the
+  old "clinical photography to follow institutional approval"
+  placeholder for this step only.
+- Cross-checked the image's findings against the case's exam bullets —
+  vitals, mild suprapubic tenderness, and critically, **no renal-angle
+  (flank) tenderness** (the clinically load-bearing finding that rules
+  out pyelonephritis/upper-tract involvement in this case's reasoning) —
+  all match exactly, verbatim in places. The image explicitly depicts
+  the "no renal-angle tenderness" finding with a prohibition icon over
+  the kidneys graphic, consistent with the case. No discrepancies found.
+- Verified locally: `typecheck`, `lint`, `build` (static export intact),
+  `vitest` (17/17), `verify.mjs` (11/11), and a headless-browser check
+  confirming the exam step shows the new image with the new caption and
+  no trace of the old placeholder text, and zero iframes on the
+  management step (no video gallery created).
+
 ## [1.10.1] — 2026-07-29
 
 ### URTI case: exam-step image
