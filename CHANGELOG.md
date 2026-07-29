@@ -4,6 +4,53 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.11.1] — 2026-07-29
+
+### Vector-borne Outbreak case: scenario image
+
+Adds the case's first real per-step scenario image, replacing its
+placeholder caption. No video gallery was created — none was requested.
+No other case, image, or video was touched.
+
+- Before wiring in, checked what the uploaded image actually depicts
+  against the placeholder's description ("Field investigation / larval
+  survey"): it shows public health investigators conducting a field
+  visit to a household cluster of febrile patients on a monsoon street
+  near water-storage/stagnant-water sites, alongside symptom, lab,
+  epi-curve, and spot-map panels — a broader outbreak-investigation
+  scene, not a literal close-up larval survey (no one is shown
+  inspecting a water container for mosquito larvae specifically). This
+  nuance is reflected in the caption rather than claiming a literal
+  larval survey. Confirmed the household group in the photo has no name
+  or individual identity attached, correctly preserving the case's
+  population-level/cluster framing (this case has no single named
+  patient, unlike every other case).
+- `public/media/cases/vector-borne-outbreak/scenario.jpg` (new):
+  uploaded image, renamed from its raw ChatGPT export filename and
+  converted PNG → JPEG at quality 82 — 2,430,449 bytes (~2.32 MB) →
+  354,821 bytes (~347 KB), a ~85.4% reduction, no visible quality loss
+  (street names, CBC values, and epi-curve numbers remain legible).
+- `data/cases-extra.ts`: the `scenario` step's `media` now has
+  `src: '/media/cases/vector-borne-outbreak/scenario.jpg'` and caption
+  "AI-generated illustrative image — not real patient photography.
+  Public health investigators conducting a field visit to a household
+  cluster of febrile patients on a monsoon-flooded street near stagnant
+  water-storage sites, alongside a symptom/lab summary, a
+  14-cases-in-one-week epidemic curve, and a spot map of household
+  clustering." — replacing the old placeholder for this step only.
+- Cross-checked every visible detail against the case's scenario text
+  and bullets — monsoon season, urban health centre, 14 cases in one
+  week from one ward, headache/retro-orbital pain/body aches,
+  water-storage habits and construction-site stagnant water, a low
+  platelet count (68,000/µL, explicitly below the 150,000–450,000
+  reference range), no deaths depicted, clustering around a few named
+  streets — all match exactly. No discrepancies found.
+- Verified locally: `typecheck`, `lint`, `build` (static export intact),
+  `vitest` (17/17), `verify.mjs` (11/11), and a headless-browser check
+  confirming the image loads at full resolution with the new caption,
+  no trace of the old placeholder text, and zero iframes on the
+  management step (no video gallery created).
+
 ## [1.11.0] — 2026-07-29
 
 ### Paediatric Growth & Nutrition case: scenario image
