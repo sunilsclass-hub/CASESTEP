@@ -859,7 +859,12 @@ const growth: Case = {
         'Breastfed; complementary feeding started late and is mostly diluted gruel.',
         'Recurrent minor illnesses over the last few months.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Growth chart / MCP card with plotted points.' },
+      media: {
+        type: 'image',
+        src: '/media/cases/paediatric-growth-nutrition/scenario.jpg',
+        caption:
+          'AI-generated illustrative image — not real patient photography. Baby Meena and her mother at an Anganwadi weighing session, alongside a weight-for-age growth card showing serial plotted points (4.6, 6.0, 6.6, 6.7, 6.0 kg at 2, 5, 8, 11, and 14 months) flattening and crossing downward over the last three months.',
+      },
     },
     {
       id: 'history',

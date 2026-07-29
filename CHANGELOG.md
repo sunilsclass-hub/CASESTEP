@@ -4,6 +4,46 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.11.0] — 2026-07-29
+
+### Paediatric Growth & Nutrition case: scenario image
+
+Adds the case's first real per-step scenario image, replacing its
+placeholder caption. No video gallery was created — none was requested.
+No other case, image, or video was touched.
+
+- Before wiring in, checked what the uploaded image actually depicts
+  (per the URTI precedent): it genuinely matches the scenario step's
+  existing placeholder ("Growth chart / MCP card with plotted points")
+  — the image includes an actual weight-for-age growth chart with
+  serial plotted points, alongside an Anganwadi weighing scene. No step
+  redirect was needed.
+- `public/media/cases/paediatric-growth-nutrition/scenario.jpg` (new):
+  uploaded image, renamed from its raw ChatGPT export filename and
+  converted PNG → JPEG at quality 82 — 2,275,550 bytes (~2.17 MB) →
+  319,330 bytes (~312 KB), a ~86.0% reduction, no visible quality loss
+  (growth-chart numbers and axis labels remain fully legible).
+- `data/cases-extra.ts`: the `scenario` step's `media` now has
+  `src: '/media/cases/paediatric-growth-nutrition/scenario.jpg'` and
+  caption "AI-generated illustrative image — not real patient
+  photography. Baby Meena and her mother at an Anganwadi weighing
+  session, alongside a weight-for-age growth card showing serial
+  plotted points (4.6, 6.0, 6.6, 6.7, 6.0 kg at 2, 5, 8, 11, and 14
+  months) flattening and crossing downward over the last three
+  months." — replacing the old placeholder for this step only.
+- Cross-checked every visible detail against the case's scenario text
+  and bullets — Baby Meena, 14 months, routine Anganwadi weighing,
+  mother's exact quote ("small and a poor eater"), serial weights
+  flattening/crossing downward over 3 months (matching the chart's
+  actual plotted trend), breastfed with late/diluted complementary
+  feeding, recurrent minor illnesses — all match exactly. No
+  discrepancies found.
+- Verified locally: `typecheck`, `lint`, `build` (static export intact),
+  `vitest` (17/17), `verify.mjs` (11/11), and a headless-browser check
+  confirming the image loads at full resolution with the new caption,
+  no trace of the old placeholder text, and zero iframes on the
+  management step (no video gallery created).
+
 ## [1.10.2] — 2026-07-29
 
 ### UTI case: exam-step image
