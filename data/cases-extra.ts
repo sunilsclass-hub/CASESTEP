@@ -562,7 +562,12 @@ const uti: Case = {
         'Abdomen: mild suprapubic tenderness; NO renal-angle (flank) tenderness.',
         'No signs of systemic sepsis.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Renal-angle (flank) tenderness examination technique.' },
+      media: {
+        type: 'image',
+        src: '/media/cases/urinary-tract-infection/exam.jpg',
+        caption:
+          'AI-generated illustrative image — not real patient photography. Examination summary showing vitals (T 37.0°C, BP 118/74 mmHg, PR 78/min, RR 14/min), mild suprapubic tenderness, no renal-angle (flank) tenderness, and no signs of systemic sepsis.',
+      },
     },
     {
       id: 'decision',
