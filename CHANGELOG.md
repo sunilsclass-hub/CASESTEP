@@ -4,6 +4,38 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.10.0] — 2026-07-29
+
+### Acute Diarrhoea case: scenario image
+
+Adds the case's first per-step scenario image, following the same
+pattern already established for the other four cases. No video gallery
+was created — this case has none, and none was requested. No other case,
+image, or video was touched.
+
+- `public/media/cases/acute-diarrhoea/scenario.jpg` (new): uploaded
+  scenario image, renamed from its raw ChatGPT export filename and
+  converted PNG → JPEG at quality 82 — 2,159,350 bytes (~2.06 MB) →
+  257,283 bytes (~251 KB), a ~88.1% reduction, no visible quality loss.
+- `data/cases-extra.ts`: the `scenario` step's `media` now has
+  `src: '/media/cases/acute-diarrhoea/scenario.jpg'` and caption
+  "AI-generated illustrative image — not real patient photography. A
+  mother holding Baby Arjun, alongside a patient-scenario summary
+  infographic and a photo of a hand-pump water source shared with the
+  community."
+- Cross-checked every visible detail in the image against the case's
+  scenario text and bullets — age (18 months), symptom counts (6–7
+  loose stools/day for two days, two vomiting episodes), water source
+  (shared open source), breastfeeding status, absence of blood/high
+  fever, and the mother stopping feeds "to rest the stomach" — all match
+  exactly. No discrepancies found this round (unlike the postnatal-care
+  age mismatch caught previously).
+- Verified locally: `typecheck`, `lint`, `build` (static export intact),
+  `vitest` (17/17), `verify.mjs` (11/11), and a headless-browser check
+  confirming the image loads at full resolution with the new caption, no
+  trace of the old placeholder text, and zero iframes on the management
+  step (no video gallery created).
+
 ## [1.9.1] — 2026-07-28
 
 ### Postnatal Care scenario image: age-corrected regeneration
