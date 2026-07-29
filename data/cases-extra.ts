@@ -206,7 +206,12 @@ const diarrhoea: Case = {
         'No blood in stool; no high fever reported.',
         'Mother stopped feeds "to rest the stomach".',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Child being assessed at the OPD.' },
+      media: {
+        type: 'image',
+        src: '/media/cases/acute-diarrhoea/scenario.jpg',
+        caption:
+          'AI-generated illustrative image — not real patient photography. A mother holding Baby Arjun, alongside a patient-scenario summary infographic and a photo of a hand-pump water source shared with the community.',
+      },
     },
     {
       id: 'history',
