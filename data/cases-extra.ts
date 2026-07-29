@@ -1023,7 +1023,12 @@ const outbreak: Case = {
         'A few patients have a low platelet count on initial testing.',
         'No deaths yet; some clustering around a few streets.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Field investigation / larval survey.' },
+      media: {
+        type: 'image',
+        src: '/media/cases/vector-borne-outbreak/scenario.jpg',
+        caption:
+          'AI-generated illustrative image — not real patient photography. Public health investigators conducting a field visit to a household cluster of febrile patients on a monsoon-flooded street near stagnant water-storage sites, alongside a symptom/lab summary, a 14-cases-in-one-week epidemic curve, and a spot map of household clustering.',
+      },
     },
     {
       id: 'reasoning',
