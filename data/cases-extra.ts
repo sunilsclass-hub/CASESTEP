@@ -1082,7 +1082,12 @@ const outbreak: Case = {
         'Person: tabulate age, sex, occupation; note who is most affected.',
         'Line-list every case with the standard variables for analysis.',
       ],
-      media: { type: 'image', caption: 'Illustrative figure — clinical photography to follow institutional approval. Epidemic curve and spot map.' },
+      media: {
+        type: 'image',
+        src: '/media/cases/vector-borne-outbreak/investigation.jpg',
+        caption:
+          'AI-generated illustrative image — not real patient photography. An epidemic curve by date of onset showing a single-peaked rise-and-decline pattern, a spot map of case clustering around streets near stagnant water and construction sites, and example person and line-list summary tables illustrating outbreak-investigation data structure.',
+      },
     },
     {
       id: 'community',

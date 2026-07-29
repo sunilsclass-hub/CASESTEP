@@ -4,6 +4,50 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.11.2] — 2026-07-29
+
+### Vector-borne Outbreak case: investigation-step image (case-count flag)
+
+Adds a second image for this case, on the `investigation` step ("Step 3
+— Describe by time, place, person"), replacing its placeholder caption.
+The previously-wired `scenario` step image (v1.11.1) was left completely
+untouched. No video gallery was created; no other case, image, or video
+was touched.
+
+- `public/media/cases/vector-borne-outbreak/investigation.jpg` (new):
+  uploaded image, renamed from its raw ChatGPT export filename and
+  converted PNG → JPEG at quality 82 — 1,974,608 bytes (~1.88 MB) →
+  312,367 bytes (~305 KB), a ~84.2% reduction, no visible quality loss.
+- `data/cases-extra.ts`: the `investigation` step's `media` now has
+  `src: '/media/cases/vector-borne-outbreak/investigation.jpg'` and a
+  caption describing the epidemic-curve shape, spot map, and summary
+  tables structurally, without repeating any specific case totals (see
+  flag below) — replacing the old "Epidemic curve and spot map"
+  placeholder for this step only.
+- **Flagged explicitly, not resolved silently — significant case-count
+  mismatch**: the image's epidemic-curve bars sum to ~175 cases over 16
+  days, and its "Person" demographics table totals 240 cases. The
+  case's scenario explicitly states "14 cases of acute febrile illness
+  ... in a week" — the image overstates the outbreak's scale by roughly
+  12–17x and over a longer time window. The epi-curve *shape* (single
+  rise-then-decline peak) and its own "continuing common-source /
+  propagated" label do match the case's bullet text; only the
+  magnitude is inconsistent. The caption was written to describe
+  structure only, without asserting the image's contradicting totals.
+- Also noted (lower severity): this image's spot-map street names
+  (Shivaji Road, Ganesh Galli, Ambedkar Marg, Hanuman Lane, Tilak
+  Street, a Nala/Drain) only partially overlap with the scenario
+  image's spot map from the previous round (which had Nehru Street
+  instead of Hanuman Lane/Tilak Street). The case text itself names no
+  specific streets, so neither image technically contradicts the case,
+  but the two AI-generated images are inconsistent with each other.
+- Verified locally: `typecheck`, `lint`, `build` (static export intact),
+  `vitest` (17/17), `verify.mjs` (11/11), and a headless-browser check
+  confirming: the scenario step's image and caption are unchanged; the
+  investigation step shows the new image with the new caption and no
+  trace of the old placeholder text; and zero iframes on the management
+  step (no video gallery created).
+
 ## [1.11.1] — 2026-07-29
 
 ### Vector-borne Outbreak case: scenario image
