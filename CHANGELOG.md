@@ -4,6 +4,44 @@ All notable changes to CaseStep are documented in this file. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.11.3] — 2026-07-29
+
+### Vector-borne Outbreak investigation image: case-count fix
+
+Replaces the investigation-step image with Dr. Kumar's corrected
+version, fixing the case-count mismatch flagged in v1.11.2. The
+scenario-step image remains completely untouched.
+
+- `public/media/cases/vector-borne-outbreak/investigation.jpg`:
+  overwritten in place with the corrected upload (same path, no stray
+  old file left behind) — converted PNG → JPEG at quality 82,
+  1,395,345 bytes (~1.33 MB) → 242,108 bytes (~236 KB), a ~82.6%
+  reduction, no visible quality loss.
+- **Arithmetic independently re-verified, per instruction, before
+  wiring in**: epidemic curve bars (1+2+2+3+3+2+1) sum to **14** across
+  exactly 7 days; age-group table (3+5+4+2), sex table (8+6), and
+  occupation table (3+4+2+2+3) each independently sum to **14**; all
+  match the image's own printed "Total = 14" labels and the case's "14
+  cases ... in a week" statement. No mismatch this time — the defect
+  from v1.11.2 is resolved.
+- `data/cases-extra.ts`: caption updated to "AI-generated illustrative
+  image — not real patient photography. Epidemic curve (14 cases over
+  7 days), spot map showing case clustering near stagnant water and a
+  construction site, and demographic summary tables (age, sex,
+  occupation) — all totals consistent with the case's 14 reported
+  cases."
+- Noted for the record, not a blocker: this image's street names
+  (Nehru Street, Shivaji Road, Ambedkar Marg) still don't fully match
+  the scenario image's spot map from an earlier round. The case text
+  names no specific streets, so this isn't a contradiction of case
+  data — just a minor cross-image inconsistency, unchanged from the
+  prior flag.
+- Verified locally: `typecheck`, `lint`, `build` (static export intact),
+  `vitest` (17/17), `verify.mjs` (11/11), and a headless-browser check
+  confirming the scenario step is unchanged, the investigation step
+  shows the corrected image with the new caption, and no trace of the
+  old caption text remains.
+
 ## [1.11.2] — 2026-07-29
 
 ### Vector-borne Outbreak case: investigation-step image (case-count flag)

@@ -1086,7 +1086,7 @@ const outbreak: Case = {
         type: 'image',
         src: '/media/cases/vector-borne-outbreak/investigation.jpg',
         caption:
-          'AI-generated illustrative image — not real patient photography. An epidemic curve by date of onset showing a single-peaked rise-and-decline pattern, a spot map of case clustering around streets near stagnant water and construction sites, and example person and line-list summary tables illustrating outbreak-investigation data structure.',
+          'AI-generated illustrative image — not real patient photography. Epidemic curve (14 cases over 7 days), spot map showing case clustering near stagnant water and a construction site, and demographic summary tables (age, sex, occupation) — all totals consistent with the case’s 14 reported cases.',
       },
     },
     {
