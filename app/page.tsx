@@ -7,6 +7,8 @@ import { getReadyCases } from '@/data/cases';
 import { sctModules } from '@/data/sct';
 import { osceStations } from '@/data/osce';
 import { site } from '@/data/site';
+import { headlineEvidence, designResponses, publication } from '@/data/evidence';
+import { StatusBadge } from '@/components/Evidence';
 import {
   IconBrain,
   IconStethoscope,
@@ -61,7 +63,7 @@ const trust = [
   {
     icon: <IconGlobe />,
     title: 'Honest by design',
-    text: 'All cohort analytics, expert consensus, and demo progress are clearly labelled illustrative data until an ethics-approved deployment generates real results.',
+    text: 'Study findings are reported with their limitations and status. Faculty-dashboard cohort figures are illustrative and are never presented as study outcomes.',
   },
 ];
 
@@ -103,7 +105,7 @@ export default function HomePage() {
                 View Faculty Dashboard
               </CTALink>
               <CTALink href="/research" variant="ghost">
-                View Research Framework
+                Research &amp; Evidence
               </CTALink>
             </div>
             <p className="mt-4 text-sm text-ink-500">
@@ -157,6 +159,44 @@ export default function HomePage() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Evidence strip */}
+      <section className="border-b border-ink-200 bg-white">
+        <div className="container-page py-12">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wider text-brand-700">
+                Evidence behind CaseStep
+              </p>
+              <h2 className="mt-1 text-2xl font-bold">
+                Making clinical reasoning practisable, visible and scalable
+              </h2>
+            </div>
+            <Link href="/research" className="link inline-flex items-center gap-1 text-sm">
+              See the studies <IconArrowRight width={14} height={14} />
+            </Link>
+          </div>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {headlineEvidence.map((e) => (
+              <Link key={e.label} href="/research" className="card-interactive block p-5">
+                <StatusBadge status={e.status} />
+                <p className="mt-3 text-3xl font-bold text-ink-900">{e.value}</p>
+                <p className="mt-1 text-sm text-ink-700">{e.label}</p>
+                <p className="mt-1 text-xs text-ink-500">{e.note}</p>
+              </Link>
+            ))}
+          </div>
+          <p className="mt-4 text-xs leading-relaxed text-ink-500">
+            Precursor study: {publication.journal} {publication.year};{publication.volume}:
+            {publication.article}.{' '}
+            <a href={publication.url} target="_blank" rel="noopener noreferrer" className="link">
+              doi:{publication.doi}
+            </a>
+            . It established feasibility and acceptability; it is not presented as proof of overall
+            effectiveness. Next-phase figures are approved study targets, not results.
+          </p>
         </div>
       </section>
 
@@ -217,6 +257,21 @@ export default function HomePage() {
               </li>
             ))}
           </ol>
+
+          <h3 className="mt-12 text-lg font-bold">Designed for real-world constraints</h3>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            {designResponses.map((d) => (
+              <div key={d.barrier} className="flex gap-3 rounded-xl border border-ink-200 p-4">
+                <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-600">
+                  <IconCheck width={14} height={14} />
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-ink-900">{d.barrier}</p>
+                  <p className="mt-0.5 text-sm text-ink-600">{d.response}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

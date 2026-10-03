@@ -2,10 +2,11 @@
  * Structured content for the Research & Evaluation page.
  *
  * Kept as data (not hard-coded JSX) so it is easy to review, cite, and revise
- * as the protocol matures — e.g. once ethics approval and the finalised
- * evaluation plan are in hand. Everything here is illustrative/planned; no
- * real results, ethics numbers, or participant data are included.
+ * as the programme matures. Completed findings live in data/evidence.ts;
+ * this file describes the evaluation framework. No participant-level data
+ * are included.
  */
+import type { EvidenceStatus } from './evidence';
 
 export const studyOverview = {
   title:
@@ -27,13 +28,13 @@ export const studyOverview = {
 };
 
 export const design = {
-  type: 'Mixed-methods, quasi-experimental (single-arm pre/post) with a preceding development & validation phase.',
+  type: 'Phased programme: needs assessment and Delphi validation; a completed single-group pre/post precursor evaluation (n = 271); and an approved multicentre cluster-randomised evaluation of the expanded platform.',
   participants:
-    'MBBS students in the Community Medicine clinical posting (illustrative cohort size: ~50/batch); Community Medicine faculty as facilitators; external subject/assessment experts for Delphi validation.',
+    'MBBS learners (271 in the precursor evaluation; approximately 400 students in 20–24 clusters across 4–6 medical colleges planned for the next phase); Community Medicine faculty as facilitators; external subject and assessment experts for Delphi validation.',
   intervention:
     'Structured use of the CaseStep platform (digital cases, SCT, OSCE/OSPE practice) integrated into the existing posting schedule, alongside usual teaching.',
   comparator:
-    'Within-subject pre/post comparison (each student is their own control) in the pilot phase; a parallel-group comparison against a standard-teaching cohort is a possible extension once resources allow — not assumed at this stage.',
+    'Within-subject pre/post comparison in the completed precursor evaluation; cluster-randomised comparison with standard teaching in the approved multicentre phase.',
   outcomeMeasures: [
     'Case branching-decision accuracy (per case and pooled).',
     'Script Concordance Test concordance score against the expert panel.',
@@ -82,7 +83,7 @@ export const logicModel = {
     'Mixed-methods evaluation',
   ],
   outputs: [
-    'Validated digital case bank (11 topics)',
+    'Digital case bank (11 topics)',
     'SCT item bank',
     'OSCE/OSPE station bank',
     'Evaluation dataset & reports',
@@ -141,8 +142,8 @@ export const ethics = [
 
 export const limitations = [
   {
-    limitation: 'Single-institution, single-arm pilot limits generalisability.',
-    mitigation: 'Report findings as a pilot/feasibility study; plan a multi-site or comparator-arm extension for scale-up.',
+    limitation: 'The precursor evaluation was a single-institution, single-group, single-session study.',
+    mitigation: 'Findings are reported as feasibility and acceptability only; the approved next phase is a multicentre, cluster-randomised evaluation with retention assessed at 8–12 weeks.',
   },
   {
     limitation: 'Illustrative SCT expert-panel keys are placeholders until a real panel completes scoring.',
@@ -161,15 +162,45 @@ export const limitations = [
 export const scaleUpPlan = [
   'Expand from the pilot batch to all Community Medicine postings at the institution.',
   'Extend the validated case-authoring workflow to other departments (e.g. Medicine, Paediatrics) using the same schema.',
-  'Formalise the expert panel and complete Round 2 Delphi validation for all 11 case topics.',
-  'Integrate a database backend (Supabase, already scaffolded) for real multi-cohort analytics.',
-  'Pursue inter-institutional collaboration once single-site feasibility is demonstrated.',
+  'Expand to a CBME-mapped library of at least 24 branching cases with formal content validation (approved next phase).',
+  'Use the platform’s database backend for real multi-cohort analytics.',
+  'Evaluate effectiveness, implementation (RE-AIM) and cost across 4–6 medical colleges (approved next phase), leading to a costed scale-up blueprint.',
 ];
 
-export const scholarlyOutputs = [
-  { title: 'Needs-assessment paper', text: 'Gaps in applied clinical reasoning among MBBS students in Community Medicine — a mixed-methods needs assessment.' },
-  { title: 'Delphi validation paper', text: 'Development and expert consensus validation of a digital case bank for Community Medicine.' },
-  { title: 'Module development report', text: 'An ADDIE/Kern-informed process for authoring digital case-based learning modules.' },
-  { title: 'Pilot evaluation paper', text: 'Effect of a digital case-based learning platform on clinical reasoning — a mixed-methods pilot.' },
-  { title: 'Educational innovation report / FAIMER poster', text: 'CaseStep as a scalable model for digital case-based learning in Community Medicine.' },
+export const scholarlyOutputs: {
+  title: string;
+  text: string;
+  status: EvidenceStatus;
+  statusNote: string;
+}[] = [
+  {
+    title: 'Precursor evaluation paper',
+    text: 'Dynamic CBME in action: rule-based digital case-based learning to evaluate antibiotic-stewardship reasoning in MBBS learners.',
+    status: 'Published',
+    statusNote: 'BMC Medical Education 2026;26:1445',
+  },
+  {
+    title: 'Needs-assessment paper',
+    text: 'Learner preferences and needs for experiential, case-based and digital learning in Community Medicine (n = 906).',
+    status: 'Completed',
+    statusNote: 'Study completed; manuscript not yet published',
+  },
+  {
+    title: 'Delphi paper',
+    text: 'An expert-informed design framework for digital case-based learning in Community Medicine.',
+    status: 'Completed',
+    statusNote: 'Study completed; manuscript not yet published',
+  },
+  {
+    title: 'Module development report',
+    text: 'An ADDIE/Kern-informed process for authoring digital case-based learning modules.',
+    status: 'Planned',
+    statusNote: 'In preparation',
+  },
+  {
+    title: 'Multicentre evaluation',
+    text: 'Cluster-randomised, multicentre evaluation of CaseStep with implementation and cost analysis.',
+    status: 'Approved',
+    statusNote: 'ICMR–NMC next phase',
+  },
 ];

@@ -12,11 +12,21 @@ import {
   scaleUpPlan,
   scholarlyOutputs,
 } from '@/data/research';
+import {
+  headlineEvidence,
+  completedStudies,
+  publication,
+  evidenceSupports,
+  evidenceDoesNotClaim,
+  nextPhase,
+  milestones,
+} from '@/data/evidence';
+import { StatusBadge } from '@/components/Evidence';
 
 export const metadata: Metadata = {
   title: { absolute: 'Research & Evaluation — CaseStep' },
   description:
-    'Study design, aims, participants, outcome measures, Kirkpatrick evaluation, logic model, ethics, limitations, and scale-up plan for the CaseStep FAIMER project.',
+    'CaseStep evidence base: 906-response needs assessment, peer-reviewed precursor evaluation in 271 MBBS learners (BMC Medical Education, 2026), modified Delphi design framework, and the ICMR–NMC approved multicentre next phase.',
   alternates: { canonical: '/research/' },
   openGraph: { url: '/research/' },
 };
@@ -27,44 +37,160 @@ const phases = [
     title: 'Needs assessment',
     text: 'Survey MBBS students and Community Medicine faculty; map gaps in applied clinical reasoning against NMC CBME competencies.',
     method: 'Cross-sectional survey · competency mapping',
+    status: 'Completed',
   },
   {
     n: '02',
     title: 'Delphi consensus',
     text: 'Panel of experts rates candidate cases across seven dimensions (relevance, validity, feasibility, CBME alignment, reasoning authenticity, feedback quality, community integration) across iterative rounds to a defined consensus threshold.',
     method: 'Modified Delphi · median/IQR & % agreement',
+    status: 'Completed',
   },
   {
     n: '03',
     title: 'Module development',
     text: 'Author digital branching cases, SCT items, and OSCE/OSPE stations using ADDIE and Kern’s model; align with TPACK.',
     method: 'Instructional design · blueprinting',
+    status: 'Live',
   },
   {
     n: '04',
     title: 'Pilot implementation',
-    text: 'Deploy the platform in the Community Medicine posting; run guided and self-directed sessions with the student cohort.',
+    text: 'Precursor rule-based digital cases piloted in routine CBME teaching with 271 MBBS learners (published 2026).',
     method: 'Implementation science · fidelity monitoring',
+    status: 'Completed',
   },
   {
     n: '05',
-    title: 'Evaluation',
-    text: 'Assess reasoning outcomes, engagement, and satisfaction using validated tools and qualitative feedback; iterate.',
+    title: 'Multicentre evaluation',
+    text: 'Cluster-randomised evaluation of the expanded platform across 4–6 medical colleges, with implementation and cost evaluation (approved next phase).',
     method: 'Mixed-methods · pre/post · thematic analysis',
+    status: 'Approved',
   },
-];
+] as const;
 
 export default function ResearchPage() {
   return (
     <>
       <PageHeader
         eyebrow="Research & Evaluation"
-        title="A scholarly, mixed-methods design"
-        description="CaseStep is built as an educational research project — from needs assessment and expert consensus to a piloted, evaluated intervention informed by implementation science."
+        title="Tested before it was scaled"
+        description="CaseStep has evolved through evidence rather than technology first: a needs assessment, a peer-reviewed precursor evaluation, and an expert Delphi informed the current platform, and a multicentre next phase has been approved."
       />
 
+      {/* Evidence to date */}
+      <Section
+        title="Evidence to date"
+        description="Each figure is labelled with its status, so completed findings are kept separate from planned work."
+      >
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {headlineEvidence.map((e) => (
+            <div key={e.label} className="card p-5">
+              <StatusBadge status={e.status} />
+              <p className="mt-3 text-3xl font-bold text-ink-900">{e.value}</p>
+              <p className="mt-1 text-sm text-ink-700">{e.label}</p>
+              <p className="mt-1 text-xs text-ink-500">{e.note}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Completed studies */}
+      <Section title="Completed studies" className="border-t border-ink-200">
+        <div className="space-y-5">
+          {completedStudies.map((s) => (
+            <article key={s.title} className="card p-6">
+              <div className="flex flex-wrap items-center gap-2">
+                <StatusBadge status={s.status} />
+                <span className="text-xs text-ink-500">{s.statusNote}</span>
+              </div>
+              <h3 className="mt-3 text-lg font-bold text-ink-900">{s.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-700">{s.summary}</p>
+              <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {s.figures.map((f) => (
+                  <div key={f.label} className="rounded-lg border border-ink-200 bg-ink-50/60 p-3">
+                    <dt className="text-xl font-bold text-ink-900">{f.value}</dt>
+                    <dd className="mt-0.5 text-xs text-ink-600">{f.label}</dd>
+                  </div>
+                ))}
+              </dl>
+              {s.status === 'Published' && (
+                <p className="mt-4 text-sm leading-relaxed text-ink-700">
+                  <span className="font-semibold text-ink-900">Citation: </span>
+                  {publication.authors} {publication.title} <em>{publication.journal}</em>.{' '}
+                  {publication.year};{publication.volume}:{publication.article}.{' '}
+                  <a href={publication.url} target="_blank" rel="noopener noreferrer" className="link">
+                    doi:{publication.doi}
+                  </a>
+                </p>
+              )}
+            </article>
+          ))}
+        </div>
+        <p className="mt-4 text-sm text-ink-500">
+          Ethics: the needs assessment, precursor evaluation and Delphi study were approved by
+          the Institutional Ethics Committee, JSS Medical College.
+        </p>
+
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <div className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-5">
+            <p className="text-xs font-bold uppercase tracking-wider text-emerald-800">
+              What the evidence supports
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-ink-800">{evidenceSupports}</p>
+          </div>
+          <div className="rounded-xl border border-amber-200 bg-amber-50/60 p-5">
+            <p className="text-xs font-bold uppercase tracking-wider text-amber-800">
+              What we do not claim
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-ink-800">{evidenceDoesNotClaim}</p>
+          </div>
+        </div>
+      </Section>
+
+      {/* Approved next phase */}
+      <Section title="Approved next phase: multicentre evaluation" className="border-t border-ink-200">
+        <div className="card p-6">
+          <div className="flex flex-wrap items-center gap-2">
+            <StatusBadge status={nextPhase.status} />
+            <span className="text-sm text-ink-700">{nextPhase.statusLine}</span>
+          </div>
+          <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {nextPhase.figures.map((f) => (
+              <div key={f.label} className="rounded-lg border border-ink-200 p-3">
+                <dt className="text-2xl font-bold text-ink-900">{f.value}</dt>
+                <dd className="mt-0.5 text-xs text-ink-600">{f.label}</dd>
+              </div>
+            ))}
+          </dl>
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            {nextPhase.streams.map((s) => (
+              <div key={s.title}>
+                <p className="text-sm font-semibold text-ink-900">{s.title}</p>
+                <p className="mt-1 text-sm text-ink-600">{s.text}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-5 text-xs text-ink-500">{nextPhase.caveat}</p>
+        </div>
+      </Section>
+
+      {/* Milestones */}
+      <Section title="Milestones" className="border-t border-ink-200">
+        <ol className="relative space-y-4 border-l-2 border-brand-100 pl-6">
+          {milestones.map((m) => (
+            <li key={m.title} className="relative">
+              <span className="absolute -left-[31px] top-1.5 h-3 w-3 rounded-full bg-brand-600 ring-4 ring-white" aria-hidden />
+              <p className="text-xs font-bold uppercase tracking-wider text-brand-700">{m.when}</p>
+              <p className="font-semibold text-ink-900">{m.title}</p>
+              <p className="text-sm text-ink-600">{m.text}</p>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
       {/* Aim, objectives, background/problem/innovation */}
-      <Section title="Study overview">
+      <Section title="Study overview" className="border-t border-ink-200">
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="space-y-4">
             <div className="card p-5">
@@ -99,7 +225,7 @@ export default function ResearchPage() {
       </Section>
 
       {/* Design, participants, intervention, comparator, outcome measures */}
-      <Section title="Study design" className="border-t border-ink-200">
+      <Section title="Evaluation design" className="border-t border-ink-200">
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="card p-5">
             <p className="text-sm font-medium text-ink-500">Design</p>
@@ -139,7 +265,9 @@ export default function ResearchPage() {
               </span>
               <div className="card p-5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h3 className="font-bold text-ink-900">{p.title}</h3>
+                  <h3 className="flex items-center gap-2 font-bold text-ink-900">
+                    {p.title} <StatusBadge status={p.status} />
+                  </h3>
                   <Badge tone="brand">{p.method}</Badge>
                 </div>
                 <p className="mt-2 text-sm leading-relaxed text-ink-600">{p.text}</p>
@@ -265,7 +393,8 @@ export default function ResearchPage() {
           <div className="mt-4 rounded-lg border border-ink-200 bg-ink-50 p-4 text-sm">
             <p className="font-semibold text-ink-900">Institutional Ethics Committee</p>
             <p className="mt-1 text-ink-700">
-              Approval will be sought from the{' '}
+              The completed needs assessment, precursor evaluation and Delphi study were approved
+              by the{' '}
               <a
                 href="https://jssuni.edu.in/jssaher/medical-college/mc-iec-home.html"
                 target="_blank"
@@ -274,7 +403,7 @@ export default function ResearchPage() {
               >
                 Institutional Ethics Committee, JSS Medical College (IEC, JSSMC)
               </a>
-              , which is:
+              . The committee is:
             </p>
             <ul className="mt-2 space-y-1 text-ink-600">
               <li>
@@ -286,9 +415,8 @@ export default function ResearchPage() {
             </ul>
           </div>
           <PlaceholderNote>
-            The registration/accreditation numbers above identify the committee itself, not a
-            study-specific approval. No study-specific ethics-approval number is quoted anywhere on
-            this platform; one will be obtained from the IEC, and cited here, before any real
+            The registration and accreditation numbers above identify the committee itself. Each
+            new study, including the multicentre next phase, is submitted for ethics review before
             participant data are collected.
           </PlaceholderNote>
         </div>
@@ -326,7 +454,7 @@ export default function ResearchPage() {
       </Section>
 
       {/* Publications & manuscripts */}
-      <Section title="Expected scholarly outputs" className="border-t border-ink-200">
+      <Section title="Scholarly outputs" className="border-t border-ink-200">
         <div className="card p-6">
           <div className="mb-3 flex items-center gap-2">
             <IconBook width={18} height={18} className="text-brand-600" />
@@ -340,8 +468,11 @@ export default function ResearchPage() {
                     {i + 1}
                   </span>
                   <p className="mt-2">
-                    <span className="font-semibold text-ink-800">{o.title} (planned): </span>
+                    <span className="font-semibold text-ink-800">{o.title}: </span>
                     {o.text}
+                  </p>
+                  <p className="mt-2 flex flex-wrap items-center gap-2 text-xs text-ink-500">
+                    <StatusBadge status={o.status} /> {o.statusNote}
                   </p>
                 </div>
                 {i < scholarlyOutputs.length - 1 && (
@@ -352,9 +483,6 @@ export default function ResearchPage() {
               </div>
             ))}
           </div>
-          <PlaceholderNote>
-            Publication details, DOIs and links will be added here as outputs are produced.
-          </PlaceholderNote>
         </div>
       </Section>
 
